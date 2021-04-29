@@ -4,6 +4,7 @@ import 'package:flutter_blueprint/app/routes/app_pages.dart';
 import 'package:flutter_blueprint/app/theme/styles.dart';
 import 'package:get/get.dart';
 
+/// Main entry of the application
 void main() {
   runApp(MyApp());
 }
@@ -16,13 +17,18 @@ Future<void> initServices() async {
   );
 }
 
+/// A class to create the initial structure of the
+/// application and adds routes in the application
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => GetMaterialApp(
         title: 'Blue Print',
         theme: Styles.lightTheme,
+        darkTheme: Styles.darkTheme,
+        themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
         getPages: AppPages.pages,
+        initialRoute: AppPages.initial,
       );
 }
