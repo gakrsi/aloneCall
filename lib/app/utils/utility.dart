@@ -1,8 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blueprint/app/data/model/location_details.dart';
-import 'package:flutter_blueprint/app/global_widgets/no_internet_widget.dart';
-import 'package:flutter_blueprint/app/theme/theme.dart';
+import 'package:alonecall/app/data/model/location_details.dart';
+import 'package:alonecall/app/global_widgets/no_internet_widget.dart';
+import 'package:alonecall/app/theme/theme.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoder/geocoder.dart' as geocoder;
 import 'package:get/get.dart';

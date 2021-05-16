@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blueprint/app/theme/theme.dart';
+import 'package:alonecall/app/theme/theme.dart';
 
 /// A no internet widget which will be shown if network connection is not
 /// available.

@@ -1,4 +1,4 @@
-name: flutter_blueprint
+name: alonecall
 description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -9,21 +9,28 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  agora_rtc_engine: ^3.3.3
+  camera: ^0.8.1
   connectivity: ^3.0.2
   cupertino_icons: ^1.0.2
+  dio: ^4.0.0
   email_validator: ^1.0.6
   equatable: ^2.0.0
+  firebase_auth: ^1.0.1
+  firebase_core: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.0
   flutter_screenutil: ^4.0.4+1
   flutter_secure_storage: ^4.0.0
   formz: ^0.3.2
   geocoder: ^0.2.1
-  geolocator: ^6.1.14
+  geolocator: ^7.0.3
   get: ^3.26.0
   google_fonts: any
   logger: ^0.9.4
-  permission_handler: ^5.1.0+2
+  permission_handler: ^7.1.0
+  pin_code_fields: ^7.0.0
   pull_to_refresh: ^1.6.4
 
 
@@ -52,7 +59,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/img
+    - assets/img/logo.png
+    - assets/img/logo1.png
+    - assets/img/google.png
+    - assets/img/facebook.png
+#    - assets/img
   # fonts:
   #   - family: Schyler
   #     fonts:

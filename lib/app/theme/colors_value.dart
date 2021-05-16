@@ -20,7 +20,16 @@ abstract class ColorsValue {
 
   static const Color primaryColorLight1Rgbo = Color.fromRGBO(199, 61, 93, .1);
 
-  static const Color primaryColor = Colors.deepPurpleAccent;//Color(primaryColorHex);
+  static const Color primaryColor = Color(primaryColorHex);
+
+  static const Color secondaryColor = Color(secondaryColorHex);
+
+  static const Color thirdColor = Color(thirdColorHex);
+
+  static const Color fourthColor = Color(fourthColorHex);
+
+
+  static const Color lightPink = Color(lightPinkColorHex);
 
   static const Color facebookColor = Color(
     facebookColorHex,
@@ -60,7 +69,13 @@ abstract class ColorsValue {
 
   static Color backgroundColor = Colors.white;
 
-  static const int primaryColorHex = 0xFF40826D;
+  static const int primaryColorHex = 0xFF377DFF;
+
+  static const int secondaryColorHex = 0xFF0F4C75;
+
+  static const int thirdColorHex = 0xFF3282B8;
+
+  static const int fourthColorHex = 0xFFBBE1FA;
 
   static const int white70 = 0x70C73D5D;
 
@@ -77,6 +92,8 @@ abstract class ColorsValue {
   static const int titleGreyColorHex = 0xFFB2AEAE;
 
   static const int lightGreyColor2Hex = 0xFFFAFAFA;
+
+  static const int lightPinkColorHex = 0xFFF2D7D7;
 
   static const int lightGreyColor3Hex = 0xFFCCCBCB;
 

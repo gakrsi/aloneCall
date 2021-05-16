@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nix.flutter_blueprint">
+    package="com.nix.wdeo">
    <application
         android:label="flutter_blueprint"
         android:icon="@mipmap/ic_launcher">

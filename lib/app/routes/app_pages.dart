@@ -1,5 +1,9 @@
-import 'package:flutter_blueprint/app/modules/home/binding/home_binding.dart';
-import 'package:flutter_blueprint/app/modules/home/view/home_view.dart';
+import 'package:alonecall/app/modules/home/binding/home_binding.dart';
+import 'package:alonecall/app/modules/home/view/home_view.dart';
+import 'package:alonecall/app/modules/login/view/login_view.dart';
+import 'package:alonecall/app/modules/login/binding/login_binding.dart';
+import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
+import 'package:alonecall/app/modules/login/view/page/phone_input_view.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -11,7 +15,7 @@ part 'app_routes.dart';
 /// [pages] : will contain all the pages in the application as a route
 ///                 and will be used in the material app.
 abstract class AppPages{
-  static const initial = _Paths.home;
+  static const initial = _Paths.login;
   static var transitionDuration = const Duration(
     milliseconds: 300,
   );
@@ -22,6 +26,28 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => HomeView(),
       binding: HomeBinding(),
+      transition: Transition.downToUp,
+    ),
+
+    GetPage(
+      name: _Paths.login,
+      transitionDuration: transitionDuration,
+      page: () => LoginView(),
+      binding: LoginBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.otp,
+      transitionDuration: transitionDuration,
+      page: () => OtpView(),
+      binding: LoginBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.phoneNumber,
+      transitionDuration: transitionDuration,
+      page: () => PhoneNumberView(),
+      binding: LoginBinding(),
       transition: Transition.downToUp,
     ),
   ];

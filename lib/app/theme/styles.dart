@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_blueprint/app/theme/theme.dart';
+import 'package:alonecall/app/theme/theme.dart';
 
 
 /// A chunk of styles used in the application.
