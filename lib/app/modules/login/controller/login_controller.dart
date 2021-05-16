@@ -5,7 +5,6 @@ import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
 import 'package:get/get.dart';
 
 import 'package:alonecall/app/routes/routes_management.dart';
-
 import 'package:alonecall/app/utils/utility.dart';
 
 class LoginController extends GetxController{
@@ -69,8 +68,9 @@ class LoginController extends GetxController{
   }
 
   void loginWithOtp(){
-    updatePageStatus(PageStatus.loading);
-    final credential = PhoneAuthProvider.credential(verificationId: localVerificationId, smsCode: pin);
+    RoutesManagement.goToProfileScreen();
+    // updatePageStatus(PageStatus.loading);
+    // final credential = PhoneAuthProvider.credential(verificationId: localVerificationId, smsCode: pin);
     // auth.signInWithCredential(credential).then((value) => RoutesManagement.goToHome());
   }
 

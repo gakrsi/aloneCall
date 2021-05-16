@@ -30,4 +30,11 @@ abstract class RoutesManagement{
         AppRoutes.phoneNumber
     );
   }
+
+  /// Go to the Profile screen.
+  static void goToProfileScreen(){
+    Get.toNamed<void>(
+        AppRoutes.profile
+    );
+  }
 }

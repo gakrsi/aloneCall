@@ -32,16 +32,6 @@ class OtpView extends StatelessWidget {
                 SizedBox(height: Dimens.fifty,),
                 _otpTextField(context,_controller),
                 Text(StringConstants.tryingToAutoFill,style: Styles.grey14,),
-                // SizedBox(height: Dimens.fifty,),
-                // RichText(
-                //   text: TextSpan(
-                //       text: StringConstants.loginUsing,
-                //       style: Styles.grey14,
-                //       children: [
-                //         TextSpan(text: StringConstants.password,style: TextStyle(color: ColorsValue.secondaryColor,fontSize: Dimens.fourteen),)
-                //       ]
-                //   ),
-                // ),
                 SizedBox(height: Dimens.fifty,),
                 RichText(
                   text: TextSpan(
@@ -55,7 +45,7 @@ class OtpView extends StatelessWidget {
                 SizedBox(height: Dimens.thirty,),
                 InkWell(
                   onTap: () {
-                    // _controller.loginWithOtp();
+                    _controller.loginWithOtp();
                   },
                   hoverColor: Colors.blueGrey,
                   child: Container(

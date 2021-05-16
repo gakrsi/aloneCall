@@ -17,7 +17,7 @@ jobs:
       - run: flutter clean
       - run: flutter pub upgrade
       - run: flutter pub get
-      - run: flutter pub run build_runner build
+#      - run: flutter pub run build_runner build
       - run: flutter analyze
       - run: flutter build apk
       - uses: actions/upload-artifact@master
@@ -30,7 +30,7 @@ jobs:
           appId: ${{secrets.FIREBASE_ANDROID_APPID}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: HeatDance
-          releaseNotes: "HeatDance from GitHub Action"
+          releaseNotes: "AloneCall from GitHub Action"
           file: build/app/outputs/flutter-apk/app-release.apk
       - uses: geekyeggo/delete-artifact@v1
         with:
