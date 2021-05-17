@@ -46,7 +46,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/img/logos/AloneCallwithborderbackground1.jpg"
 
 # flutter splash screen setup
 flutter_native_splash:

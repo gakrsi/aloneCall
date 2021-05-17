@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => ScreenUtilInit(
     designSize: const Size(375, 745),
     builder:()=> GetMaterialApp(
-          title: 'Blue Print',
+          title: 'Alone Call',
           theme: Styles.lightTheme,
           darkTheme: Styles.darkTheme,
           themeMode: ThemeMode.light,
