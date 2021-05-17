@@ -69,7 +69,7 @@ abstract class ColorsValue {
 
   static Color backgroundColor = Colors.white;
 
-  static const int primaryColorHex = 0xFF00ABF0;
+  static const int primaryColorHex = 0xFF26A9E0;
 
   static const int secondaryColorHex = 0xFF0F4C75;
 

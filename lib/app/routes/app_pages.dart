@@ -4,6 +4,7 @@ import 'package:alonecall/app/modules/login/view/login_view.dart';
 import 'package:alonecall/app/modules/login/binding/login_binding.dart';
 import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
 import 'package:alonecall/app/modules/login/view/page/phone_input_view.dart';
+import 'package:alonecall/app/modules/othersProfileDetailPage/view/others_profile_detail_view.dart';
 import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dart';
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
 import 'package:get/get.dart';
@@ -57,6 +58,12 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => ProfileCreateView(),
       binding: ProfileCreateBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.othersProfileDetail,
+      transitionDuration: transitionDuration,
+      page: () => OthersProfileDetailView(),
       transition: Transition.downToUp,
     ),
   ];

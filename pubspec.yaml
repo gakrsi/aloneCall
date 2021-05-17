@@ -59,10 +59,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/img/logo.png
-    - assets/img/logo1.png
-    - assets/img/google.png
-    - assets/img/facebook.png
+    - assets/img/
+    - assets/img/logos/
 #    - assets/img
   # fonts:
   #   - family: Schyler

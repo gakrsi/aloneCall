@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/modules/login/controller/login_controller.dart';
 import 'package:get/get.dart';
@@ -9,7 +8,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<LoginController>(
     builder:(_con)=> Scaffold(
-          backgroundColor: Colors.black,
           body: SafeArea(
             child: Stack(
               children: [
@@ -67,12 +65,15 @@ class LoginView extends StatelessWidget {
           ),
         ),
   );
-  Widget _logo() => Container(
-        height: 150,
-        width: 150,
-        decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/img/logo.png'))),
-      );
+  Widget _logo() => Padding(
+    padding: const EdgeInsets.all(35.0),
+    child: Container(
+          height: 100,
+          width: 100,
+          decoration: const BoxDecoration(
+              image: DecorationImage(image: AssetImage('assets/img/logos/AloneCallwithborderbackground.jpg'))),
+        ),
+  );
 
   Widget _button(String title, String image, bool isImg) => Container(
         height: Dimens.sixty,
@@ -121,20 +122,20 @@ class LoginView extends StatelessWidget {
           Expanded(
             child: Container(
               height: 1,
-              color: Colors.white,
+              color: Colors.black12,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
               'or',
-              style: Styles.white12,
+              style: Styles.black12,
             ),
           ),
           Expanded(
             child: Container(
               height: 1,
-              color: Colors.white,
+              color: Colors.black12,
             ),
           ),
           const SizedBox(
@@ -152,6 +153,18 @@ class LoginView extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Dimens.thirty),
+        gradient: const LinearGradient(
+          colors: [Colors.white70, Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+          boxShadow: [
+      BoxShadow(
+      color: Colors.grey.withOpacity(0.2),
+      spreadRadius: 1,
+      blurRadius: 2,
+      offset: const Offset(0, 1),
+    )]
       ),
       child: Center(
         child: Text('Skip',style: Styles.black18,),
