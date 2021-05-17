@@ -12,6 +12,7 @@ import 'package:alonecall/app/theme/theme.dart';
 class PhoneNumberView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
+    backgroundColor: Colors.black87,
     body: GetBuilder<LoginController>(
       builder:(_con)=> Stack(
         children: [
@@ -58,8 +59,8 @@ class PhoneNumberView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: Dimens.hundred,
-          width: Dimens.hundred*2,
+          height: Dimens.eighty,
+          width: Dimens.eighty*2,
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/img/logo1.png'),
@@ -73,18 +74,24 @@ class PhoneNumberView extends StatelessWidget {
   );
 
   /// This Widget return which show Login and SignUp title
-  Widget _loginAndSignUpTitle() => Text(StringConstants.login,style: Styles.black18,);
+  Widget _loginAndSignUpTitle() => Text(StringConstants.loginOrSignUp,style: Styles.white16,);
 
 
   /// Function return TextField
   Widget _mobileTextField(LoginController con) => TextFormField(
-    style: Styles.black18.copyWith(height: Dimens.one),
+    style: Styles.white16.copyWith(height: Dimens.one),
     onChanged: (value)=>con.enableLoginButton(value),
     decoration: InputDecoration(
-      labelText: StringConstants.mobileNumber,
-      labelStyle: Styles.black12,
+      labelText: StringConstants.phone,
+      labelStyle: Styles.white12,
       border:  OutlineInputBorder(
         borderRadius: BorderRadius.circular(Dimens.three),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white54,
+          width: 2.0,
+        ),
       ),
     ),
   );

@@ -75,7 +75,7 @@ class LoginView extends StatelessWidget {
       );
 
   Widget _button(String title, String image, bool isImg) => Container(
-        height: Dimens.seventy,
+        height: Dimens.sixty,
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             color: Colors.white,
@@ -98,13 +98,13 @@ class LoginView extends StatelessWidget {
           children: [
             isImg
                 ? Container(
-                    height: 30,
-                    width: 30,
+                    height: Dimens.twentyThree,
+                    width: Dimens.twentyThree,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage(image))),
                   )
                 : Container(),
-            const SizedBox(width: 30,),
+            const SizedBox(width: 10,),
             Text(
               title,
               style: Styles.black18,
