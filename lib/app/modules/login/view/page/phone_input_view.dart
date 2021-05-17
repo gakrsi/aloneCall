@@ -58,11 +58,11 @@ class PhoneNumberView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: Dimens.hundred,
-          width: Dimens.hundred*2,
+          height: Dimens.eighty ,
+          width: Dimens.eighty,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/img/logo1.png'),
+                  image: AssetImage('assets/img/logos/AloneCallwithborderbackground.jpg'),
                   fit: BoxFit.cover
               )
           ),
@@ -73,7 +73,7 @@ class PhoneNumberView extends StatelessWidget {
   );
 
   /// This Widget return which show Login and SignUp title
-  Widget _loginAndSignUpTitle() => Text(StringConstants.login,style: Styles.black18,);
+  Widget _loginAndSignUpTitle() => Text(StringConstants.loginOrSignUp,style: Styles.blackBold18,);
 
 
   /// Function return TextField
