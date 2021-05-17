@@ -37,4 +37,12 @@ abstract class RoutesManagement{
         AppRoutes.profile
     );
   }
+
+  /// Go to the others profile screen
+  static void goToOthersProfileDetail(){
+    Get.toNamed<void>(
+        AppRoutes.othersProfileDetail
+    );
+  }
 }
+

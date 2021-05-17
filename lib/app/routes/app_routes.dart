@@ -9,6 +9,7 @@ abstract class AppRoutes{
   static const otp = _Paths.otp;
   static const phoneNumber = _Paths.phoneNumber;
   static const profile = _Paths.profile;
+  static const othersProfileDetail = _Paths.othersProfileDetail;
 }
 
 abstract class _Paths{
@@ -17,4 +18,5 @@ abstract class _Paths{
   static const otp = '/otp';
   static const phoneNumber = '/phone_number';
   static const profile = '/profile';
+  static const othersProfileDetail = '/othersProfileDetail';
 }

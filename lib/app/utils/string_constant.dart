@@ -5,9 +5,11 @@ class StringConstants {
   static const String login = 'Login';
   static const String orText = '  or  ';
   static const String signUp = 'SignUp';
+  static const String loginOrSignUp = 'Login or SignUp';
   static const String name = 'Name';
   static const String email = 'Email';
   static const String mobileNumber = 'Mobile Number';
+  static const String phone = 'Phone';
   static const String verifyWithOtp = 'Verify with OTP';
   static const String tryingToAutoFill = 'Trying to auto-fill OTP 00:14';
   static const String loginUsing = 'Log in using';
