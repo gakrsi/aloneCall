@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nix.wdeo">
+    package="com.alonecall.nix">
    <application
         android:label="Alone Call"
         android:icon="@mipmap/ic_launcher">

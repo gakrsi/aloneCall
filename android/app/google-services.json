@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "604717255981",
+    "project_id": "alonecall-f77b7",
+    "storage_bucket": "alonecall-f77b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604717255981:android:138b4bfcb522619ac017a4",
+        "android_client_info": {
+          "package_name": "com.alonecall.nix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604717255981-4soqaf3do35k8bmuk67v1slbq2fs02r3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alonecall.nix",
+            "certificate_hash": "cde4a1c669e6b7daa27c1396fba89cbce8978019"
+          }
+        },
+        {
+          "client_id": "604717255981-jb413jestaobrciocbr1aj5ku24ubmld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbhkdVee_b8JUYBLCByM4q-kRihN_Sksk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604717255981-jb413jestaobrciocbr1aj5ku24ubmld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -48,11 +48,20 @@ class ProfileCreateView extends StatelessWidget {
               SizedBox(height: Dimens.twenty,),
               _dateOfBirth(),
               SizedBox(height: Dimens.twenty,),
-              _gender(),
+              InkWell(
+                onTap: (){
+                  _con.showGenderBottomSheet();
+                },
+                  child: _gender(_con)
+              ),
               SizedBox(height: Dimens.twenty,),
               _country(),
               SizedBox(height: Dimens.twenty,),
-              _language(),
+              InkWell(
+                onTap: (){
+                  _con.showLanguageBottomSheet();
+                },
+                  child: _language(_con)),
               SizedBox(height: Dimens.twenty,),
               PrimaryButton(title: 'Complete',disable: true,)
             ],
@@ -134,7 +143,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
   );
 
-  Widget _gender()=>Container(
+  Widget _gender(ProfileCreateController con)=>Container(
     height: 55,
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
@@ -152,7 +161,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
     child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(' Gender',style: Styles.grey16,)
+        child: con.gender.isEmpty?Text(' Gender',style: Styles.grey16,):Text(con.gender,style: Styles.grey16,)
     ),
   );
 
@@ -178,7 +187,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
   );
 
-  Widget _language()=>Container(
+  Widget _language(ProfileCreateController con)=>Container(
     height: 55,
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
@@ -199,4 +208,6 @@ class ProfileCreateView extends StatelessWidget {
         child: Text(' Language',style: Styles.grey16,)
     ),
   );
+
+
 }

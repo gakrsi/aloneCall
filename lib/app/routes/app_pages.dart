@@ -18,7 +18,7 @@ part 'app_routes.dart';
 /// [pages] : will contain all the pages in the application as a route
 ///                 and will be used in the material app.
 abstract class AppPages{
-  static const initial = _Paths.login;
+  static const initial = _Paths.home;
   static var transitionDuration = const Duration(
     milliseconds: 300,
   );
