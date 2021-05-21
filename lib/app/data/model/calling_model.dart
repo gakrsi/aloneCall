@@ -1,5 +1,5 @@
 class CallingModel{
-  CallingModel({this.callerImage,this.callerName,this.callerUid,this.isDial});
+  CallingModel({this.callerImage,this.callerName,this.callerUid});
 
   CallingModel.fromJson(Map<String,dynamic> data){
     callerName = data['caller_name'] as String;
