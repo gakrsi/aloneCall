@@ -20,8 +20,7 @@ class Repository {
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   FirebaseFirestore firebaseFireStore = FirebaseFirestore.instance;
 
-  Future<void> startVideoCall(
-      CallingModel reciModel, CallingModel dialModel) async {
+  Future<void> startVideoCall(CallingModel dialModel) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
@@ -30,10 +29,10 @@ class Repository {
         .set(dialModel.toMap(dialModel));
     await firebaseFireStore
         .collection(FirebaseConstant.user)
-        .doc(reciModel.callerUid)
+        .doc(dialModel.receiverUid)
         .collection(FirebaseConstant.call)
-        .doc(reciModel.callerUid)
-        .set(reciModel.toMap(reciModel));
+        .doc(dialModel.receiverUid)
+        .set(dialModel.toMap(dialModel));
   }
 
   Future<void> endVideoCall(CallingModel obj) async {
@@ -91,7 +90,8 @@ class Repository {
     return url;
   }
 
-  String currentUser() => firebaseAuth.currentUser.uid;
+  String currentUser() =>
+      firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
   void logout() => firebaseAuth.signOut();
 }

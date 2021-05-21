@@ -19,8 +19,6 @@ class CommonService extends GetxController{
   /// This is used for internet change listener
   StreamSubscription _streamSubscription;
 
-  /// This is used for internet change listener
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('users').snapshots();
 
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;

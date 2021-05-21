@@ -10,6 +10,7 @@ import 'package:alonecall/app/modules/home/view/page/location_page.dart';
 import 'package:alonecall/app/modules/home/view/page/profile_page.dart';
 import 'package:alonecall/app/modules/home/view/page/random_call_page.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,6 +53,7 @@ class HomeView extends StatelessWidget {
               }
               print(snapshot.data.docs[0]['caller_name']);
               // var model = CallingModel.fromJson(snapshot.data.docs[0][);
+              // Utility.showIncomingCallDialog();
               return CallView();
             },
           ));

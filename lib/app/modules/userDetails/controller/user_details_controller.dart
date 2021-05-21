@@ -1,12 +1,15 @@
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:get/get.dart';
 
 class UserDetailsController extends GetxController{
+
+  final HomeController _controller = Get.find();
+
   ProfileModel model;
   CallingModel dialModel = CallingModel();
-  CallingModel reciModel = CallingModel();
 
   @override
   void onInit() {
@@ -16,17 +19,11 @@ class UserDetailsController extends GetxController{
 
   void onClickVideoCall(){
     dialModel
-      ..callerUid = model.uid
-      ..callerName = 'gaurav'
-      ..callerImage = ''
-      ..isAudio = false
-      ..isDial = true;
-    reciModel
       ..callerUid = Repository().currentUser()
-      ..callerName = model.name
+      ..receiverUid = model.uid
+      ..callerName = _controller.model.name
       ..callerImage = ''
-      ..isAudio = false
-      ..isDial = false;
-    Repository().startVideoCall(reciModel, dialModel);
+      ..isAudio = false;
+    Repository().startVideoCall(dialModel);
   }
 }

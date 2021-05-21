@@ -5,14 +5,14 @@ class CallingModel{
     callerName = data['caller_name'] as String;
     callerUid = data['caller_uid'] as String;
     callerImage = data['caller_image'] as String;
-    isDial = data['is_dial'] as bool;
     isAudio = data['is_audio'] as bool;
+    receiverUid = data['receiver_uid'] as String;
   }
 
   String callerName;
   String callerUid;
   String callerImage;
-  bool isDial;
+  String receiverUid;
   bool isAudio;
 
   Map<String,dynamic> toMap(CallingModel obj){
@@ -20,8 +20,8 @@ class CallingModel{
     data['caller_name'] = obj.callerName;
     data['caller_uid'] = obj.callerUid;
     data['caller_image'] = obj.callerImage;
-    data['is_dial'] = obj.isDial;
     data['is_audio'] = obj.isAudio;
+    data['receiver_uid'] = obj.receiverUid;
     return data;
   }
 

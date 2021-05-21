@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,
-      initialRoute: (uid == null)?AppPages.initial:AppRoutes.home,
+      initialRoute: (uid.isEmpty)?AppPages.initial:AppRoutes.home,
     ),
   );
 }
