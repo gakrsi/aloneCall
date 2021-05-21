@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -39,9 +40,29 @@ abstract class RoutesManagement{
   }
 
   /// Go to the others profile screen
-  static void goToOthersProfileDetail(){
+  static void goToOthersProfileDetail(ProfileModel obj){
     Get.toNamed<void>(
-        AppRoutes.othersProfileDetail
+        AppRoutes.detailsPage,
+        arguments: obj
+    );
+  }
+  /// Go to the others dial call screen
+  static void goToOthersDialCall(){
+    Get.toNamed<void>(
+        AppRoutes.call
+    );
+  }
+  /// Go to the video  call dial screen
+  static void goToOthersVideoCallDialView(){
+    Get.toNamed<void>(
+        AppRoutes.videoCall
+    );
+  }
+
+  /// Go to the video  call dial screen
+  static void goToOthersUserDetailsView(){
+    Get.toNamed<void>(
+        AppRoutes.detailsPage,
     );
   }
 }

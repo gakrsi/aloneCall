@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:alonecall/app/modules/login/controller/login_controller.dart';
@@ -17,53 +18,66 @@ class OtpView extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
         ),
-        body: SizedBox(
-          width: Dimens.screenWidth,
-          height: Dimens.screenHeight,
-          child: Padding(
-            padding: EdgeInsets.all(Dimens.twentySix),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(StringConstants.verifyWithOtp,style: Styles.boldBlack26,),
-                SizedBox(height: Dimens.ten,),
-                Text('sent via sms to ${_controller.number}',style: Styles.grey14,),
-                SizedBox(height: Dimens.fifty,),
-                _otpTextField(context,_controller),
-                Text(StringConstants.tryingToAutoFill,style: Styles.grey14,),
-                SizedBox(height: Dimens.fifty,),
-                RichText(
-                  text: TextSpan(
-                      text: StringConstants.havingTroubleLogin,
-                      style: Styles.grey14,
-                      children: [
-                        TextSpan(text:StringConstants.getHelp,style: TextStyle(color: ColorsValue.secondaryColor,fontSize: Dimens.fourteen),)
-                      ]
-                  ),
-                ),
-                SizedBox(height: Dimens.thirty,),
-                InkWell(
-                  onTap: () {
-                    _controller.loginWithOtp();
-                  },
-                  hoverColor: Colors.blueGrey,
-                  child: Container(
-                    height: Dimens.fifty + Dimens.six,
-                    width: Dimens.hundred * Dimens.three + Dimens.fifty,
-                    decoration: BoxDecoration(
-                      color: _controller.hasError
-                          ? ColorsValue.primaryColor
-                          : Colors.grey,
-                      borderRadius: BorderRadius.circular(Dimens.five),
+        body: Stack(
+          children: [
+            SizedBox(
+              width: Dimens.screenWidth,
+              height: Dimens.screenHeight,
+              child: Padding(
+                padding: EdgeInsets.all(Dimens.twentySix),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(StringConstants.verifyWithOtp,style: Styles.boldBlack26,),
+                    SizedBox(height: Dimens.ten,),
+                    Text('sent via sms to ${_controller.number}',style: Styles.grey14,),
+                    SizedBox(height: Dimens.fifty,),
+                    _otpTextField(context,_controller),
+                    Text(StringConstants.tryingToAutoFill,style: Styles.grey14,),
+                    SizedBox(height: Dimens.fifty,),
+                    RichText(
+                      text: TextSpan(
+                          text: StringConstants.havingTroubleLogin,
+                          style: Styles.grey14,
+                          children: [
+                            TextSpan(text:StringConstants.getHelp,style: TextStyle(color: ColorsValue.secondaryColor,fontSize: Dimens.fourteen),)
+                          ]
+                      ),
                     ),
-                    child: Center(
-                        child: Text(StringConstants.login, style: Styles.white16)),
-                  ),
+                    SizedBox(height: Dimens.thirty,),
+                    InkWell(
+                      onTap: () {
+                        _controller.loginWithOtp();
+                      },
+                      hoverColor: Colors.blueGrey,
+                      child: Container(
+                        height: Dimens.fifty + Dimens.six,
+                        width: Dimens.hundred * Dimens.three + Dimens.fifty,
+                        decoration: BoxDecoration(
+                          color: _controller.hasError
+                              ? ColorsValue.primaryColor
+                              : Colors.grey,
+                          borderRadius: BorderRadius.circular(Dimens.five),
+                        ),
+                        child: Center(
+                            child: Text(StringConstants.login, style: Styles.white16)),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+            if(_controller.pageStatus == PageStatus.loading)
+              Container(
+                height: Dimens.screenHeight,
+                width:Dimens.screenWidth,
+                color: Colors.blueGrey.withOpacity(Dimens.one/Dimens.two),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+          ],
         )),
   );
 

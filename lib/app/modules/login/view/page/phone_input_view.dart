@@ -1,4 +1,5 @@
 import 'package:alonecall/app/global_widgets/primary_button.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/modules/login/controller/login_controller.dart';
@@ -29,8 +30,7 @@ class PhoneNumberView extends StatelessWidget {
                 SizedBox(height: Dimens.twenty,),
                 InkWell(
                     onTap: (){
-                      RoutesManagement.goToOtpScreen();
-                      // _con.onPressedLoginButton();
+                      _con.onPressedLoginButton();
                     },
                     child: PrimaryButton(title: StringConstants.continueButton,disable: _con.showLoginButton,)
                 ),
@@ -80,6 +80,7 @@ class PhoneNumberView extends StatelessWidget {
   Widget _mobileTextField(LoginController con) => TextFormField(
     style: Styles.black18.copyWith(height: Dimens.one),
     onChanged: (value)=>con.enableLoginButton(value),
+    keyboardType: TextInputType.number,
     decoration: InputDecoration(
       labelText: StringConstants.mobileNumber,
       labelStyle: Styles.black12,

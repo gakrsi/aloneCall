@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AloneCall</string>
+    <string name="facebook_app_id">288100279662810</string>
+    <string name="fb_login_protocol_scheme">bf5185ab342d4eb7ccfaf3a82ac0c612</string>
+</resources>

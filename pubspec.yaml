@@ -11,6 +11,7 @@ environment:
 dependencies:
   agora_rtc_engine: ^3.3.3
   camera: ^0.8.1
+  cloud_firestore: ^2.2.0
   connectivity: ^3.0.2
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
@@ -18,16 +19,23 @@ dependencies:
   equatable: ^2.0.0
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
+  firebase_storage: ^8.1.0
   flutter:
     sdk: flutter
+  flutter_facebook_auth: ^3.3.3+1
   flutter_rating_bar: ^4.0.0
   flutter_screenutil: ^4.0.4+1
   flutter_secure_storage: ^4.0.0
+
+  flutter_svg: ^0.22.0
   formz: ^0.3.2
   geocoder: ^0.2.1
   geolocator: ^7.0.3
   get: ^3.26.0
   google_fonts: any
+  google_sign_in: ^5.0.3
+  image_cropper: ^1.4.0
+  image_picker: ^0.7.5+2
   logger: ^0.9.4
   permission_handler: ^7.1.0
   pin_code_fields: ^7.0.0
@@ -61,6 +69,7 @@ flutter:
   assets:
     - assets/img/
     - assets/img/logos/
+    - assets/icons/
 #    - assets/img
   # fonts:
   #   - family: Schyler

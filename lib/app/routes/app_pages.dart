@@ -1,12 +1,15 @@
+import 'package:alonecall/app/modules/call/binding/call_binding.dart';
+import 'package:alonecall/app/modules/call/view/call_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/login/view/login_view.dart';
 import 'package:alonecall/app/modules/login/binding/login_binding.dart';
 import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
 import 'package:alonecall/app/modules/login/view/page/phone_input_view.dart';
-import 'package:alonecall/app/modules/othersProfileDetailPage/view/others_profile_detail_view.dart';
 import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dart';
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
+import 'package:alonecall/app/modules/userDetails/binding/user_details_binding.dart';
+import 'package:alonecall/app/modules/userDetails/view/user_details_view.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -18,7 +21,7 @@ part 'app_routes.dart';
 /// [pages] : will contain all the pages in the application as a route
 ///                 and will be used in the material app.
 abstract class AppPages{
-  static const initial = _Paths.home;
+  static const initial = _Paths.login;
   static var transitionDuration = const Duration(
     milliseconds: 300,
   );
@@ -61,9 +64,17 @@ abstract class AppPages{
       transition: Transition.downToUp,
     ),
     GetPage(
-      name: _Paths.othersProfileDetail,
+      name: _Paths.call,
       transitionDuration: transitionDuration,
-      page: () => OthersProfileDetailView(),
+      page: () => CallView(),
+      binding: CallBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.detailsPage,
+      transitionDuration: transitionDuration,
+      page: () => UserDetailsView(),
+      binding: UserDetailsBinding(),
       transition: Transition.downToUp,
     ),
   ];

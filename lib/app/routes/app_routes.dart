@@ -10,6 +10,9 @@ abstract class AppRoutes{
   static const phoneNumber = _Paths.phoneNumber;
   static const profile = _Paths.profile;
   static const othersProfileDetail = _Paths.othersProfileDetail;
+  static const call = _Paths.call;
+  static const videoCall = _Paths.videoCall;
+  static const detailsPage = _Paths.detailsPage;
 }
 
 abstract class _Paths{
@@ -19,4 +22,7 @@ abstract class _Paths{
   static const phoneNumber = '/phone_number';
   static const profile = '/profile';
   static const othersProfileDetail = '/othersProfileDetail';
+  static const call = '/call';
+  static const videoCall = '/video_call';
+  static const detailsPage = '/details_page';
 }

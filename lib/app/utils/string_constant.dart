@@ -16,4 +16,6 @@ class StringConstants {
   static const String password = '  Password';
   static const String havingTroubleLogin = 'Having trouble in logging?';
   static const String getHelp = ' Get help ';
+  static String imageNotFoundError = 'imageNotFoundError';
+
 }

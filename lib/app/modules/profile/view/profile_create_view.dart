@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/profile/controller/profile_create_controller.dart';
 import 'package:flutter/material.dart';
@@ -35,37 +36,60 @@ class ProfileCreateView extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:Dimens.twenty),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(3, (index) => circle()),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal:Dimens.twenty),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(3, (index) => InkWell(
+                      onTap: (){
+                        _con.getImage();
+                      },
+                        child: circle())),
+                  ),
+                  SizedBox(height: Dimens.twenty,),
+                  _texField(_con.nameController,' Name'),
+                  SizedBox(height: Dimens.twenty,),
+                  _dateOfBirth(),
+                  SizedBox(height: Dimens.twenty,),
+                  InkWell(
+                    onTap: (){
+                      _con.showGenderBottomSheet();
+                    },
+                      child: _gender(_con)
+                  ),
+                  SizedBox(height: Dimens.twenty,),
+                  InkWell(
+                    onTap: (){
+                      _con.showCountryBottomSheet();
+                    },
+                      child: _country(_con)),
+                  SizedBox(height: Dimens.twenty,),
+                  InkWell(
+                    onTap: (){
+                      _con.showLanguageBottomSheet();
+                    },
+                      child: _language(_con)),
+                  SizedBox(height: Dimens.twenty,),
+                  InkWell(
+                    onTap: ()=> _con.validateAndSubmit(),
+                      child: PrimaryButton(title: 'Complete',disable: true,))
+                ],
               ),
-              SizedBox(height: Dimens.twenty,),
-              _texField(_con.nameController,' Name'),
-              SizedBox(height: Dimens.twenty,),
-              _dateOfBirth(),
-              SizedBox(height: Dimens.twenty,),
-              InkWell(
-                onTap: (){
-                  _con.showGenderBottomSheet();
-                },
-                  child: _gender(_con)
-              ),
-              SizedBox(height: Dimens.twenty,),
-              _country(),
-              SizedBox(height: Dimens.twenty,),
-              InkWell(
-                onTap: (){
-                  _con.showLanguageBottomSheet();
-                },
-                  child: _language(_con)),
-              SizedBox(height: Dimens.twenty,),
-              PrimaryButton(title: 'Complete',disable: true,)
-            ],
-          ),
+            ),
+            if(_con.pageStatus == PageStatus.loading)
+              Container(
+                height: Dimens.screenHeight,
+                width:Dimens.screenWidth,
+                color: Colors.blueGrey.withOpacity(Dimens.one/Dimens.two),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+          ],
         ),
       ),
     ),
@@ -161,11 +185,11 @@ class ProfileCreateView extends StatelessWidget {
     ),
     child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: con.gender.isEmpty?Text(' Gender',style: Styles.grey16,):Text(con.gender,style: Styles.grey16,)
+        child: Center(child: con.model.gender == null?Text(' Gender',style: Styles.grey16,):Text(con.model.gender,style: Styles.grey16,))
     ),
   );
 
-  Widget _country()=>Container(
+  Widget _country(ProfileCreateController con)=>Container(
     height: 55,
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
@@ -183,7 +207,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
     child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(' Country',style: Styles.grey16,)
+        child: Center(child: con.model.country == null?Text(' Country',style: Styles.grey16,):Text(con.model.country,style: Styles.grey16,))
     ),
   );
 
@@ -205,7 +229,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
     child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(' Language',style: Styles.grey16,)
+        child: Center(child: con.model.lang == null?Text(' Language',style: Styles.grey16,):Text(con.model.lang,style: Styles.grey16,))
     ),
   );
 

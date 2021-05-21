@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:alonecall/app/data/service/common_service.dart';
@@ -12,22 +13,24 @@ import 'package:alonecall/app/utils/utility.dart';
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await initServices();
-    runApp(MyApp());
+    var uid = await initServices();
+    runApp(MyApp(uid: uid,));
   } catch (error) {
     Utility.printELog(error.toString());
   }
 }
 /// Initialize the services before the app starts.
-Future<void> initServices() async {
+Future<String> initServices() async {
   await Firebase.initializeApp();
   Get.put(CommonService(), permanent: true,);
+  return Repository().currentUser();
 }
 
 /// A class to create the initial structure of the
 /// application and adds routes in the application
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  MyApp({this.uid});
+  final String uid;
   @override
   Widget build(BuildContext context) => ScreenUtilInit(
     designSize: const Size(375, 745),
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,
-      initialRoute: AppPages.initial,
+      initialRoute: (uid == null)?AppPages.initial:AppRoutes.home,
     ),
   );
 }
