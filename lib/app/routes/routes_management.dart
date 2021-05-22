@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -53,9 +54,10 @@ abstract class RoutesManagement{
     );
   }
   /// Go to the video  call dial screen
-  static void goToOthersVideoCallDialView(){
+  static void goToOthersVideoCallDialView(CallingModel model){
     Get.toNamed<void>(
-        AppRoutes.videoCall
+        AppRoutes.videoCall,
+        arguments: model
     );
   }
 
@@ -63,6 +65,7 @@ abstract class RoutesManagement{
   static void goToOthersUserDetailsView(){
     Get.toNamed<void>(
         AppRoutes.detailsPage,
+
     );
   }
 }

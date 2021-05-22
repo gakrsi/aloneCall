@@ -2,13 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alonecall/app/data/enum.dart';
-import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
-import 'package:alonecall/app/modules/call/view/call_view.dart';
 import 'package:alonecall/app/utils/permissions.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

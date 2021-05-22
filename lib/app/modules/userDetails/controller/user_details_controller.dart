@@ -2,6 +2,7 @@ import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
+import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:get/get.dart';
 
 class UserDetailsController extends GetxController{
@@ -25,5 +26,6 @@ class UserDetailsController extends GetxController{
       ..callerImage = ''
       ..isAudio = false;
     Repository().startVideoCall(dialModel);
+    RoutesManagement.goToOthersVideoCallDialView(dialModel);
   }
 }

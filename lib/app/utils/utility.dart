@@ -1,5 +1,3 @@
-import 'package:alonecall/app/global_widgets/call_pickup_widget.dart';
-import 'package:alonecall/app/modules/call/view/call_view.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:alonecall/app/data/model/location_details.dart';
@@ -62,16 +60,6 @@ abstract class Utility{
     closeDialog();
     Get.dialog<void>(
       NoInternetWidget(),
-      barrierDismissible: false,
-    );
-  }
-
-  /// Show no internet dialog if there is no
-  /// internet available.
-  static void showIncomingCallDialog() {
-    closeDialog();
-    Get.dialog<void>(
-      CallPickup(),
       barrierDismissible: false,
     );
   }

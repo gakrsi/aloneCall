@@ -15,7 +15,7 @@ class CallView extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: ColorsValue.primaryColor,
     body: _body(context),
-    );
+  );
 
   Widget _body(BuildContext context)=>SafeArea(
     child: SizedBox(
@@ -27,8 +27,8 @@ class CallView extends StatelessWidget {
         children: [
           SizedBox(height: Dimens.thirty,),
           Text('gaurav',
-            // '${callingModel.callerName}',
-            style: Styles.boldWhite16
+              // '${callingModel.callerName}',
+              style: Styles.boldWhite16
           ),
           const Text(
             'Calling…',
