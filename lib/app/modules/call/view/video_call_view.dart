@@ -12,34 +12,64 @@ class VideoCallView extends StatelessWidget {
       );
 
   Widget _renderVideo() => GetBuilder<VideoCallController>(
-      builder: (_controller) => SizedBox(
-            height: Dimens.screenHeight,
-            width: Dimens.screenWidth,
-            child: Stack(
-              children: [
-                RtcLocalView.SurfaceView(),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.of(_controller.remoteUid.map(
-                        (e) => GestureDetector(
-                          onTap: () => _controller.switchCam(),
-                          child: SizedBox(
-                            width: 120,
-                            height: 120,
-                            child: RtcRemoteView.SurfaceView(
-                              uid: e,
-                            ),
+      builder: (_controller) => SafeArea(
+            child: SizedBox(
+              height: Dimens.screenHeight,
+              width: Dimens.screenWidth,
+              child: _controller.isReceiverBig
+                  ? Stack(
+                      children: [
+                        RtcLocalView.SurfaceView(),
+                        _controller.remoteUid.isNotEmpty
+                            ? Align(
+                                alignment: Alignment.topRight,
+                                child: InkWell(
+                                  onTap: () {
+                                    _controller.changeSize();
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height: 120,
+                                    width: 120,
+                                    child: RtcRemoteView.SurfaceView(
+                                      uid: _controller.remoteUid[0],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                        _controller.toolbar()
+                      ],
+                    )
+                  : Stack(
+                      children: [
+                        // RtcLocalView.SurfaceView(),
+                        _controller.remoteUid.isNotEmpty
+                            ? RtcRemoteView.SurfaceView(
+                                uid: _controller.remoteUid[0],
+                              )
+                            : Container(),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: () {
+                              _controller.changeSize();
+                            },
+                            child: Container(
+                                margin: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                height: 120,
+                                width: 120,
+                                child: RtcLocalView.SurfaceView()),
                           ),
                         ),
-                      )),
+                        _controller.toolbar()
+                      ],
                     ),
-                  ),
-                ),
-                _controller.toolbar()
-              ],
             ),
           ));
 }

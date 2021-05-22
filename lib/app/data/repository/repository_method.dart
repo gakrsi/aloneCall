@@ -22,8 +22,8 @@ class Repository {
 
 
 
-  Stream<DocumentSnapshot> videoCallStream(){
-    CollectionReference callStream = FirebaseFirestore.instance.collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.call);
+  Stream<DocumentSnapshot> videoCallStream() {
+    CollectionReference callStream =  FirebaseFirestore.instance.collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.call);
     return callStream.doc(uid).snapshots() ;
   }
 

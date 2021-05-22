@@ -5,6 +5,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,11 @@ class VideoCallController extends GetxController {
   List<int> remoteUid = [];
   StreamSubscription callStreamSubscription;
 
+  bool isReceiverBig = false;
+
+  void changeSize(){
+    isReceiverBig =!isReceiverBig;
+    update();}
 
   @override
   void onInit() {
@@ -41,14 +47,19 @@ class VideoCallController extends GetxController {
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _joinChannel();
+     _addPostFrameCallback();
   }
 
-  void addPostFrameCallback() {
+  void _addPostFrameCallback() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription = Repository()
+      callStreamSubscription =  Repository()
           .videoCallStream()
           .listen((DocumentSnapshot ds) {
+            print('###########################################################################');
+            Utility.printDLog('call stream called in video screen');
+            print('call stream called in video screen');
             if(ds.data == null){
+              leaveChannel();
               Get.back<void>();
             }
       });
@@ -81,6 +92,8 @@ class VideoCallController extends GetxController {
     ));
   }
 
+
+
   Future<void>_joinChannel() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       await [Permission.microphone, Permission.camera].request();
@@ -89,7 +102,10 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> leaveChannel() async {
-    await _engine.leaveChannel();
+    await Repository().endVideoCall(callingModel).then((value) async {
+      await _engine.leaveChannel();
+      Get.back<void>();
+    });
   }
 
   void switchCam() {
@@ -144,7 +160,7 @@ class VideoCallController extends GetxController {
             ),
           ),
           RawMaterialButton(
-            onPressed: () => Repository().endVideoCall(callingModel),
+            onPressed: leaveChannel,
             shape: const CircleBorder(),
             elevation: 2.0,
             fillColor: Colors.redAccent,
