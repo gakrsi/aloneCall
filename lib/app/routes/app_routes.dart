@@ -13,6 +13,7 @@ abstract class AppRoutes{
   static const call = _Paths.call;
   static const videoCall = _Paths.videoCall;
   static const detailsPage = _Paths.detailsPage;
+  static const payment = _Paths.payment;
 }
 
 abstract class _Paths{
@@ -25,4 +26,5 @@ abstract class _Paths{
   static const call = '/call';
   static const videoCall = '/video_call';
   static const detailsPage = '/details_page';
+  static const payment = '/payment';
 }

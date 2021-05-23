@@ -62,10 +62,17 @@ abstract class RoutesManagement{
   }
 
   /// Go to the video  call dial screen
+  static void goToPayment(ProfileModel model){
+    Get.toNamed<void>(
+        AppRoutes.payment,
+        arguments: model
+    );
+  }
+
+  /// Go to the video  call dial screen
   static void goToOthersUserDetailsView(){
     Get.toNamed<void>(
         AppRoutes.detailsPage,
-
     );
   }
 }

@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_con) => Scaffold(
-          body: SingleChildScrollView(
+              body: SingleChildScrollView(
             child: SizedBox(
               width: Dimens.screenWidth,
               child: Column(
@@ -54,42 +54,43 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                          10,
-                              (index) => Column(
-                            children: [
-                              Container(
-                                height: 100,
-                                width: 100,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        width: 1.5, color: Colors.white),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 1,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ]),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Angela,20',
-                                style: Styles.black12,
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
+                  _onlineUser(),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Row(
+                  //     children: List.generate(
+                  //         10,
+                  //         (index) => Column(
+                  //               children: [
+                  //                 Container(
+                  //                   height: 100,
+                  //                   width: 100,
+                  //                   margin: const EdgeInsets.symmetric(
+                  //                       horizontal: 5),
+                  //                   decoration: BoxDecoration(
+                  //                       shape: BoxShape.circle,
+                  //                       border: Border.all(
+                  //                           width: 1.5, color: Colors.white),
+                  //                       boxShadow: [
+                  //                         BoxShadow(
+                  //                           color: Colors.grey.withOpacity(0.2),
+                  //                           spreadRadius: 1,
+                  //                           blurRadius: 2,
+                  //                           offset: const Offset(0, 1),
+                  //                         )
+                  //                       ]),
+                  //                 ),
+                  //                 const SizedBox(
+                  //                   height: 5,
+                  //                 ),
+                  //                 Text(
+                  //                   'Angela,20',
+                  //                   style: Styles.black12,
+                  //                 )
+                  //               ],
+                  //             )),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -132,58 +133,10 @@ class HomePage extends StatelessWidget {
               ),
             ),
           )));
-  Widget _searchAnfFilter() => Row(
-    children: [
-      const SizedBox(
-        width: 16,
-      ),
-      Container(
-        height: 55,
-        width: Dimens.screenWidth - 70,
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.grey.withOpacity(0.1),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            // controller: controller,
-            style: Styles.black18,
-            keyboardType: TextInputType.name,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Search Here',
-                hintStyle: Styles.grey16),
-          ),
-        ),
-      ),
-      IconButton(
-          icon: const Icon(Icons.filter_list_outlined), onPressed: () {})
-    ],
-  );
 
-  Widget _recent() => SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: List.generate(
-          10,
-              (index) => Container(
-            margin: const EdgeInsets.only(right: 16, left: 16),
-            height: 150,
-            width: 120,
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(10)),
-          )),
-    ),
-  );
-
-  Widget _userGridView() => SizedBox(
-    height: 500,
-    child: StreamBuilder(
-      stream: Repository().userStream,
-      builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+  Widget _onlineUser() => StreamBuilder(
+      stream: Repository().onlineUser(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
         }
@@ -191,36 +144,139 @@ class HomePage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text('Loading');
         }
-        return GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            physics: const NeverScrollableScrollPhysics(),
-            children: snapshot.data.docs.map((DocumentSnapshot document){
-              var model = ProfileModel.fromJson(document.data() as Map<String,dynamic>);
-              return model.uid == Repository().currentUser()?Container():InkWell(
-                onTap: ()=>RoutesManagement.goToOthersProfileDetail(model),
-                child: Container(
-                  height: 250,
-                  width: Dimens.screenWidth/2 - 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              var model = ProfileModel.fromJson(document.data() as Map<String, dynamic>);
+              return model.uid == Repository().currentUser()
+                ?const SizedBox():Column(
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: 1.5, color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ]),
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 10,
-                          left: 70,
-                          child: Center(child: Text('${model.name}'))
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
+                  Text(
+                    '${model.name}',
+                    style: Styles.black12,
+                  )
+                ],
               );
             }).toList(),
+          ),
         );
-      }
-    ),
-  );
+      });
+  Widget _searchAnfFilter() => Row(
+        children: [
+          const SizedBox(
+            width: 16,
+          ),
+          Container(
+            height: 55,
+            width: Dimens.screenWidth - 70,
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.grey.withOpacity(0.1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                // controller: controller,
+                style: Styles.black18,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search Here',
+                    hintStyle: Styles.grey16),
+              ),
+            ),
+          ),
+          IconButton(
+              icon: const Icon(Icons.filter_list_outlined), onPressed: () {})
+        ],
+      );
+
+  Widget _recent() => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+              10,
+              (index) => Container(
+                    margin: const EdgeInsets.only(right: 16, left: 16),
+                    height: 150,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10)),
+                  )),
+        ),
+      );
+
+  Widget _userGridView() => SizedBox(
+        height: 500,
+        child: StreamBuilder(
+            stream: Repository().userStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Text('Loading');
+              }
+              return GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                physics: const NeverScrollableScrollPhysics(),
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  var model = ProfileModel.fromJson(
+                      document.data() as Map<String, dynamic>);
+                  return model.uid == Repository().currentUser()
+                      ? Container()
+                      : InkWell(
+                          onTap: () =>
+                              RoutesManagement.goToOthersProfileDetail(model),
+                          child: Container(
+                            height: 250,
+                            width: Dimens.screenWidth / 2 - 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                    bottom: 10,
+                                    left: 70,
+                                    child:
+                                        Center(child: Text('${model.name}'))),
+                              ],
+                            ),
+                          ),
+                        );
+                }).toList(),
+              );
+            }),
+      );
 }

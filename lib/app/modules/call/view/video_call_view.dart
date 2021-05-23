@@ -19,7 +19,6 @@ class VideoCallView extends StatelessWidget {
               child: _controller.isReceiverBig
                   ? Stack(
                       children: [
-                        RtcLocalView.SurfaceView(),
                         _controller.remoteUid.isNotEmpty
                             ? Align(
                                 alignment: Alignment.topRight,
@@ -40,7 +39,7 @@ class VideoCallView extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : Container(),
+                            : RtcLocalView.SurfaceView(),
                         _controller.toolbar()
                       ],
                     )
@@ -51,7 +50,7 @@ class VideoCallView extends StatelessWidget {
                             ? RtcRemoteView.SurfaceView(
                                 uid: _controller.remoteUid[0],
                               )
-                            : Container(),
+                            : RtcLocalView.SurfaceView(),
                         Align(
                           alignment: Alignment.topRight,
                           child: InkWell(

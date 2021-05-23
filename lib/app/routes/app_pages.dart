@@ -7,6 +7,8 @@ import 'package:alonecall/app/modules/login/view/login_view.dart';
 import 'package:alonecall/app/modules/login/binding/login_binding.dart';
 import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
 import 'package:alonecall/app/modules/login/view/page/phone_input_view.dart';
+import 'package:alonecall/app/modules/payment/binding/payment_binding.dart';
+import 'package:alonecall/app/modules/payment/view/payment_view.dart';
 import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dart';
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
 import 'package:alonecall/app/modules/userDetails/binding/user_details_binding.dart';
@@ -76,6 +78,13 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => VideoCallView(),
       binding: VideoCallBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.payment,
+      transitionDuration: transitionDuration,
+      page: () => PaymentView(),
+      binding: PaymentBinding(),
       transition: Transition.downToUp,
     ),
   ];

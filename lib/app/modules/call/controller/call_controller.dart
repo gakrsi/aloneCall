@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
@@ -28,6 +29,7 @@ class VideoCallController extends GetxController {
 
   @override
   void onInit() {
+    addPostFrameCallback();
     callingModel = Get.arguments as CallingModel;
     _initEngine();
     super.onInit();
@@ -37,6 +39,7 @@ class VideoCallController extends GetxController {
   void dispose() {
     super.dispose();
     _engine.destroy();
+    callStreamSubscription.cancel();
   }
 
   Future<void> _initEngine() async {
@@ -47,20 +50,18 @@ class VideoCallController extends GetxController {
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _joinChannel();
-     _addPostFrameCallback();
+
   }
 
-  void _addPostFrameCallback() {
+  void addPostFrameCallback() {
+    print('###########################################################################');
+    Utility.printDLog('call stream called in video screen');
+    print('call stream called in video screen');
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription =  Repository()
-          .videoCallStream()
-          .listen((DocumentSnapshot ds) {
-            print('###########################################################################');
-            Utility.printDLog('call stream called in video screen');
-            print('call stream called in video screen');
-            if(ds.data == null){
+      callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
+            if(ds.data() == null){
               leaveChannel();
-              Get.back<void>();
+              // Get.back<void>();
             }
       });
     });
@@ -124,21 +125,13 @@ class VideoCallController extends GetxController {
   }
 
   void _onToggleMute(){
-
     _engine.muteLocalAudioStream(muted).then((value) {
       muted = !muted;
       update();
     });
   }
 
-  /// Helper function to get list of native views
-  // List<Widget> _getRenderViews() {
-  //   final List<AgoraRenderWidget> list = [
-  //     RtcRenderWidget(0, local: true, preview: true),
-  //   ];
-  //   _users.forEach((int uid) => list.add(AgoraRenderWidget(uid)));
-  //   return list;
-  // }
+
 
   /// Toolbar layout
   Widget toolbar() => Container(

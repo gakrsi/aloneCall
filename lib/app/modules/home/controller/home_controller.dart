@@ -15,7 +15,7 @@ class HomeController extends GetxController{
   final List<BottomNavigationBarItem> tab = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: 'Near You'),
-    const BottomNavigationBarItem(icon: Icon(Icons.video_call), label: 'Random'),
+    const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notification'),
     const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
   ];
 

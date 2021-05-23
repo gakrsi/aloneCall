@@ -233,9 +233,10 @@ class ProfileCreateController extends GetxController{
   /// Upload User data Firebase
   void validateAndSubmit(){
     if(nameController.text.isNotEmpty && model.gender != null && model.country != null && model.lang != null && model.dob != null){
-      model.name = nameController.text;
-      // ignore: cascade_invocations
-      model.uid = Repository().currentUser();
+      model
+        ..name = nameController.text
+        ..coin = 0
+        ..uid = Repository().currentUser();
       updatePageStatus(PageStatus.loading);
       Repository().createProfile(model).whenComplete(()=> updatePageStatus(PageStatus.idle));
     }

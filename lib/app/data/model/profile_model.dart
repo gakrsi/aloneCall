@@ -9,6 +9,7 @@ class ProfileModel{
     gender = data['gender'] as String;
     country = data['country'] as String;
     uid = data['uid'] as String;
+    coin = data['coin'] as int;
   }
 
   String name;
@@ -17,6 +18,7 @@ class ProfileModel{
   String gender;
   String country;
   String uid;
+  int coin;
 
   Map<String,dynamic> toMap(ProfileModel obj){
     var data = <String,dynamic>{};
@@ -26,6 +28,7 @@ class ProfileModel{
     data['gender'] = obj.gender;
     data['country'] = obj.country;
     data['uid'] = obj.uid;
+    data['coin'] = obj.coin;
     return data;
   }
 

@@ -20,13 +20,18 @@ class Repository {
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   FirebaseFirestore firebaseFireStore = FirebaseFirestore.instance;
 
-
-
   Stream<DocumentSnapshot> videoCallStream() {
-    CollectionReference callStream =  FirebaseFirestore.instance.collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.call);
-    return callStream.doc(uid).snapshots() ;
+    var callStream = FirebaseFirestore.instance
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.call)
+        .doc(uid)
+        .snapshots();
+    return callStream;
   }
 
+  Stream<QuerySnapshot> onlineUser() =>
+      FirebaseFirestore.instance.collection(FirebaseConstant.user).where('online',isEqualTo: true).snapshots();
 
   Future<void> startVideoCall(CallingModel dialModel) async {
     await firebaseFireStore
@@ -98,8 +103,25 @@ class Repository {
     return url;
   }
 
-  String currentUser() =>
-      firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
+  Future<void> makeUserOnline() async  {
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({
+      'online' : true
+    });
+  }
+
+  Future<void> makeUserOffline() async  {
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({
+      'online' : false
+    });
+  }
+
+  Future<void> addCoins(int amount) async {
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({
+    'coins':amount
+    });
+  }
+
+  String currentUser() => firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
   void logout() => firebaseAuth.signOut();
 }
