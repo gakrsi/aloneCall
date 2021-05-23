@@ -1,8 +1,8 @@
-class ProfileModel{
+class ProfileModel {
+  ProfileModel(
+      {this.uid, this.country, this.gender, this.lang, this.name, this.dob});
 
-  ProfileModel({this.uid,this.country,this.gender,this.lang,this.name,this.dob});
-
-  ProfileModel.fromJson(Map<String,dynamic> data){
+  ProfileModel.fromJson(Map<String, dynamic> data) {
     name = data['name'] as String;
     dob = data['dob'] as String;
     lang = data['lang'] as String;
@@ -20,8 +20,8 @@ class ProfileModel{
   String uid;
   int coin;
 
-  Map<String,dynamic> toMap(ProfileModel obj){
-    var data = <String,dynamic>{};
+  Map<String, dynamic> toMap(ProfileModel obj) {
+    var data = <String, dynamic>{};
     data['name'] = obj.name;
     data['dob'] = obj.dob;
     data['lang'] = obj.lang;
@@ -31,6 +31,4 @@ class ProfileModel{
     data['coin'] = obj.coin;
     return data;
   }
-
-
 }

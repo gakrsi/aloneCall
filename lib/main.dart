@@ -8,7 +8,6 @@ import 'package:alonecall/app/theme/styles.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:alonecall/app/utils/utility.dart';
 
 /// Main entry of the application sb

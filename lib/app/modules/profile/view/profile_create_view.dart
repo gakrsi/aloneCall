@@ -17,38 +17,29 @@ class ProfileCreateView extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Profile',style: Styles.black18,),
+        title: Text('Profile',style: Styles.blackBold18,),
         centerTitle: true,
         elevation: 0,
-        leading: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: Dimens.thirty,
-              width: Dimens.thirty,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: ColorsValue.primaryColor.withOpacity(0.1),
-                border: Border.all(color: ColorsValue.primaryColor,width: 1)
-              ),
-                child: Icon(Icons.arrow_back_outlined,size: Dimens.twentyFive,color: ColorsValue.primaryColor)),
-          ],
-        ),
+        leading: Icon(Icons.arrow_back_outlined)
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal:Dimens.twenty),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(3, (index) => InkWell(
-                      onTap: (){
-                        _con.getImage();
-                      },
-                        child: circle())),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(3, (index) => InkWell(
+                        onTap: (){
+                          _con.getImage();
+                        },
+                          child: circle())),
+                    ),
                   ),
                   SizedBox(height: Dimens.twenty,),
                   _texField(_con.nameController,' Name'),
@@ -102,7 +93,7 @@ class ProfileCreateView extends StatelessWidget {
       shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.white.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 2,
             offset: const Offset(0, 1),
@@ -119,7 +110,7 @@ class ProfileCreateView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
       border: Border.all(width: 1,color: Colors.grey.withOpacity(0.4)),
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(10),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -150,7 +141,7 @@ class ProfileCreateView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1,color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(10),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -163,7 +154,7 @@ class ProfileCreateView extends StatelessWidget {
     ),
     child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(' Date Of Birth',style: Styles.grey16,)
+      child: Center(child: Text('Your Birthday',style: Styles.grey16,))
     ),
   );
 

@@ -22,9 +22,9 @@ class BottomNavigation extends StatelessWidget {
           onTap: (index) {
             _controller.changeTab(index);
           },
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black,
           selectedItemColor: ColorsValue.primaryColor,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Colors.white,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           items: _controller.tab
