@@ -21,7 +21,7 @@ abstract class RoutesManagement{
 
   /// Go to the login screen.
   static void goToLoginScreen() {
-    Get.toNamed<void>(
+    Get.offAllNamed<void>(
         AppRoutes.login
     );
   }
@@ -73,6 +73,12 @@ abstract class RoutesManagement{
   static void goToOthersUserDetailsView(){
     Get.toNamed<void>(
         AppRoutes.detailsPage,
+    );
+  }
+  /// Go to the Random video call screen
+  static void goToOthersRandomCallView(){
+    Get.toNamed<void>(
+      AppRoutes.random,
     );
   }
 }

@@ -14,6 +14,7 @@ abstract class AppRoutes{
   static const videoCall = _Paths.videoCall;
   static const detailsPage = _Paths.detailsPage;
   static const payment = _Paths.payment;
+  static const random = _Paths.random;
 }
 
 abstract class _Paths{
@@ -27,4 +28,5 @@ abstract class _Paths{
   static const videoCall = '/video_call';
   static const detailsPage = '/details_page';
   static const payment = '/payment';
+  static const random = '/random';
 }

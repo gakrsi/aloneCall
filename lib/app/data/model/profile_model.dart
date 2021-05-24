@@ -10,6 +10,7 @@ class ProfileModel {
     country = data['country'] as String;
     uid = data['uid'] as String;
     coin = data['coin'] as int;
+    profileImageUrl = data['profile_image_url'] as List<dynamic>;
   }
 
   String name;
@@ -19,6 +20,7 @@ class ProfileModel {
   String country;
   String uid;
   int coin;
+  List<dynamic> profileImageUrl;
 
   Map<String, dynamic> toMap(ProfileModel obj) {
     var data = <String, dynamic>{};
@@ -29,6 +31,7 @@ class ProfileModel {
     data['country'] = obj.country;
     data['uid'] = obj.uid;
     data['coin'] = obj.coin;
+    data['profile_image_url'] = obj.profileImageUrl;
     return data;
   }
 }

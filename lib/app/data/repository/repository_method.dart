@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
+import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -96,27 +97,33 @@ class Repository {
     return userData;
   }
 
-  Future<String> uploadProfileImage(File file) async {
-    var url = '';
-    var reference = firebaseStorage.ref('images/defaultProfile.png');
-    var uploadTask = reference.putFile(file).whenComplete(() {
-      url = reference.getDownloadURL() as String;
+  Future<String> uploadProfileImage(File file,int index) async {
+    print('uploadProfileImage');
+    String url;
+    var reference = firebaseStorage.ref('$uid/$index.png');
+    var uploadTask = await reference.putFile(file).whenComplete(() async {
+      url =  await reference.getDownloadURL() ;
     });
     return url;
   }
 
   Future<void> makeUserOnline() async {
-    await firebaseFireStore
-        .collection(FirebaseConstant.user)
-        .doc(uid)
-        .update({'online': true});
+    if(uid.isNotEmpty){
+      await firebaseFireStore
+          .collection(FirebaseConstant.user)
+          .doc(uid)
+          .update({'online': true});
+    }
+
   }
 
   Future<void> makeUserOffline() async {
-    await firebaseFireStore
-        .collection(FirebaseConstant.user)
-        .doc(uid)
-        .update({'online': false});
+    if(uid.isNotEmpty){
+      await firebaseFireStore
+          .collection(FirebaseConstant.user)
+          .doc(uid)
+          .update({'online': false});
+    }
   }
 
   Future<void> addCoins(int amount) async {
@@ -129,5 +136,8 @@ class Repository {
   String currentUser() =>
       firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
-  void logout() => firebaseAuth.signOut();
+  void logout(){
+    firebaseAuth.signOut();
+    RoutesManagement.goToLoginScreen();
+  }
 }

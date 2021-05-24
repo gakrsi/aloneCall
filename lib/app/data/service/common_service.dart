@@ -51,14 +51,14 @@ class CommonService extends GetxController{
 
   final picker = ImagePicker();
   /// Opens the gallery/file application for the user to pick the image.
-  Future<String> getImageFromGallery() async {
+  Future<String> getImageFromGallery(int index) async {
     if (await Permissions.checkStoragePermission()) {
       final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
       );
       if (pickedFile != null) {
         print(pickedFile);
-        return await _openCropImageOption(pickedFile);
+        return await _openCropImageOption(pickedFile,index);
       } else {
         Utility.showError(StringConstants.imageNotFoundError);
       }
@@ -67,13 +67,13 @@ class CommonService extends GetxController{
   }
 
   /// Opens the camera application for the user to pick the image.
-  Future<String> getImageFromCamera() async {
+  Future<String> getImageFromCamera(int index) async {
     if (await Permissions.checkCameraPermission()) {
       final pickedFile = await picker.getImage(
         source: ImageSource.camera,
       );
       if (pickedFile != null) {
-        return await _openCropImageOption(pickedFile);
+        return await _openCropImageOption(pickedFile,index);
       } else {
         Utility.showError(StringConstants.imageNotFoundError);
       }
@@ -83,26 +83,29 @@ class CommonService extends GetxController{
   /// Opens the crop image page for the user to crop the selected image.
   ///
   /// [pickedFile] : The file which needs to be cropped.
-  Future<String> _openCropImageOption(PickedFile pickedFile) async {
-    var croppedFile = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        cropStyle: CropStyle.circle,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: StringConstants.appName,
-          toolbarColor: Colors.black,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: true,
-        ),
-        iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ));
-    if (croppedFile != null) {
+  Future<String> _openCropImageOption(PickedFile pickedFile, int index) async {
+    print('_openCropImageOption');
+
+    // var croppedFile = await ImageCropper.cropImage(
+    //     sourcePath: pickedFile.path,
+    //     cropStyle: CropStyle.circle,
+    //     aspectRatioPresets: [
+    //       CropAspectRatioPreset.square,
+    //     ],
+    //     androidUiSettings: const AndroidUiSettings(
+    //       toolbarTitle: StringConstants.appName,
+    //       toolbarColor: Colors.black,
+    //       toolbarWidgetColor: Colors.white,
+    //       initAspectRatio: CropAspectRatioPreset.original,
+    //       lockAspectRatio: true,
+    //     ),
+    //     iosUiSettings: const IOSUiSettings(
+    //       minimumAspectRatio: 1.0,
+    //     ));
+    var file = File(pickedFile.path);
+    if (pickedFile != null) {
       Utility.showLoadingDialog();
-      var url = await uploadImageOnCloudinary(croppedFile,);
+      var url = await uploadImageOnCloudinary(file,index);
       Utility.closeDialog();
       if (url.isNotEmpty) {
         return url;
@@ -119,11 +122,12 @@ class CommonService extends GetxController{
   /// send to the FireStore.
   ///
   /// [fileToUpload] : The file which needs to upload.
-  Future<String> uploadImageOnCloudinary(File fileToUpload) async {
+  Future<String> uploadImageOnCloudinary(File fileToUpload,int index) async {
+    print('uploadImageOnCloudinary');
     try {
-      await Repository().uploadProfileImage(fileToUpload);
+      return await Repository().uploadProfileImage(fileToUpload,index);
     } on Exception {
-      Utility.showError(StringConstants.imageNotFoundError);
+      Utility.showError('Error on upload file on Sever');
     }
     return '';
   }

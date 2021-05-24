@@ -10,36 +10,37 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
     builder:(_con) =>Scaffold(
-      body: SizedBox(
-        height: Dimens.screenHeight,
-        width: Dimens.screenWidth,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:Dimens.sixTeen),
-          child: Column(
-            children: [
-              SizedBox(height: Dimens.eighty,),
-              const DialUserPic(image: 'assets/img/calling_face.png'),
-              SizedBox(height: Dimens.ten,),
-              InkWell(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: Dimens.screenWidth,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal:Dimens.sixTeen),
+            child: Column(
+              children: [
+                SizedBox(height: Dimens.eighty,),
+                const DialUserPic(image: 'assets/img/calling_face.png'),
+                SizedBox(height: Dimens.ten,),
+                InkWell(
+                    onTap: (){
+                      RoutesManagement.goToPayment(_con.model);
+                    },
+                    child: showTitle(' Coins: ${_con.model.coin}')),
+                SizedBox(height: Dimens.ten,),
+                showTitle(_con.model.name),
+                SizedBox(height: Dimens.ten,),
+                showTitle(_con.model.gender),
+                SizedBox(height: Dimens.ten,),
+                showTitle(_con.model.country),
+                SizedBox(height: Dimens.ten,),
+                showTitle(_con.model.lang),
+                SizedBox(height: Dimens.ten,),
+                InkWell(
                   onTap: (){
-                    RoutesManagement.goToPayment(_con.model);
+                    Repository().logout();
                   },
-                  child: showTitle(' Coins: ${_con.model.coin}')),
-              SizedBox(height: Dimens.ten,),
-              showTitle(_con.model.name),
-              SizedBox(height: Dimens.ten,),
-              showTitle(_con.model.gender),
-              SizedBox(height: Dimens.ten,),
-              showTitle(_con.model.country),
-              SizedBox(height: Dimens.ten,),
-              showTitle(_con.model.lang),
-              SizedBox(height: Dimens.ten,),
-              InkWell(
-                onTap: (){
-                  Repository().logout();
-                },
-                  child: showTitle('Logout'))
-            ],
+                    child: showTitle('Logout'))
+              ],
+            ),
           ),
         ),
       ),

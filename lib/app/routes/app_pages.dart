@@ -11,6 +11,8 @@ import 'package:alonecall/app/modules/payment/binding/payment_binding.dart';
 import 'package:alonecall/app/modules/payment/view/payment_view.dart';
 import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dart';
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
+import 'package:alonecall/app/modules/random/binding/random_call_binding.dart';
+import 'package:alonecall/app/modules/random/view/random_call_view.dart';
 import 'package:alonecall/app/modules/userDetails/binding/user_details_binding.dart';
 import 'package:alonecall/app/modules/userDetails/view/user_details_view.dart';
 import 'package:get/get.dart';
@@ -85,6 +87,13 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => PaymentView(),
       binding: PaymentBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.random,
+      transitionDuration: transitionDuration,
+      page: () => RandomCallView(),
+      binding: RandomCallBinding(),
       transition: Transition.downToUp,
     ),
   ];

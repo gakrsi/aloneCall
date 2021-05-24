@@ -1,7 +1,6 @@
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,141 +11,150 @@ import 'package:alonecall/app/theme/theme.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
-      builder: (_con) => Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.black,
-            iconTheme: IconThemeData(color: Colors.white),
-            title: Image.asset(
-              'assets/img/logos/logo.png',
-              fit: BoxFit.cover,
-              height: 60,
-              width: 100,
+      builder: (_con) => SafeArea(
+        child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.black,
+              iconTheme: const IconThemeData(color: Colors.white),
+              title: Image.asset(
+                'assets/img/logos/logo.png',
+                fit: BoxFit.cover,
+                height: 60,
+                width: 100,
+              ),
+              leading: const Icon(Icons.camera_alt),
+              actions: [
+                const Padding(
+                  padding:  EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+                const Padding(
+                  padding:  EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.filter_list_alt,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            leading: Icon(Icons.camera_alt),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.filter_list_alt,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: SizedBox(
-              width: Dimens.screenWidth,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /*Container(
-                    height: 80,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/img/logos/logo.png'))),
-                  ),*/
-                  //_searchAnfFilter(),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  Row(
+            body: GestureDetector(
+              onPanUpdate: (value){
+                if(value.delta.dx > 0){
+                  RoutesManagement.goToOthersRandomCallView();
+                }
+              },
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: Dimens.screenWidth,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      /*Container(
+                        height: 80,
+                        width: 100,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/img/logos/logo.png'))),
+                      ),*/
+                      //_searchAnfFilter(),
                       // const SizedBox(
-                      //   width: 16,
+                      //   height: 20,
                       // ),
-                      // Container(
+                      Row(
+                        children: [
+                          // const SizedBox(
+                          //   width: 16,
+                          // ),
+                          // Container(
+                          //   height: 10,
+                          //   width: 10,
+                          //   decoration: const BoxDecoration(
+                          //       color: Colors.green, shape: BoxShape.circle),
+                          // ),
+                          // const SizedBox(
+                          //   width: 10,
+                          // ),
+                          // Text(
+                          //   'online',
+                          //   style: Styles.black18,
+                          // )
+                        ],
+                      ),
+                      // const SizedBox(
                       //   height: 10,
-                      //   width: 10,
-                      //   decoration: const BoxDecoration(
-                      //       color: Colors.green, shape: BoxShape.circle),
                       // ),
-                      // const SizedBox(
-                      //   width: 10,
-                      // ),
-                      // Text(
-                      //   'online',
-                      //   style: Styles.black18,
-                      // )
-                    ],
-                  ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  _onlineUser(),
-                  /*SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                          10,
-                          (index) => Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: 70,
-                                      width: 70,
-                                      // margin: const EdgeInsets.symmetric(
-                                      //     horizontal: 5),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 1.5, color: Colors.white),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.2),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: const Offset(0, 1),
-                                            )
-                                          ]),
+                      _onlineUser(),
+                      /*SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                              10,
+                              (index) => Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 70,
+                                          width: 70,
+                                          // margin: const EdgeInsets.symmetric(
+                                          //     horizontal: 5),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  width: 1.5, color: Colors.white),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color:
+                                                      Colors.grey.withOpacity(0.2),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(0, 1),
+                                                )
+                                              ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Angela,20',
+                                          style: Styles.black12,
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Angela,20',
-                                      style: Styles.black12,
-                                    )
-                                  ],
-                                ),
-                              )),
-                    ),
-                  ),*/
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
+                                  )),
+                        ),
+                      ),*/
                       const SizedBox(
-                        width: 13,
+                        height: 10,
                       ),
-                      Text(
-                        'Suggessions',
-                        style: Styles.blackBold15.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 15),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 13,
+                          ),
+                          Text(
+                            'Suggessions',
+                            style: Styles.blackBold15.copyWith(
+                                fontWeight: FontWeight.w400, fontSize: 15),
+                          ),
+                        ],
                       ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: _userGridView(),
+                      )
                     ],
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: _userGridView(),
-                  )
-                ],
+                ),
               ),
-            ),
-          )));
+            )),
+      ));
 
   Widget _onlineUser() => StreamBuilder(
       stream: Repository().onlineUser(),

@@ -193,44 +193,44 @@ class HomeController extends GetxController{
 
   /// Shows a bottom sheet with gallery and camera option
   /// for the user to choose from where the image must be picked.
-  void getImage() {
-    print('get image function called');
-    Get.bottomSheet<void>(
-      ListView(
-        shrinkWrap: true,
-        primary: false,
-        children: [
-          ListTile(
-            leading: const Icon(
-              Icons.image,
-            ),
-            title: Text(
-              'gallery',
-              style: Styles.black18,
-            ),
-            onTap: () {
-              getImageUrlFromGallery();
-              Utility.closeBottomSheet();
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.camera,
-            ),
-            title: Text(
-              'camera',
-              style: Styles.black18,
-            ),
-            onTap: () {
-              getImageUrlFromCamera();
-              Utility.closeBottomSheet();
-            },
-          ),
-        ],
-      ),
-      backgroundColor: Colors.white,
-    );
-  }
+  // void getImage() {
+  //   print('get image function called');
+  //   Get.bottomSheet<void>(
+  //     ListView(
+  //       shrinkWrap: true,
+  //       primary: false,
+  //       children: [
+  //         ListTile(
+  //           leading: const Icon(
+  //             Icons.image,
+  //           ),
+  //           title: Text(
+  //             'gallery',
+  //             style: Styles.black18,
+  //           ),
+  //           onTap: () {
+  //             getImageUrlFromGallery();
+  //             Utility.closeBottomSheet();
+  //           },
+  //         ),
+  //         ListTile(
+  //           leading: const Icon(
+  //             Icons.camera,
+  //           ),
+  //           title: Text(
+  //             'camera',
+  //             style: Styles.black18,
+  //           ),
+  //           onTap: () {
+  //             getImageUrlFromCamera();
+  //             Utility.closeBottomSheet();
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //     backgroundColor: Colors.white,
+  //   );
+  // }
 
   /// Update the image url which is selected by the user.
   void updateImageUrl(String imageUrl) {
@@ -241,16 +241,16 @@ class HomeController extends GetxController{
     }
   }
 
-  /// Get image from gallery.
-  void getImageUrlFromGallery() async {
-    updateImageUrl(await _commonService.getImageFromGallery());
-  }
-
-  /// Get image from camera.
-  void getImageUrlFromCamera() async {
-    print('get image from camera called');
-    updateImageUrl(await _commonService.getImageFromCamera());
-  }
+  // /// Get image from gallery.
+  // void getImageUrlFromGallery() async {
+  //   updateImageUrl(await _commonService.getImageFromGallery());
+  // }
+  //
+  // /// Get image from camera.
+  // void getImageUrlFromCamera() async {
+  //   print('get image from camera called');
+  //   updateImageUrl(await _commonService.getImageFromCamera());
+  // }
 
   /// Upload User data Firebase
   void validateAndSubmit(){

@@ -8,13 +8,32 @@ import 'package:get/get.dart';
 class UserDetailsController extends GetxController{
 
   final HomeController _controller = Get.find();
-
+  int age;
+  int currentPage = 0;
   ProfileModel model;
   CallingModel dialModel = CallingModel();
+
+  List<dynamic> imageUrl = <dynamic>[];
+
+  void selectImage(){
+    for(var i in model.profileImageUrl){
+      if(i != null){
+        imageUrl.add(i);
+      }
+    }
+    print(imageUrl);
+  }
+
+  void calculateAge(){
+    age = DateTime.now().year - int.parse(model.dob.substring(0,4));
+    update();
+  }
 
   @override
   void onInit() {
     model = Get.arguments as ProfileModel;
+    selectImage();
+    calculateAge();
     super.onInit();
   }
 
@@ -27,5 +46,9 @@ class UserDetailsController extends GetxController{
       ..isAudio = false;
     Repository().startVideoCall(dialModel);
     RoutesManagement.goToOthersVideoCallDialView(dialModel);
+  }
+  void onChangedPage(int index){
+    currentPage = index;
+    update();
   }
 }

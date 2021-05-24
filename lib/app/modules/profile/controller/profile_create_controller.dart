@@ -16,6 +16,8 @@ class ProfileCreateController extends GetxController{
 
   ProfileModel model;
 
+  List<String> profileImageUrl = <String>['','',''];
+
   @override
   void onInit() {
     model = ProfileModel();
@@ -171,7 +173,7 @@ class ProfileCreateController extends GetxController{
 
   /// Shows a bottom sheet with gallery and camera option
   /// for the user to choose from where the image must be picked.
-  void getImage() {
+  void getImage(int index) {
     print('get image function called');
     Get.bottomSheet<void>(
       ListView(
@@ -187,7 +189,7 @@ class ProfileCreateController extends GetxController{
               style: Styles.black18,
             ),
             onTap: () {
-              getImageUrlFromGallery();
+              getImageUrlFromGallery(index);
               Utility.closeBottomSheet();
             },
           ),
@@ -200,7 +202,7 @@ class ProfileCreateController extends GetxController{
               style: Styles.black18,
             ),
             onTap: () {
-              getImageUrlFromCamera();
+              getImageUrlFromCamera(index);
               Utility.closeBottomSheet();
             },
           ),
@@ -211,37 +213,43 @@ class ProfileCreateController extends GetxController{
   }
 
   /// Update the image url which is selected by the user.
-  void updateImageUrl(String imageUrl) {
+  void updateImageUrl(String imageUrl,int index) {
     if (imageUrl.isNotEmpty) {
       print(imageUrl);
-      // this.imageUrl = imageUrl;
-      // enableSubmitButton();
+      profileImageUrl[index - 1] = imageUrl;
+      update();
     }
   }
 
   /// Get image from gallery.
-  void getImageUrlFromGallery() async {
-    updateImageUrl(await _commonService.getImageFromGallery());
+  void getImageUrlFromGallery(int index) async {
+    updateImageUrl(await _commonService.getImageFromGallery(index),index);
   }
 
   /// Get image from camera.
-  void getImageUrlFromCamera() async {
+  void getImageUrlFromCamera(int index) async {
     print('get image from camera called');
-    updateImageUrl(await _commonService.getImageFromCamera());
+    updateImageUrl(await _commonService.getImageFromCamera(index),index);
   }
 
   /// Upload User data Firebase
   void validateAndSubmit(){
-    if(nameController.text.isNotEmpty && model.gender != null && model.country != null && model.lang != null && model.dob != null){
-      model
-        ..name = nameController.text
-        ..coin = 0
-        ..uid = Repository().currentUser();
-      updatePageStatus(PageStatus.loading);
-      Repository().createProfile(model).whenComplete(()=> updatePageStatus(PageStatus.idle));
+    if(profileImageUrl[0].isNotEmpty || profileImageUrl[1].isNotEmpty || profileImageUrl[2].isNotEmpty){
+      if(nameController.text.isNotEmpty && model.gender != null && model.country != null && model.lang != null && model.dob != null){
+        model
+          ..name = nameController.text
+          ..coin = 0
+          ..profileImageUrl = profileImageUrl
+          ..uid = Repository().currentUser();
+        updatePageStatus(PageStatus.loading);
+        Repository().createProfile(model).whenComplete(RoutesManagement.goToHome);
+      }
+      else{
+        Utility.showError('Enter All field');
+      }
     }
     else{
-      Utility.showError('Enter All field');
+      Utility.showError('please upload at least one image');
     }
   }
 
