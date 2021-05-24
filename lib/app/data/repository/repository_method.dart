@@ -108,22 +108,18 @@ class Repository {
   }
 
   Future<void> makeUserOnline() async {
-    if(uid.isNotEmpty){
       await firebaseFireStore
           .collection(FirebaseConstant.user)
           .doc(uid)
           .update({'online': true});
-    }
 
   }
 
   Future<void> makeUserOffline() async {
-    if(uid.isNotEmpty){
       await firebaseFireStore
           .collection(FirebaseConstant.user)
           .doc(uid)
           .update({'online': false});
-    }
   }
 
   Future<void> addCoins(int amount) async {
@@ -135,6 +131,13 @@ class Repository {
 
   String currentUser() =>
       firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
+
+  bool isUserLogin(){
+    if(firebaseAuth.currentUser == null){
+      return false;
+    }
+    return true;
+  }
 
   void logout(){
     firebaseAuth.signOut();

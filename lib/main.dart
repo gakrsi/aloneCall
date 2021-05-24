@@ -14,7 +14,9 @@ void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     var uid = await initServices();
-    var profile = await Repository().checkProfileCreate();
+    var profile = Repository().isUserLogin()
+        ? await Repository().checkProfileCreate()
+        : true;
     runApp(MyApp(
       uid: uid,
       profile: profile,

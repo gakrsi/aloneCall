@@ -1,5 +1,4 @@
 import 'package:alonecall/app/modules/call/binding/call_binding.dart';
-import 'package:alonecall/app/modules/call/controller/call_controller.dart';
 import 'package:alonecall/app/modules/call/view/video_call_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
@@ -94,7 +93,7 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => RandomCallView(),
       binding: RandomCallBinding(),
-      transition: Transition.downToUp,
+      transition: Transition.leftToRight,
     ),
   ];
 

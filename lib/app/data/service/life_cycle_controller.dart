@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 class LifeCycleController extends SuperController<void>{
   @override
   void onInit() {
-    Utility.printDLog('USER IS ONLINE');
-    Repository().makeUserOnline();
+    if(Repository().isUserLogin()){
+      Utility.printDLog('USER IS ONLINE');
+      Repository().makeUserOnline();
+    }
     super.onInit();
   }
   @override

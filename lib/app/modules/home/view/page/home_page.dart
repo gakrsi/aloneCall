@@ -1,6 +1,7 @@
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -272,6 +273,7 @@ class HomePage extends StatelessWidget {
                             height: 250,
                             width: Dimens.screenWidth / 2 - 100,
                             decoration: BoxDecoration(
+
                                 border:
                                     Border.all(width: 1.5, color: Colors.white),
                                 borderRadius: BorderRadius.circular(10),
@@ -285,6 +287,28 @@ class HomePage extends StatelessWidget {
                                 ]),
                             child: Stack(
                               children: [
+                                Container(
+                                  height: 250,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: model.profileImageUrl[0] as String,
+                                    placeholder: (context, url) =>Container(
+                                      height: 250,
+                                      width: Dimens.screenWidth / 2 - 100,
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage('assets/img/loading.gif'),
+                                              fit: BoxFit.cover
+                                          )
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
+                                  ),
+                                ),
                                 Positioned(
                                     child:
                                         Center(child: Text('${model.name}'))),
