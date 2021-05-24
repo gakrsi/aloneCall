@@ -13,26 +13,30 @@ class LifeCycleController extends SuperController<void>{
   }
   @override
   void onDetached() {
+    if(Repository().isUserLogin()){
     Utility.printDLog('USER IS DETACHED');
-    Repository().makeUserOffline();
+    Repository().makeUserOffline();}
   }
 
   @override
   void onInactive() {
+    if(Repository().isUserLogin()){
     Utility.printDLog('USER IS INACTIVE');
-    Repository().makeUserOffline();
+    Repository().makeUserOffline();}
   }
 
   @override
   void onPaused() {
+    if(Repository().isUserLogin()){
     Utility.printDLog('USER IS PAUSED');
-    Repository().makeUserOffline();
+    Repository().makeUserOffline();}
   }
 
   @override
   void onResumed() {
+    if(Repository().isUserLogin()){
     Utility.printDLog('USER IS RESUMED');
-    Repository().makeUserOnline();
+    Repository().makeUserOnline();}
   }
 
 }

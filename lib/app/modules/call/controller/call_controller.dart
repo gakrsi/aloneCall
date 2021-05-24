@@ -38,6 +38,7 @@ class VideoCallController extends GetxController {
   @override
   void dispose() {
     super.dispose();
+    callStreamSubscription.cancel();
     _engine.destroy();
     callStreamSubscription.cancel();
   }

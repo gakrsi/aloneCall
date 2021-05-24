@@ -112,7 +112,6 @@ class Repository {
           .collection(FirebaseConstant.user)
           .doc(uid)
           .update({'online': true});
-
   }
 
   Future<void> makeUserOffline() async {

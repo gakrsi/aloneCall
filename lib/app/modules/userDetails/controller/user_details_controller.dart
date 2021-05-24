@@ -17,7 +17,9 @@ class UserDetailsController extends GetxController{
 
   void selectImage(){
     for(var i in model.profileImageUrl){
-      if(i != null){
+      if(i == ''){
+      }
+      else{
         imageUrl.add(i);
       }
     }

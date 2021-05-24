@@ -13,16 +13,41 @@ class HomeController extends GetxController{
   int currentTab = 0;
 
   final List<BottomNavigationBarItem> tab = <BottomNavigationBarItem>[
-    const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: 'Near You'),
-    const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notification'),
-    const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+    const BottomNavigationBarItem(icon: Icon(Icons.home), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.history), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ' '),
   ];
 
   void changeTab(int index) {
     currentTab = index;
     update();
   }
+
+
+  ///#########################################################################################################################
+  int profileCurrentTab = 0 ;
+
+  void changeProfileTab(int index){
+    profileCurrentTab = index;
+    update();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

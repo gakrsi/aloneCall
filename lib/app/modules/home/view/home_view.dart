@@ -1,10 +1,10 @@
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
-import 'package:alonecall/app/global_widgets/dial_call.dart';
 import 'package:alonecall/app/global_widgets/pickup_call.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/modules/home/view/local_widget/bottom_navigation.dart';
+import 'package:alonecall/app/modules/home/view/page/history.dart';
 import 'package:alonecall/app/modules/home/view/page/home_page.dart';
 import 'package:alonecall/app/modules/home/view/page/location_page.dart';
 import 'package:alonecall/app/modules/home/view/page/profile_page.dart';
@@ -45,6 +45,7 @@ class HomeView extends StatelessWidget {
                     children: [
                       HomePage(),
                       NearYouMapView(),
+                      HistoryPage(),
                       RandomVideoCallView(),
                       ProfileView()
                     ],
@@ -62,8 +63,9 @@ class HomeView extends StatelessWidget {
                     children: [
                       HomePage(),
                       NearYouMapView(),
+                      HistoryPage(),
                       RandomVideoCallView(),
-                      ProfileView()
+                      ProfileView(),
                     ],
                   ),
                 );

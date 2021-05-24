@@ -25,8 +25,8 @@ class BottomNavigation extends StatelessWidget {
           backgroundColor: Colors.black,
           selectedItemColor: ColorsValue.primaryColor,
           unselectedItemColor: Colors.white,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           items: _controller.tab
       ),
     ),
