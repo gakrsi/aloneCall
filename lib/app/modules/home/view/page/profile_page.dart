@@ -22,7 +22,7 @@ class ProfileView extends StatelessWidget {
                     ),
                     const DialUserPic(image: 'assets/img/calling_face.png'),
                     Text(
-                        '${_con.model.name} ${DateTime.now().year - int.parse(_con.model.dob.substring(0, 4))}'),
+                        '${_con.model.name} ${DateTime.now().year - int.parse(_con.model.dob.substring(0, 4))}', style: Styles.blackBold18),
                     SizedBox(
                       height: Dimens.ten,
                     ),
@@ -31,43 +31,43 @@ class ProfileView extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: Dimens.twenty, vertical: Dimens.five),
-                          height: Dimens.fifty,
-                          width: Dimens.hundred + Dimens.thirty,
+                              horizontal: Dimens.five, vertical: Dimens.five),
+                          height: Dimens.thirty,
+                          width: Dimens.eighty ,
                           decoration: BoxDecoration(
-                              color: ColorsValue.primaryColor.withOpacity(0.3),
+                              color: ColorsValue.lightGreyColor,
                               borderRadius: BorderRadius.circular(30)),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   Icons.phone,
-                                  size: Dimens.twenty,
+                                  size: Dimens.fifteen,
                                 ),
                                 Text(
-                                  '${_con.model.coin} Coins',
-                                  style: Styles.black18,
+                                  '${_con.model.coin} Sec',
+                                  style: Styles.black12,
                                 )
                               ]),
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: Dimens.twenty, vertical: Dimens.five),
-                          height: Dimens.fifty,
-                          width: Dimens.hundred + Dimens.thirty,
+                              horizontal: Dimens.five, vertical: Dimens.five),
+                          height: Dimens.thirty,
+                          width: Dimens.eighty ,
                           decoration: BoxDecoration(
-                              color: ColorsValue.primaryColor.withOpacity(0.3),
+                              color: ColorsValue.lightGreyColor,
                               borderRadius: BorderRadius.circular(30)),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
-                                  Icons.video_call,
-                                  size: Dimens.twenty,
+                                  Icons.videocam,
+                                  size: Dimens.fifteen,
                                 ),
                                 Text(
-                                  '${_con.model.coin} Coins',
-                                  style: Styles.black18,
+                                  '${_con.model.coin} Sec',
+                                  style: Styles.black12,
                                 )
                               ]),
                         ),
@@ -75,11 +75,11 @@ class ProfileView extends StatelessWidget {
                     ),
                     Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: Dimens.twenty, vertical: Dimens.five),
+                            horizontal: Dimens.twenty, vertical: Dimens.fifteen),
                         height: Dimens.fifty,
                         width: Dimens.screenWidth,
                         decoration: BoxDecoration(
-                            color: ColorsValue.primaryColor.withOpacity(0.3),
+                            color: Colors.black12.withOpacity(0.04),
                             borderRadius: BorderRadius.circular(15)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,13 +98,12 @@ class ProfileView extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: _con.profileCurrentTab == 0
                                         ? Colors.white
-                                        : ColorsValue.primaryColor
-                                            .withOpacity(0.3),
+                                        : Colors.black12.withOpacity(0.04),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                     child: Text(
                                   'Plans',
-                                  style: Styles.black18,
+                                        style: Styles.blackBold15,
                                 )),
                               ),
                             ),
@@ -121,13 +120,12 @@ class ProfileView extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: _con.profileCurrentTab == 1
                                         ? Colors.white
-                                        : ColorsValue.primaryColor
-                                            .withOpacity(0.3),
+                                        : Colors.black12.withOpacity(0.02),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Center(
                                     child: Text(
                                   'Spent',
-                                  style: Styles.black18,
+                                  style: Styles.blackBold15,
                                 )),
                               ),
                             )
@@ -186,7 +184,7 @@ class ProfileView extends StatelessWidget {
     height: Dimens.hundred*1.1,
     width: Dimens.screenWidth/2 - 30,
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.grey)
+      border: Border.all(color: ColorsValue.lightGreyColor)
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -197,13 +195,13 @@ class ProfileView extends StatelessWidget {
           width: Dimens.hundred*1.2+5,
           decoration: BoxDecoration(
             color: ColorsValue.primaryColor,
-            borderRadius: BorderRadius.circular(10)
+            borderRadius: BorderRadius.circular(15)
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.phone,size: Dimens.twenty,),
-              Text(type,style: Styles.white16,)
+
+              Text(type,style: Styles.boldWhite16.copyWith(fontSize: 14),)
             ],
           ),
         ),
@@ -211,7 +209,7 @@ class ProfileView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(desc,style: Styles.black18.copyWith(fontSize: 14),),
+            Text(desc,style: Styles.black18.copyWith(fontSize: 12),),
             Column(
               children: [
                 Text(price,style: Styles.black18.copyWith(fontSize: 30),),
