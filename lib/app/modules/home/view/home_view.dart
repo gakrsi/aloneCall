@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
                 .collection(FirebaseConstant.call)
                 .snapshots(),
             builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container(
                     color: Colors.white,
@@ -34,8 +34,6 @@ class HomeView extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ));
               }
-
-
               if (snapshot.data.docs.isBlank) {
                 return Scaffold(
                   backgroundColor: Colors.white,
@@ -70,6 +68,7 @@ class HomeView extends StatelessWidget {
                   ),
                 );
               }
+
               return PickUpScreen(
                 callingModel: model,
               );

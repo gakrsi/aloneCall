@@ -1,4 +1,6 @@
-import 'package:alonecall/app/modules/call/binding/call_binding.dart';
+import 'package:alonecall/app/modules/call/binding/audio_call_binding.dart';
+import 'package:alonecall/app/modules/call/binding/video_call_binding.dart';
+import 'package:alonecall/app/modules/call/view/audio_call_view.dart';
 import 'package:alonecall/app/modules/call/view/video_call_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
@@ -79,6 +81,13 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => VideoCallView(),
       binding: VideoCallBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.audioCall,
+      transitionDuration: transitionDuration,
+      page: () => AudioCallView(),
+      binding: AudioCallBinding(),
       transition: Transition.downToUp,
     ),
     GetPage(

@@ -46,12 +46,13 @@ class UserDetailsView extends StatelessWidget {
                                         )))),
                         Positioned(
                             bottom: 0,
-                            child: Container(
+                            child: SizedBox(
+                              width: Dimens.screenWidth,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
@@ -71,30 +72,42 @@ class UserDetailsView extends StatelessWidget {
                                               style: Styles.white16)
                                         ],
                                       ),
-                                      SizedBox(width: Dimens.ninetyFive),
-                                      FloatingActionButton(
-                                        backgroundColor:
-                                            ColorsValue.primaryColor,
-                                        onPressed: () {
-                                          _con.onClickVideoCall();
+                                      Expanded(child: Container(),),
+                                      InkWell(
+                                        onTap: () {
+                                          _con.onClickAudioCall();
                                         },
-                                        child: const Icon(
-                                          Icons.phone,
-                                          color: Colors.white,
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: ColorsValue.primaryColor
+                                          ),
+                                          child: const Icon(
+                                            Icons.phone,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: Dimens.twenty,
+                                        width: Dimens.ten,
                                       ),
-                                      FloatingActionButton(
-                                        backgroundColor:
-                                            ColorsValue.primaryColor,
-                                        onPressed: () {
+                                      InkWell(
+                                        onTap: () {
                                           _con.onClickVideoCall();
                                         },
-                                        child: const Icon(
-                                          Icons.video_call,
-                                          color: Colors.white,
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: ColorsValue.primaryColor
+                                          ),
+                                          child: const Icon(
+                                            Icons.video_call,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ],

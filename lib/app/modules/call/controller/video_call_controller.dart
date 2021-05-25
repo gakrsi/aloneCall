@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
-import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
@@ -40,7 +39,6 @@ class VideoCallController extends GetxController {
     super.dispose();
     callStreamSubscription.cancel();
     _engine.destroy();
-    callStreamSubscription.cancel();
   }
 
   Future<void> _initEngine() async {
@@ -51,7 +49,6 @@ class VideoCallController extends GetxController {
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _joinChannel();
-
   }
 
   void addPostFrameCallback() {

@@ -1,4 +1,4 @@
-import 'package:alonecall/app/modules/call/controller/call_controller.dart';
+import 'package:alonecall/app/modules/call/controller/video_call_controller.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;

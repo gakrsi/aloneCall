@@ -11,6 +11,7 @@ class ProfileModel {
     uid = data['uid'] as String;
     coin = data['coin'] as int;
     profileImageUrl = data['profile_image_url'] as List<dynamic>;
+    online = data['online'] as bool;
   }
 
   String name;
@@ -21,6 +22,7 @@ class ProfileModel {
   String uid;
   int coin;
   List<dynamic> profileImageUrl;
+  bool online;
 
   Map<String, dynamic> toMap(ProfileModel obj) {
     var data = <String, dynamic>{};

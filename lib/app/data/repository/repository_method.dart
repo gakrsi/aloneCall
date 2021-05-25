@@ -36,6 +36,14 @@ class Repository {
       .where('online', isEqualTo: true)
       .snapshots();
 
+  Future<bool> checkUserOnCall(String reciUid)async {
+    var busy = false;
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(reciUid).collection(FirebaseConstant.call).get().then((value){
+      value.docs.isNotEmpty ? busy = true : busy = false;
+    });
+    return busy;
+  }
+
   Future<void> startVideoCall(CallingModel dialModel) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)

@@ -1,14 +1,22 @@
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/call/view/local_widget/dial_user_pic.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PickUpScreen extends StatelessWidget {
 
-  PickUpScreen({this.callingModel});
+  PickUpScreen({this.callingModel}){
+    FirebaseFirestore.instance.collection(FirebaseConstant.user).doc(callingModel.callerUid).get().then((value){
+      userModel = ProfileModel.fromJson(value.data());
+    });
+  }
   final CallingModel callingModel;
+  ProfileModel userModel;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -50,6 +58,7 @@ class PickUpScreen extends StatelessWidget {
 
               InkWell(
                 onTap: (){
+                  callingModel.isAudio?RoutesManagement.goToAudioCall(callingModel, userModel):
                   RoutesManagement.goToOthersVideoCallDialView(callingModel);
                 },
                 child: Container(

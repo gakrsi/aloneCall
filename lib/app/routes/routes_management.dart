@@ -61,6 +61,14 @@ abstract class RoutesManagement{
     );
   }
 
+  /// Go to the audio call dial screen
+  static void goToAudioCall(CallingModel callingModel,ProfileModel userModel){
+    Get.toNamed<void>(
+        AppRoutes.audioCall,
+        arguments: [callingModel,userModel]
+    );
+  }
+
   /// Go to the video  call dial screen
   static void goToPayment(ProfileModel model){
     Get.toNamed<void>(

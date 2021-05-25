@@ -44,11 +44,23 @@ class UserDetailsController extends GetxController{
       ..callerUid = Repository().currentUser()
       ..receiverUid = model.uid
       ..callerName = _controller.model.name
-      ..callerImage = ''
+      ..callerImage = _controller.model.profileImageUrl[0] as String
       ..isAudio = false;
     Repository().startVideoCall(dialModel);
     RoutesManagement.goToOthersVideoCallDialView(dialModel);
   }
+
+  void onClickAudioCall(){
+    dialModel
+      ..callerUid = Repository().currentUser()
+      ..receiverUid = model.uid
+      ..callerName = _controller.model.name
+      ..callerImage = _controller.model.profileImageUrl[0] as String
+      ..isAudio = true;
+    Repository().startVideoCall(dialModel);
+    RoutesManagement.goToAudioCall(dialModel,model);
+  }
+
   void onChangedPage(int index){
     currentPage = index;
     update();
