@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileCreateController extends GetxController{
   /// The current status of the page.

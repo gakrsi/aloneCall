@@ -4,9 +4,14 @@ import 'package:alonecall/app/modules/call/view/local_widget/dial_button.dart';
 import 'package:alonecall/app/modules/call/view/local_widget/dial_user_pic.dart';
 import 'package:alonecall/app/modules/call/view/local_widget/rounded_button.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../theme/dimens.dart';
+import '../../../utils/string_constant.dart';
+import '../../../utils/string_constant.dart';
 
 class AudioCallView extends StatelessWidget {
   @override
@@ -28,13 +33,13 @@ class AudioCallView extends StatelessWidget {
                       // '${callingModel.callerName}',
                       style: Styles.boldWhite16),
                   Text(
-                    !_con.userModel.online ? 'Calling…' : 'Ringing',
+                    !_con.userModel.online ? StringConstants.calling : StringConstants.ringing,
                     style: const TextStyle(color: Colors.white60),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(30 / 192 * 192),
-                    height: 192,
-                    width: 192,
+                    padding:  EdgeInsets.all(Dimens.thirty / Dimens.hundred + Dimens.ninetyTwo * Dimens.hundred + Dimens.ninetyTwo),
+                    height: Dimens.hundred + Dimens.ninetyTwo,
+                    width: Dimens.hundred + Dimens.ninetyTwo,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
@@ -47,16 +52,16 @@ class AudioCallView extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
+                           BorderRadius.all(Radius.circular(Dimens.hundred)),
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: _con.userModel.profileImageUrl[0] as String,
                         placeholder: (context, url) => Container(
                           height: Dimens.screenHeight,
                           width: Dimens.screenWidth,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage('assets/img/loading.gif'),
+                                  image: AssetConstants.loading,
                                   fit: BoxFit.cover)),
                         ),
                         errorWidget: (context, url, dynamic error) =>

@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:alonecall/app/utils/utility.dart';
 
+import 'app/utils/string_constant.dart';
+
 /// Main entry of the application sb
 void main() async {
   try {
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => ScreenUtilInit(
         designSize: const Size(375, 745),
         builder: () => GetMaterialApp(
-          title: 'AloneCall',
+          title: StringConstants.appName,
           theme: Styles.lightTheme,
           darkTheme: Styles.darkTheme,
           themeMode: ThemeMode.light,

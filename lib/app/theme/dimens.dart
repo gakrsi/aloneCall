@@ -40,6 +40,8 @@ abstract class Dimens {
   static double thirtyTwo = 32.nsp;
   static double thirtyFive = 35.nsp;
   static double seventy = 70.nsp;
+  static double seventyFive = 75.nsp;
+  static double ninetyTwo = 92.nsp;
   static double fourty = 40.nsp;
   static double thirtyFour = 34.nsp;
   static double seven = 7.nsp;

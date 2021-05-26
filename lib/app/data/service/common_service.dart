@@ -55,6 +55,7 @@ class CommonService extends GetxController{
     if (await Permissions.checkStoragePermission()) {
       final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
+          imageQuality: 50
       );
       if (pickedFile != null) {
         print(pickedFile);
@@ -71,6 +72,7 @@ class CommonService extends GetxController{
     if (await Permissions.checkCameraPermission()) {
       final pickedFile = await picker.getImage(
         source: ImageSource.camera,
+        imageQuality: 50
       );
       if (pickedFile != null) {
         return await _openCropImageOption(pickedFile,index);

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../theme/dimens.dart';
+import '../../../../theme/dimens.dart';
+
 
 class DialUserPic extends StatelessWidget {
   const DialUserPic({
@@ -13,7 +16,7 @@ class DialUserPic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-      padding: EdgeInsets.all(30 / 192 * size),
+      padding: EdgeInsets.all(Dimens.thirty / Dimens.hundred + Dimens.ninetyTwo * size),
       height: size,
       width: size,
       decoration: BoxDecoration(
@@ -27,7 +30,7 @@ class DialUserPic extends StatelessWidget {
         ),
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(100)),
+        borderRadius:  BorderRadius.all(Radius.circular(Dimens.hundred)),
         child: Image.asset(
           image,
           fit: BoxFit.cover,

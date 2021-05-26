@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../theme/dimens.dart';
+import '../../../../theme/dimens.dart';
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
@@ -20,16 +21,16 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      height: size,
-      width: size,
-      child: FlatButton(
-        padding: EdgeInsets.all(15 / 64 * size),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
+        height: size,
+        width: size,
+        child: FlatButton(
+          padding: EdgeInsets.all(Dimens.fifteen / Dimens.sixtyFour * size),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(Dimens.hundred)),
+          ),
+          color: color,
+          onPressed: press,
+          child: SvgPicture.asset(iconSrc, color: iconColor),
         ),
-        color: color,
-        onPressed: press,
-        child: SvgPicture.asset(iconSrc, color: iconColor),
-      ),
-    );
+      );
 }

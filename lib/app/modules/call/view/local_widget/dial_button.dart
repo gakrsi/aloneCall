@@ -2,6 +2,8 @@ import 'package:alonecall/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../theme/dimens.dart';
+
 
 
 class DialButton extends StatelessWidget {
@@ -28,7 +30,7 @@ class DialButton extends StatelessWidget {
             SvgPicture.asset(
               iconSrc,
               color: Colors.white,
-              height: 36,
+              height: Dimens.thirtySix,
             ),
             SizedBox(height: Dimens.twenty,),
             Text(
