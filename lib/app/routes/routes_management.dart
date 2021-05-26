@@ -47,6 +47,15 @@ abstract class RoutesManagement{
         arguments: obj
     );
   }
+
+  /// Go to the others profile screen
+  static void goToOProfileEdit(ProfileModel obj){
+    Get.toNamed<void>(
+        AppRoutes.editProfile,
+        arguments: obj
+    );
+  }
+
   /// Go to the others dial call screen
   static void goToOthersDialCall(){
     Get.toNamed<void>(
@@ -69,11 +78,11 @@ abstract class RoutesManagement{
     );
   }
 
-  /// Go to the video  call dial screen
-  static void goToPayment(ProfileModel model){
+  /// Go to the payment screen
+  static void goToPayment(ProfileModel model,String amount, Map<String,dynamic> data){
     Get.toNamed<void>(
         AppRoutes.payment,
-        arguments: model
+        arguments: [model,amount,data]
     );
   }
 

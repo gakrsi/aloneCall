@@ -12,6 +12,7 @@ class ProfileModel {
     coin = data['coin'] as int;
     profileImageUrl = data['profile_image_url'] as List<dynamic>;
     online = data['online'] as bool;
+    audioCoin = data['audio_coin'];
   }
 
   String name;
@@ -21,6 +22,7 @@ class ProfileModel {
   String country;
   String uid;
   int coin;
+  int audioCoin;
   List<dynamic> profileImageUrl;
   bool online;
 
@@ -33,6 +35,7 @@ class ProfileModel {
     data['country'] = obj.country;
     data['uid'] = obj.uid;
     data['coin'] = obj.coin;
+    data['audio_coin'] = obj.audioCoin;
     data['profile_image_url'] = obj.profileImageUrl;
     return data;
   }

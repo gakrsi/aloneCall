@@ -2,6 +2,8 @@ import 'package:alonecall/app/modules/call/binding/audio_call_binding.dart';
 import 'package:alonecall/app/modules/call/binding/video_call_binding.dart';
 import 'package:alonecall/app/modules/call/view/audio_call_view.dart';
 import 'package:alonecall/app/modules/call/view/video_call_view.dart';
+import 'package:alonecall/app/modules/edit_profile/binding/profile_edit_binding.dart';
+import 'package:alonecall/app/modules/edit_profile/view/profile_edit_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/login/view/login_view.dart';
@@ -102,6 +104,13 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => RandomCallView(),
       binding: RandomCallBinding(),
+      transition: Transition.leftToRight,
+    ),
+    GetPage(
+      name: _Paths.editProfile,
+      transitionDuration: transitionDuration,
+      page: () => ProfileEditView(),
+      binding: ProfileEditBinding(),
       transition: Transition.leftToRight,
     ),
   ];

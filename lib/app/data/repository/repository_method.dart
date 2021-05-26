@@ -122,6 +122,20 @@ class Repository {
           .update({'online': true});
   }
 
+  Future<void> addAudioCoin(int amount) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update({'audio_coin': amount});
+  }
+
+  Future<void> addVideoCoin(int amount) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update({'coin': amount});
+  }
+
   Future<void> makeUserOffline() async {
       await firebaseFireStore
           .collection(FirebaseConstant.user)
@@ -129,12 +143,6 @@ class Repository {
           .update({'online': false});
   }
 
-  Future<void> addCoins(int amount) async {
-    await firebaseFireStore
-        .collection(FirebaseConstant.user)
-        .doc(uid)
-        .update({'coins': amount});
-  }
 
   String currentUser() =>
       firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;

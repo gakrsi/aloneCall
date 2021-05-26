@@ -3,6 +3,7 @@ import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/data/service/common_service.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
+import 'package:alonecall/app/modules/home/view/local_widget/profile_edit_dialog.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +34,17 @@ class HomeController extends GetxController{
     profileCurrentTab = index;
     update();
   }
-
-
-
-
+  /// Close any open dialog.
+  static void closeDialog() {
+    if (Get.isDialogOpen ?? false) Get.back<void>();
+  }
+  void showEditProfileDialog() {
+    closeDialog();
+    Get.dialog<void>(
+      ProfileEditDialog(model: model,),
+      barrierDismissible: false,
+    );
+  }
 
 
 

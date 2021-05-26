@@ -10,18 +10,16 @@ import 'package:get/get.dart';
 
 import 'package:alonecall/app/theme/theme.dart';
 
-class ProfileCreateController extends GetxController{
+class ProfileEditController extends GetxController{
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
 
-  ProfileModel model;
+  ProfileModel model = Get.arguments as ProfileModel;
 
   List<String> profileImageUrl = <String>['','',''];
 
   @override
   void onInit() {
-    model = ProfileModel();
-    model.dob = '08/07/1999';
     super.onInit();
   }
 

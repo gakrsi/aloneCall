@@ -14,8 +14,12 @@ class PaymentView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text('Payment',style: Styles.blackBold18,),
+              Text('${_con.data['type']},   ${_con.data['desc']}, ${_con.data['price']}'),
+              SizedBox(height: Dimens.hundred,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal:Dimens.twenty,vertical: Dimens.five),
+                padding: EdgeInsets.symmetric(horizontal:Dimens.twenty,),
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
@@ -25,6 +29,7 @@ class PaymentView extends StatelessWidget {
                 child: Center(
                   child: TextField(
                     controller: _con.amountEdit,
+                    style: Styles.black18,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: ' Enter amount to add',

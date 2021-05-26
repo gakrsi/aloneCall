@@ -5,46 +5,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class PaymentController extends GetxController{
-
-  TextEditingController amountEdit = TextEditingController();
-
+class PaymentController extends GetxController {
   Razorpay razorPay = Razorpay();
-
-  Map<String,dynamic> options;
-
-  ProfileModel model;
-
+  Map<String, dynamic> options;
+  ProfileModel model = Get.arguments[0] as ProfileModel;
   int amount;
-
-
+  TextEditingController amountEdit = TextEditingController()
+    ..text = Get.arguments[1];
+  Map<String, dynamic> data = Get.arguments[2];
   @override
   void onInit() {
-    model = Get.arguments as ProfileModel;
+    model = Get.arguments[0] as ProfileModel;
     _initializePayment();
     super.onInit();
   }
 
-  void _initializePayment(){
-
+  void _initializePayment() {
     razorPay
       ..on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess)
       ..on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError)
       ..on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
   }
 
-
-  void checkout(){
-    options = <String,dynamic>{
+  void checkout() {
+    options = <String, dynamic>{
       'key': 'rzp_test_HGESD2Chi4Y3yy',
-      'amount': amount,
+      'amount': amount * 100,
       'name': 'AloneCall.com',
       'description': 'Coins',
-      'prefill': {
-        'contact': '${model.name}',
-        'email': '${model.country}'
-      },
+      'prefill': {'contact': '${model.name}', 'email': '${model.country}'},
       'external': {
         'wallets': ['paytm']
       }
@@ -58,7 +47,9 @@ class PaymentController extends GetxController{
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    Repository().addCoins(amount + model.coin);
+    data['is_video'] as bool
+        ? Repository().addVideoCoin(data['amount'] + model.coin)
+        : Repository().addAudioCoin(data['amount'] + model.coin);
     Utility.showError('SUCCESS: ${response.paymentId}');
   }
 
@@ -70,12 +61,11 @@ class PaymentController extends GetxController{
     Utility.showError('EXTERNAL_WALLET: ${response.walletName}');
   }
 
-  void onClickAdd(){
-    if(amountEdit.text.isNotEmpty && amountEdit.text.isNum){
+  void onClickAdd() {
+    if (amountEdit.text.isNotEmpty && amountEdit.text.isNum) {
       amount = int.parse(amountEdit.text);
       checkout();
-    }
-    else{
+    } else {
       Utility.showError('Enter correct amount');
     }
   }

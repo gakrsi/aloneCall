@@ -1,6 +1,6 @@
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
-import 'package:alonecall/app/modules/profile/controller/profile_create_controller.dart';
+import 'package:alonecall/app/modules/edit_profile/controller/profile_edit_controller.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +8,9 @@ import 'package:alonecall/app/theme/theme.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class ProfileCreateView extends StatelessWidget {
+class ProfileEditView extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => GetBuilder<ProfileCreateController>(
+  Widget build(BuildContext context) => GetBuilder<ProfileEditController>(
         builder: (_con) => Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -101,8 +101,8 @@ class ProfileCreateView extends StatelessWidget {
         ),
       );
 
-  Widget circle(ProfileCreateController con, int index) =>
-      con.profileImageUrl[index].isEmpty
+  Widget circle(ProfileEditController con, int index) =>
+      con.model.profileImageUrl[index].isEmpty
           ? Container(
               height: Dimens.screenWidth / 3 - 20,
               width: Dimens.screenWidth / 3 - 20,
@@ -137,7 +137,7 @@ class ProfileCreateView extends StatelessWidget {
                     )
                   ],
                   image: DecorationImage(
-                      image: NetworkImage(con.profileImageUrl[index]),
+                      image: NetworkImage(con.model.profileImageUrl[index]),
                       fit: BoxFit.cover),
                   border: Border.all(width: 2, color: Colors.white),
                   color: Colors.grey.withOpacity(0.4)),
@@ -167,12 +167,12 @@ class ProfileCreateView extends StatelessWidget {
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hint,
-                hintStyle: Styles.black18),
+                hintStyle: Styles.grey16),
           ),
         ),
       );
 
-  Widget _dateOfBirth(ProfileCreateController con) => Container(
+  Widget _dateOfBirth(ProfileEditController con) => Container(
         height: 55,
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
@@ -187,26 +187,23 @@ class ProfileCreateView extends StatelessWidget {
                 offset: const Offset(0, 1),
               )
             ]),
-        child: Padding(
-          padding: const EdgeInsets.only(left:16.0),
-          child: DateTimePicker(
-            initialValue: '',
-            firstDate: DateTime(1980),
-            lastDate: DateTime(2100),
-            style: Styles.black18,
-            onChanged: (val) => con.model.dob = val,
-            decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'You Birthday',),
-            validator: (val) {
-              print(val.runtimeType);
-              return null;
-            },
-          ),
+        child: DateTimePicker(
+          initialValue: '',
+          firstDate: DateTime(1980),
+          lastDate: DateTime(2100),
+          onChanged: (val) => con.model.dob = val,
+          decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'You Birthday',
+              hintStyle: TextStyle()),
+          validator: (val) {
+            print(val.runtimeType);
+            return null;
+          },
         ),
       );
 
-  Widget _gender(ProfileCreateController con) => Container(
+  Widget _gender(ProfileEditController con) => Container(
         height: 55,
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
@@ -222,19 +219,20 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
-            child: con.model.gender == null
-                ? Text(
-                    ' Gender',
-                    style: Styles.black18,
-                  )
-                : Text(
-                    con.model.gender,
-                    style: Styles.black18,
-                  )),
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: con.model.gender == null
+                    ? Text(
+                        ' Gender',
+                        style: Styles.grey16,
+                      )
+                    : Text(
+                        con.model.gender,
+                        style: Styles.grey16,
+                      ))),
       );
 
-  Widget _country(ProfileCreateController con) => Container(
+  Widget _country(ProfileEditController con) => Container(
         height: 55,
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
@@ -250,19 +248,20 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
-            child: con.model.country == null
-                ? Text(
-                    ' Country',
-                    style: Styles.black18,
-                  )
-                : Text(
-                    con.model.country,
-                    style: Styles.black18,
-                  )),
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: con.model.country == null
+                    ? Text(
+                        ' Country',
+                        style: Styles.grey16,
+                      )
+                    : Text(
+                        con.model.country,
+                        style: Styles.grey16,
+                      ))),
       );
 
-  Widget _language(ProfileCreateController con) => Container(
+  Widget _language(ProfileEditController con) => Container(
         height: 55,
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
@@ -278,15 +277,16 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
-            child: con.model.lang == null
-                ? Text(
-                    ' Language',
-                    style: Styles.black18,
-                  )
-                : Text(
-                    con.model.lang,
-                    style: Styles.black18,
-                  )),
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: con.model.lang == null
+                    ? Text(
+                        ' Language',
+                        style: Styles.grey16,
+                      )
+                    : Text(
+                        con.model.lang,
+                        style: Styles.grey16,
+                      ))),
       );
 }
