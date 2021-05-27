@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
@@ -14,8 +15,11 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class VideoCallController extends GetxController {
+  Repository repo = Repository();
+  bool isNotDial;
+  String callStatusText = 'Connecting...';
   RtcEngine _engine;
-  CallingModel callingModel;
+  CallingModel callingModel = Get.arguments as CallingModel;
   bool isJoined = false, switchCamera = true, switchRender = true, muted = false;
   List<int> remoteUid = [];
   StreamSubscription callStreamSubscription;
@@ -26,11 +30,28 @@ class VideoCallController extends GetxController {
     isReceiverBig =!isReceiverBig;
     update();}
 
+  void checkIsDial(){
+    isNotDial = callingModel.receiverUid == repo.uid;
+    update();
+  }
+
+  Future<void> checkUserAvailabilityAndBalance() async {
+    var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
+    // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
+    if(!onlineCheck){
+      updateCallStatus(CallStatus.offline);
+    }
+    else{
+      updateCallStatus(CallStatus.ringing);
+      await repo.startVideoCall(callingModel);
+    }
+  }
+
   @override
   void onInit() {
-    addPostFrameCallback();
-    callingModel = Get.arguments as CallingModel;
     _initEngine();
+    checkUserAvailabilityAndBalance();
+    checkIsDial();
     super.onInit();
   }
 
@@ -43,12 +64,13 @@ class VideoCallController extends GetxController {
 
   Future<void> _initEngine() async {
     _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
-    _addListeners();
     await _engine.enableVideo();
     await _engine.startPreview();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _joinChannel();
+    _addListeners();
+    addPostFrameCallback();
   }
 
   void addPostFrameCallback() {
@@ -101,9 +123,13 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> leaveChannel() async {
+    if(remoteUid.isEmpty){
+      await _engine.leaveChannel();
+      Get.back<dynamic>();
+    }
     await Repository().endVideoCall(callingModel).then((value) async {
       await _engine.leaveChannel();
-      Get.back<void>();
+      // Get.back<void>();
     });
   }
 
@@ -177,4 +203,20 @@ class VideoCallController extends GetxController {
         ],
       ),
     );
+
+  void updateCallStatus(CallStatus callStatus){
+    if(callStatus == CallStatus.connecting){
+      callStatusText = 'Connecting...';
+    }
+    if(callStatus == CallStatus.offline){
+      callStatusText = 'User is Offline';
+    }
+    if(callStatus == CallStatus.ringing){
+      callStatusText = 'Ringing...';
+    }
+    if(callStatus == CallStatus.connected){
+      callStatusText = 'Connected';
+    }
+    update();
+  }
 }

@@ -12,7 +12,7 @@ class ProfileModel {
     coin = data['coin'] as int;
     profileImageUrl = data['profile_image_url'] as List<dynamic>;
     online = data['online'] as bool;
-    audioCoin = data['audio_coin'];
+    audioCoin = data['audio_coin'] as int;
   }
 
   String name;

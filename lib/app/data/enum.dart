@@ -8,3 +8,10 @@ enum PageStatus {
   error,
   success,
 }
+
+enum CallStatus{
+  connecting,
+  offline,
+  ringing,
+  connected
+}

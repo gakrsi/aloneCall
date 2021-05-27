@@ -13,7 +13,6 @@ class Repository {
     uid = currentUser();
   }
   String uid;
-
   Stream<QuerySnapshot> userStream =
       FirebaseFirestore.instance.collection(FirebaseConstant.user).snapshots();
 
@@ -36,12 +35,45 @@ class Repository {
       .where('online', isEqualTo: true)
       .snapshots();
 
-  Future<bool> checkUserOnCall(String reciUid)async {
+  Future<bool> checkUserOnCall(String receiverUid) async {
     var busy = false;
-    await firebaseFireStore.collection(FirebaseConstant.user).doc(reciUid).collection(FirebaseConstant.call).get().then((value){
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(receiverUid)
+        .collection(FirebaseConstant.call)
+        .get()
+        .then((value) {
       value.docs.isNotEmpty ? busy = true : busy = false;
     });
     return busy;
+  }
+
+  Future<int> checkAudioBalance() async {
+    Map<String,dynamic> data;
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) {
+      data = value.data();
+    });
+    return data['audio_coin'] as int;
+  }
+
+  Future<int> checkVideoBalance() async {
+    Map<String,dynamic> data;
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) {
+      data = value.data();
+    });
+    return data['coin'] as int;
+  }
+
+  Future<bool> checkUserIsOnline(String receiverUid) async {
+    Map<String, dynamic> userData;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(receiverUid)
+        .get()
+        .then((value) {
+      userData = value.data();
+    });
+    return userData['online'] as bool;
   }
 
   Future<void> startVideoCall(CallingModel dialModel) async {
@@ -105,21 +137,28 @@ class Repository {
     return userData;
   }
 
-  Future<String> uploadProfileImage(File file,int index) async {
+  Future<String> uploadProfileImage(File file, int index) async {
     print('uploadProfileImage');
     String url;
     var reference = firebaseStorage.ref('$uid/$index.png');
     var uploadTask = await reference.putFile(file).whenComplete(() async {
-      url =  await reference.getDownloadURL() ;
+      url = await reference.getDownloadURL();
     });
     return url;
   }
 
   Future<void> makeUserOnline() async {
-      await firebaseFireStore
-          .collection(FirebaseConstant.user)
-          .doc(uid)
-          .update({'online': true});
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update({'online': true});
+  }
+
+  Future<void> makeUserOffline() async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update({'online': false});
   }
 
   Future<void> addAudioCoin(int amount) async {
@@ -136,25 +175,17 @@ class Repository {
         .update({'coin': amount});
   }
 
-  Future<void> makeUserOffline() async {
-      await firebaseFireStore
-          .collection(FirebaseConstant.user)
-          .doc(uid)
-          .update({'online': false});
-  }
-
-
   String currentUser() =>
       firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
-  bool isUserLogin(){
-    if(firebaseAuth.currentUser == null){
+  bool isUserLogin() {
+    if (firebaseAuth.currentUser == null) {
       return false;
     }
     return true;
   }
 
-  void logout(){
+  void logout() {
     firebaseAuth.signOut();
     RoutesManagement.goToLoginScreen();
   }

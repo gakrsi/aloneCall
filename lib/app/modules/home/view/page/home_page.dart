@@ -244,7 +244,7 @@ class HomePage extends StatelessWidget {
       );
 
   Widget _userGridView() => SizedBox(
-        height: 500,
+        height: 1000,
         child: StreamBuilder(
             stream: Repository().userStream,
             builder:
@@ -273,10 +273,9 @@ class HomePage extends StatelessWidget {
                             height: 250,
                             width: Dimens.screenWidth / 2 - 100,
                             decoration: BoxDecoration(
-
                                 border:
                                     Border.all(width: 1.5, color: Colors.white),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(Dimens.fifteen),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
@@ -287,31 +286,32 @@ class HomePage extends StatelessWidget {
                                 ]),
                             child: Stack(
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 250,
                                   width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl: model.profileImageUrl[0] as String,
-                                    placeholder: (context, url) =>Container(
-                                      height: 250,
-                                      width: Dimens.screenWidth / 2 - 100,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage('assets/img/loading.gif'),
-                                              fit: BoxFit.cover
-                                          )
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.all(Radius.circular(Dimens.fifteen)),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl: model.profileImageUrl[0] as String,
+                                      placeholder: (context, url) =>Container(
+                                        height: 250,
+                                        width: Dimens.screenWidth / 2 - 100,
+                                        decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage('assets/img/loading.gif'),
+                                                fit: BoxFit.cover
+                                            )
+                                        ),
                                       ),
+                                      errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
                                     ),
-                                    errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
                                   ),
                                 ),
                                 Positioned(
-                                    child:
-                                        Center(child: Text('${model.name}'))),
+                                  bottom: 10,
+                                    left: 10,
+                                    child: Center(child: Text('${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0,4))}',style: Styles.boldWhite16,))),
                               ],
                             ),
                           ),

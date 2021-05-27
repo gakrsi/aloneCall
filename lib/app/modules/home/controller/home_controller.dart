@@ -40,9 +40,8 @@ class HomeController extends GetxController{
   }
   void showEditProfileDialog() {
     closeDialog();
-    Get.dialog<void>(
+    Get.bottomSheet<void>(
       ProfileEditDialog(model: model,),
-      barrierDismissible: false,
     );
   }
 

@@ -10,15 +10,15 @@ class SliderCarousel extends StatelessWidget {
   final List<dynamic> sliderItem;
   @override
   Widget build(BuildContext context) => GetBuilder<UserDetailsController>(
-    builder:(_con)=> Container(
+    builder:(_con)=> SizedBox(
       height: Dimens.screenHeight,
       width: Dimens.screenWidth,
-      color: Colors.white,
       child: CarouselSlider(
         items: List.generate(sliderItem.length, (index) => SizedBox(
           height: 200,
           width: Dimens.screenWidth,
           child: CachedNetworkImage(
+
             fit: BoxFit.cover,
             imageUrl: sliderItem[index] as String,
             placeholder: (context, url) =>Container(

@@ -104,7 +104,7 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => RandomCallView(),
       binding: RandomCallBinding(),
-      transition: Transition.leftToRight,
+      transition: Transition.leftToRightWithFade,
     ),
     GetPage(
       name: _Paths.editProfile,

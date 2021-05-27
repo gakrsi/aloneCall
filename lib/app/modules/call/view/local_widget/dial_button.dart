@@ -12,13 +12,16 @@ class DialButton extends StatelessWidget {
     @required this.iconSrc,
     @required this.text,
     @required this.press,
+    @required this.flag
   }) : super(key: key);
 
   final String iconSrc, text;
   final VoidCallback press;
+  final bool flag;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
+  Widget build(BuildContext context) => Container(
+      color: flag?Colors.transparent:Colors.red,
       width: Dimens.hundred,
       child: FlatButton(
         padding: EdgeInsets.symmetric(

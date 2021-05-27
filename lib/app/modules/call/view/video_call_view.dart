@@ -1,5 +1,8 @@
+import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/call/controller/video_call_controller.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:alonecall/app/utils/asset_constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
@@ -14,61 +17,97 @@ class VideoCallView extends StatelessWidget {
   Widget _renderVideo() => GetBuilder<VideoCallController>(
       builder: (_controller) => SafeArea(
             child: SizedBox(
-              height: Dimens.screenHeight,
-              width: Dimens.screenWidth,
-              child: _controller.isReceiverBig
-                  ? Stack(
-                      children: [
-                        _controller.remoteUid.isNotEmpty
-                            ? Align(
-                                alignment: Alignment.topRight,
-                                child: InkWell(
-                                  onTap: () {
-                                    _controller.changeSize();
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    height: 120,
-                                    width: 120,
-                                    child: RtcRemoteView.SurfaceView(
-                                      uid: _controller.remoteUid[0],
-                                    ),
-                                  ),
+                height: Dimens.screenHeight,
+                width: Dimens.screenWidth,
+                child: _controller.remoteUid.isEmpty
+                    ? Stack(
+                        children: [
+                          RtcLocalView.SurfaceView(),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: Dimens.hundred * 0.8,
                                 ),
-                              )
-                            : RtcLocalView.SurfaceView(),
-                        _controller.toolbar()
-                      ],
-                    )
-                  : Stack(
-                      children: [
-                        // RtcLocalView.SurfaceView(),
-                        _controller.remoteUid.isNotEmpty
-                            ? RtcRemoteView.SurfaceView(
-                                uid: _controller.remoteUid[0],
-                              )
-                            : RtcLocalView.SurfaceView(),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: InkWell(
-                            onTap: () {
-                              _controller.changeSize();
-                            },
-                            child: Container(
-                                margin: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                height: 120,
-                                width: 120,
-                                child: RtcLocalView.SurfaceView()),
+                                circularPhoto(
+                                    imageUrl: _controller.isNotDial
+                                        ? _controller.callingModel.callerImage
+                                        : _controller
+                                            .callingModel.receiverImage),
+                                SizedBox(
+                                  height: Dimens.ten,
+                                ),
+                                Text(
+                                    _controller.isNotDial
+                                        ? _controller.callingModel.callerName
+                                        : _controller.callingModel.receiverName,
+                                    style: Styles.boldWhite16),
+                                SizedBox(
+                                  height: Dimens.ten,
+                                ),
+                                Text(
+                                  _controller.callStatusText,
+                                  style: const TextStyle(color: Colors.white60),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        _controller.toolbar()
-                      ],
-                    ),
-            ),
+                          _controller.toolbar()
+                        ],
+                      )
+                    : _controller.isReceiverBig
+                        ? receiverBigView(_controller)
+                        : callerBigView(_controller)),
           ));
+
+  Widget callerBigView(VideoCallController con) => Stack(
+        children: [
+          RtcLocalView.SurfaceView(),
+          Align(
+            alignment: Alignment.topRight,
+            child: InkWell(
+              onTap: () {
+                con.changeSize();
+              },
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                height: 120,
+                width: 120,
+                child: RtcRemoteView.SurfaceView(
+                  uid: con.remoteUid[0],
+                ),
+              ),
+            ),
+          ),
+          con.toolbar()
+        ],
+      );
+
+  Widget receiverBigView(VideoCallController con) => Stack(
+        children: [
+          RtcRemoteView.SurfaceView(
+            uid: con.remoteUid[0],
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: InkWell(
+              onTap: () {
+                con.changeSize();
+              },
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                height: 120,
+                width: 120,
+                child: RtcLocalView.SurfaceView(),
+              ),
+            ),
+          ),
+          con.toolbar()
+        ],
+      );
 }

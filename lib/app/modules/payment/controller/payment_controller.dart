@@ -11,8 +11,8 @@ class PaymentController extends GetxController {
   ProfileModel model = Get.arguments[0] as ProfileModel;
   int amount;
   TextEditingController amountEdit = TextEditingController()
-    ..text = Get.arguments[1];
-  Map<String, dynamic> data = Get.arguments[2];
+    ..text = Get.arguments[1] as String ;
+  Map<String, dynamic> data = Get.arguments[2] as Map<String,dynamic>;
   @override
   void onInit() {
     model = Get.arguments[0] as ProfileModel;
@@ -48,8 +48,8 @@ class PaymentController extends GetxController {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     data['is_video'] as bool
-        ? Repository().addVideoCoin(data['amount'] + model.coin)
-        : Repository().addAudioCoin(data['amount'] + model.coin);
+        ? Repository().addVideoCoin((data['amount'] as int) + model.coin)
+        : Repository().addAudioCoin((data['amount'] as int) + model.coin);
     Utility.showError('SUCCESS: ${response.paymentId}');
   }
 

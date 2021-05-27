@@ -71,10 +71,10 @@ abstract class RoutesManagement{
   }
 
   /// Go to the audio call dial screen
-  static void goToAudioCall(CallingModel callingModel,ProfileModel userModel){
+  static void goToAudioCall(CallingModel callingModel){
     Get.toNamed<void>(
         AppRoutes.audioCall,
-        arguments: [callingModel,userModel]
+        arguments: callingModel
     );
   }
 

@@ -102,7 +102,7 @@ class ProfileEditView extends StatelessWidget {
       );
 
   Widget circle(ProfileEditController con, int index) =>
-      con.model.profileImageUrl[index].isEmpty
+      (con.model.profileImageUrl[index] as String).isEmpty
           ? Container(
               height: Dimens.screenWidth / 3 - 20,
               width: Dimens.screenWidth / 3 - 20,
@@ -137,7 +137,7 @@ class ProfileEditView extends StatelessWidget {
                     )
                   ],
                   image: DecorationImage(
-                      image: NetworkImage(con.model.profileImageUrl[index]),
+                      image: NetworkImage(con.model.profileImageUrl[index] as String),
                       fit: BoxFit.cover),
                   border: Border.all(width: 2, color: Colors.white),
                   color: Colors.grey.withOpacity(0.4)),

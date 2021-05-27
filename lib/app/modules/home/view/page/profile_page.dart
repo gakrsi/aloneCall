@@ -219,7 +219,7 @@ class ProfileView extends StatelessWidget {
 
   Widget planContainer(String type,String desc,String price,ProfileModel model,int amount,bool isVideo) =>InkWell(
     onTap: (){
-      RoutesManagement.goToPayment(model, price,{'type':type,'desc':desc,'price':price,'amount':amount,'is_video':isVideo},);
+      RoutesManagement.goToPayment(model, price,<String,dynamic>{'type':type,'desc':desc,'price':price,'amount':amount,'is_video':isVideo},);
     },
     child: Container(
       height: Dimens.hundred*1.1,
