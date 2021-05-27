@@ -55,39 +55,52 @@ class AudioCallView extends StatelessWidget {
 
   Widget _toolBar(AudioCallController con) => Column(
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DialButton(
-                iconSrc: 'assets/icons/Icon Mic.svg',
-                text: 'Audio',
-                press: () {
-                  con.switchMicrophone();
-                },
+              IconButton(
+                  icon: con.openMicrophone
+                      ? const Icon(
+                          Icons.mic,
+                          size: 40,
+                          color: Colors.white,
+                        )
+                      : const Icon(Icons.mic_off, size: 40),
+                  onPressed: () {
+                    con.switchMicrophone();
+                  }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: RoundedButton(
+                  iconSrc: 'assets/icons/call_end.svg',
+                  press: () {
+                    print('End button pressed');
+                    if (con.isJoined) {
+                      Repository().endVideoCall(con.callingModel);
+                    } else {
+                      Get.back<dynamic>();
+                    }
+                  },
+                  color: Colors.red,
+                  iconColor: Colors.white,
+                ),
               ),
-              DialButton(
-                iconSrc: 'assets/icons/Icon Volume.svg',
-                text: 'Microphone',
-                press: () {
-                  con.switchSpeakerphone();
-                },
-              ),
+              IconButton(
+                  icon: con.enableSpeakerphone
+                      ? const Icon(
+                          Icons.music_note,
+                          size: 40,
+                          color: Colors.white,
+                        )
+                      : const Icon(Icons.music_off, size: 40),
+                  onPressed: () {
+                    con.switchSpeakerphone();
+                  })
             ],
           ),
-          RoundedButton(
-            iconSrc: 'assets/icons/call_end.svg',
-            press: () {
-              print('End button pressed');
-              if(con.isJoined){
-                Repository().endVideoCall(con.callingModel);
-              }
-              else{
-                Get.back<dynamic>();
-              }
-            },
-            color: Colors.red,
-            iconColor: Colors.white,
-          )
+          SizedBox(
+            height: Dimens.twenty,
+          ),
         ],
       );
 }

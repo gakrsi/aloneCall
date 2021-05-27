@@ -25,15 +25,15 @@ class HomeView extends StatelessWidget {
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                    color: Colors.white,
-                    height: Dimens.screenHeight,
-                    width: Dimens.screenWidth,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ));
-              }
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   return Container(
+              //       color: Colors.white,
+              //       height: Dimens.screenHeight,
+              //       width: Dimens.screenWidth,
+              //       child: const Center(
+              //         child: CircularProgressIndicator(),
+              //       ));
+              // }
               if (snapshot.data.docs.isBlank) {
                 return Scaffold(
                   backgroundColor: Colors.white,

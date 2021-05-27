@@ -1,6 +1,9 @@
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
+import 'package:alonecall/app/utils/asset_constants.dart';
+import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -13,149 +16,74 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_con) => SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.black,
-              iconTheme: const IconThemeData(color: Colors.white),
-              title: Image.asset(
-                'assets/img/logos/logo.png',
-                fit: BoxFit.cover,
-                height: 60,
-                width: 100,
-              ),
-              leading: const Icon(Icons.camera_alt),
-              actions: [
-                const Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
+            child: Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  backgroundColor: Colors.black,
+                  iconTheme: const IconThemeData(color: Colors.white),
+                  title: Image.asset(
+                    'assets/img/logos/logo.png',
+                    fit: BoxFit.cover,
+                    height: 60,
+                    width: 100,
                   ),
-                ),
-                const Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.filter_list_alt,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            body: GestureDetector(
-              onPanUpdate: (value){
-                if(value.delta.dx > 0){
-                  RoutesManagement.goToOthersRandomCallView();
-                }
-              },
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: Dimens.screenWidth,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      /*Container(
-                        height: 80,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/img/logos/logo.png'))),
-                      ),*/
-                      //_searchAnfFilter(),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      Row(
-                        children: [
-                          // const SizedBox(
-                          //   width: 16,
-                          // ),
-                          // Container(
-                          //   height: 10,
-                          //   width: 10,
-                          //   decoration: const BoxDecoration(
-                          //       color: Colors.green, shape: BoxShape.circle),
-                          // ),
-                          // const SizedBox(
-                          //   width: 10,
-                          // ),
-                          // Text(
-                          //   'online',
-                          //   style: Styles.black18,
-                          // )
-                        ],
+                  leading: const Icon(Icons.camera_alt),
+                  actions: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white,
                       ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      _onlineUser(),
-                      /*SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                              10,
-                              (index) => Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: 70,
-                                          width: 70,
-                                          // margin: const EdgeInsets.symmetric(
-                                          //     horizontal: 5),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  width: 1.5, color: Colors.white),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color:
-                                                      Colors.grey.withOpacity(0.2),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 2,
-                                                  offset: const Offset(0, 1),
-                                                )
-                                              ]),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Angela,20',
-                                          style: Styles.black12,
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                        ),
-                      ),*/
-                      const SizedBox(
-                        height: 10,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.filter_list_alt,
+                        color: Colors.white,
                       ),
-                      Row(
+                    ),
+                  ],
+                ),
+                body: GestureDetector(
+                  onPanUpdate: (value) {
+                    if (value.delta.dx > 0) {
+                      RoutesManagement.goToOthersRandomCallView();
+                    }
+                  },
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: Dimens.screenWidth,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          _onlineUser(),
                           const SizedBox(
-                            width: 13,
+                            height: 10,
                           ),
-                          Text(
-                            'Suggessions',
-                            style: Styles.blackBold15.copyWith(
-                                fontWeight: FontWeight.w400, fontSize: 15),
+                          Row(
+                            children: [
+                              const SizedBox(
+                                width: 13,
+                              ),
+                              Text(
+                                'Suggessions',
+                                style: Styles.blackBold15.copyWith(
+                                    fontWeight: FontWeight.w400, fontSize: 15),
+                              ),
+                            ],
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: _userGridView(),
+                          )
                         ],
                       ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: _userGridView(),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            )),
-      ));
+                )),
+          ));
 
   Widget _onlineUser() => StreamBuilder(
       stream: Repository().onlineUser(),
@@ -163,9 +91,55 @@ class HomePage extends StatelessWidget {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
         }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('Loading');
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(
+                    10,
+                    (index) => Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 70,
+                                width: 70,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 1.5, color: Colors.white),
+                                    image: const DecorationImage(
+                                        image: AssetConstants.loading,
+                                        fit: BoxFit.cover),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ]),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                height: 12,
+                                width: 70,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetConstants.loading,
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))),
+          );
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -178,28 +152,55 @@ class HomePage extends StatelessWidget {
               return model.uid == Repository().currentUser()
                   ? const SizedBox()
                   : Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
                         children: [
-                          Container(
-                            height: 70,
-                            width: 70,
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(width: 1.5, color: Colors.white),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 1,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  )
-                                ]),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 70,
+                                width: 70,
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(width: 1.5, color: Colors.white),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ]),
+                                child: circularPhoto(imageUrl: model.profileImageUrl[0] as String),
+                              ),
+                              Positioned(
+                                bottom: 2,
+                                  right: 13,
+                                  child: Container(
+                                    height: 13,
+                                    width: 13,
+                                    decoration:  BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      color: Colors.green,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: const Offset(0, 1),
+                                          )
+                                        ],
+                                      border:
+                                      Border.all(width: 1, color: Colors.white),
+                                    ),
+                                  ),
+                              )
+                            ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 2,
                           ),
                           Text(
                             '${model.name}',
@@ -207,11 +208,12 @@ class HomePage extends StatelessWidget {
                           )
                         ],
                       ),
-                  );
+                    );
             }).toList(),
           ),
         );
       });
+
   Widget _searchAnfFilter() => Row(
         children: [
           const SizedBox(
@@ -275,7 +277,8 @@ class HomePage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 border:
                                     Border.all(width: 1.5, color: Colors.white),
-                                borderRadius: BorderRadius.circular(Dimens.fifteen),
+                                borderRadius:
+                                    BorderRadius.circular(Dimens.fifteen),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
@@ -290,28 +293,35 @@ class HomePage extends StatelessWidget {
                                   height: 250,
                                   width: double.infinity,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.all(Radius.circular(Dimens.fifteen)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(Dimens.fifteen)),
                                     child: CachedNetworkImage(
                                       fit: BoxFit.cover,
-                                      imageUrl: model.profileImageUrl[0] as String,
-                                      placeholder: (context, url) =>Container(
+                                      imageUrl:
+                                          model.profileImageUrl[0] as String,
+                                      placeholder: (context, url) => Container(
                                         height: 250,
                                         width: Dimens.screenWidth / 2 - 100,
                                         decoration: const BoxDecoration(
                                             image: DecorationImage(
-                                                image: AssetImage('assets/img/loading.gif'),
-                                                fit: BoxFit.cover
-                                            )
-                                        ),
+                                                image: AssetImage(
+                                                    'assets/img/loading.gif'),
+                                                fit: BoxFit.cover)),
                                       ),
-                                      errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
+                                      errorWidget:
+                                          (context, url, dynamic error) =>
+                                              const Icon(Icons.error),
                                     ),
                                   ),
                                 ),
                                 Positioned(
-                                  bottom: 10,
+                                    bottom: 10,
                                     left: 10,
-                                    child: Center(child: Text('${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0,4))}',style: Styles.boldWhite16,))),
+                                    child: Center(
+                                        child: Text(
+                                      '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
+                                      style: Styles.boldWhite16,
+                                    ))),
                               ],
                             ),
                           ),

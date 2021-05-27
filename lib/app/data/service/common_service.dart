@@ -7,9 +7,7 @@ import 'package:alonecall/app/utils/permissions.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CommonService extends GetxController{
