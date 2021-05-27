@@ -152,61 +152,66 @@ class HomePage extends StatelessWidget {
               return model.uid == Repository().currentUser()
                   ? const SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 70,
-                                width: 70,
-                                margin: const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border:
-                                        Border.all(width: 1.5, color: Colors.white),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 1,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ]),
-                                child: circularPhoto(imageUrl: model.profileImageUrl[0] as String),
-                              ),
-                              Positioned(
-                                bottom: 2,
-                                  right: 13,
-                                  child: Container(
-                                    height: 13,
-                                    width: 13,
-                                    decoration:  BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      color: Colors.green,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: const Offset(0, 1),
-                                          )
-                                        ],
+                      padding: const EdgeInsets.only(right:10.0),
+                      child: InkWell(
+                        onTap: (){
+                          RoutesManagement.goToOthersProfileDetail(model);
+                        },
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       border:
-                                      Border.all(width: 1, color: Colors.white),
+                                          Border.all(width: 1.5, color: Colors.white),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ]),
+                                  child: circularPhoto(imageUrl: model.profileImageUrl[0] as String),
+                                ),
+                                Positioned(
+                                  bottom: 2,
+                                    right: 13,
+                                    child: Container(
+                                      height: 13,
+                                      width: 13,
+                                      decoration:  BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        color: Colors.green,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              spreadRadius: 1,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            )
+                                          ],
+                                        border:
+                                        Border.all(width: 1, color: Colors.white),
+                                      ),
                                     ),
-                                  ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-                          Text(
-                            '${model.name}',
-                            style: Styles.black12,
-                          )
-                        ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              '${model.name}',
+                              style: Styles.black12,
+                            )
+                          ],
+                        ),
                       ),
                     );
             }).toList(),
@@ -296,7 +301,7 @@ class HomePage extends StatelessWidget {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(Dimens.fifteen)),
                                     child: CachedNetworkImage(
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                       imageUrl:
                                           model.profileImageUrl[0] as String,
                                       placeholder: (context, url) => Container(

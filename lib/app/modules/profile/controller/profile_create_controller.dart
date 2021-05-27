@@ -22,7 +22,7 @@ class ProfileCreateController extends GetxController{
   @override
   void onInit() {
     model = ProfileModel();
-    model.dob = '08/07/1999';
+    model.dob = 'Your Birthday';
     super.onInit();
   }
 
@@ -34,6 +34,10 @@ class ProfileCreateController extends GetxController{
   List<String> countryList = <String> ['India','Nepal','Bhutan','Pakistan'];
   List<String> languageList = <String>['English', 'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia (Oriya)', 'Malayalam', 'Punjabi', 'Bodo', 'Dogri', 'Kashmiri', 'Konkani', 'Maithili', 'Manipuri', 'Nepali', 'Sanskrit', 'Santali Language', 'Sindhi', 'Assamese'];
 
+  void updateDob(String date){
+    model.dob = date;
+    update();
+  }
 
   void showGenderBottomSheet(){
     Get.bottomSheet<void>(

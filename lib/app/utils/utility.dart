@@ -1,3 +1,5 @@
+import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/global_widgets/pickup_call.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:alonecall/app/data/model/location_details.dart';
@@ -61,6 +63,14 @@ abstract class Utility{
     Get.dialog<void>(
       NoInternetWidget(),
       barrierDismissible: false,
+    );
+  }
+
+  static void showCallPickupDialog(CallingModel callingModel) {
+    closeDialog();
+    Get.dialog<void>(
+      PickUpScreen(callingModel: callingModel,),
+      barrierDismissible: true,
     );
   }
 

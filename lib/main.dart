@@ -1,4 +1,5 @@
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/data/service/call_service.dart';
 import 'package:alonecall/app/data/service/life_cycle_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,8 @@ void main() async {
 Future<String> initServices() async {
   await Firebase.initializeApp();
   Get
-    ..put(
-      CommonService(),
-      permanent: true,
-    )
+    ..put(CommonService(), permanent: true,)
+    ..put(CallService(), permanent: true)
     ..put(LifeCycleController(), permanent: true);
   return Repository().currentUser();
 }

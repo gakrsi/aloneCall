@@ -2,6 +2,7 @@ import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/profile/controller/profile_create_controller.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:alonecall/app/theme/theme.dart';
@@ -49,7 +50,11 @@ class ProfileCreateView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      _dateOfBirth(_con),
+                      InkWell(
+                          onTap: () {
+                            showDateBottomSheet(_con);
+                          },
+                          child: _dateOfBirth(_con)),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
@@ -172,6 +177,47 @@ class ProfileCreateView extends StatelessWidget {
         ),
       );
 
+  void showDateBottomSheet(ProfileCreateController con) {
+    Get.bottomSheet<dynamic>(Container(
+      color: Colors.white,
+      height: 360,
+      child: Column(
+        children: [
+          Container(
+            height: 300,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (DateTime dateTime) {
+                print(dateTime.toString().substring(0,10));
+                con.updateDob(dateTime.toString().substring(0,10));
+                // con.model.dob = dateTime;
+              },
+            ),
+          ),
+          InkWell(
+            onTap: (){
+              Get.back<dynamic>();
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                  horizontal: Dimens.twenty, vertical: Dimens.five),
+              height: Dimens.fifty,
+              width: Dimens.screenWidth,
+              decoration: BoxDecoration(
+                  color: ColorsValue.primaryColor,
+                  borderRadius: BorderRadius.circular(15)),
+              child: Center(
+                  child: Text(
+                    'Ok',
+                    style: Styles.black18,
+                  )),
+            ),
+          )
+        ],
+      ),
+    ));
+  }
+
   Widget _dateOfBirth(ProfileCreateController con) => Container(
         height: 55,
         width: Dimens.screenWidth,
@@ -188,22 +234,9 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-          padding: const EdgeInsets.only(left:16.0),
-          child: DateTimePicker(
-            initialValue: '',
-            firstDate: DateTime(1980),
-            lastDate: DateTime(2100),
-            style: Styles.black18,
-            onChanged: (val) => con.model.dob = val,
-            decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'You Birthday',),
-            validator: (val) {
-              print(val.runtimeType);
-              return null;
-            },
-          ),
-        ),
+            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
+            child: Text(con.model.dob)
+            ),
       );
 
   Widget _gender(ProfileCreateController con) => Container(
@@ -222,7 +255,7 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
+            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
             child: con.model.gender == null
                 ? Text(
                     ' Gender',
@@ -250,7 +283,7 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
+            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
             child: con.model.country == null
                 ? Text(
                     ' Country',
@@ -278,7 +311,7 @@ class ProfileCreateView extends StatelessWidget {
               )
             ]),
         child: Padding(
-            padding: const EdgeInsets.only(left:16.0,top:16.5),
+            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
             child: con.model.lang == null
                 ? Text(
                     ' Language',
