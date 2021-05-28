@@ -3,7 +3,6 @@ import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
-import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +75,7 @@ class HomePage extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: _userGridView(),
+                            child: _userGridView(_con),
                           )
                         ],
                       ),
@@ -152,9 +151,9 @@ class HomePage extends StatelessWidget {
               return model.uid == Repository().currentUser()
                   ? const SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.only(right:10.0),
+                      padding: const EdgeInsets.only(right: 10.0),
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           RoutesManagement.goToOthersProfileDetail(model);
                         },
                         child: Column(
@@ -164,11 +163,12 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   height: 70,
                                   width: 70,
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      border:
-                                          Border.all(width: 1.5, color: Colors.white),
+                                      border: Border.all(
+                                          width: 1.5, color: Colors.white),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.2),
@@ -177,29 +177,31 @@ class HomePage extends StatelessWidget {
                                           offset: const Offset(0, 1),
                                         )
                                       ]),
-                                  child: circularPhoto(imageUrl: model.profileImageUrl[0] as String),
+                                  child: circularPhoto(
+                                      imageUrl:
+                                          model.profileImageUrl[0] as String),
                                 ),
                                 Positioned(
                                   bottom: 2,
-                                    right: 13,
-                                    child: Container(
-                                      height: 13,
-                                      width: 13,
-                                      decoration:  BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        color: Colors.green,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.withOpacity(0.2),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: const Offset(0, 1),
-                                            )
-                                          ],
-                                        border:
-                                        Border.all(width: 1, color: Colors.white),
-                                      ),
+                                  right: 13,
+                                  child: Container(
+                                    height: 13,
+                                    width: 13,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.green,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ],
+                                      border: Border.all(
+                                          width: 1, color: Colors.white),
                                     ),
+                                  ),
                                 )
                               ],
                             ),
@@ -219,41 +221,10 @@ class HomePage extends StatelessWidget {
         );
       });
 
-  Widget _searchAnfFilter() => Row(
-        children: [
-          const SizedBox(
-            width: 16,
-          ),
-          Container(
-            height: 55,
-            width: Dimens.screenWidth - 70,
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.grey.withOpacity(0.1),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                // controller: controller,
-                style: Styles.black18,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Search Here',
-                    hintStyle: Styles.grey16),
-              ),
-            ),
-          ),
-          IconButton(
-              icon: const Icon(Icons.filter_list_outlined), onPressed: () {})
-        ],
-      );
-
-  Widget _userGridView() => SizedBox(
+  Widget _userGridView(HomeController con) => SizedBox(
         height: 1000,
         child: StreamBuilder(
-            stream: Repository().userStream,
+            stream: Repository().userStream(con.gender()),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -261,7 +232,31 @@ class HomePage extends StatelessWidget {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text('Loading');
+                return GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: List.generate(10, (index) => Container(
+                    height: 250,
+                    width: Dimens.screenWidth / 2 - 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1.5, color: Colors.white),
+                        borderRadius: BorderRadius.circular(Dimens.fifteen),
+                        image: const DecorationImage(
+                            image: AssetImage(
+                                'assets/img/loading.gif'),
+                            fit: BoxFit.cover),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          ),
+                        ]),
+                  ))
+                );
               }
               return GridView.count(
                 crossAxisCount: 2,
@@ -271,66 +266,60 @@ class HomePage extends StatelessWidget {
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
                   var model = ProfileModel.fromJson(
                       document.data() as Map<String, dynamic>);
-                  return model.uid == Repository().currentUser()
-                      ? Container()
-                      : InkWell(
-                          onTap: () =>
-                              RoutesManagement.goToOthersProfileDetail(model),
-                          child: Container(
+                  return InkWell(
+                    onTap: () =>
+                        RoutesManagement.goToOthersProfileDetail(model),
+                    child: Container(
+                      height: 250,
+                      width: Dimens.screenWidth / 2 - 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1.5, color: Colors.white),
+                          borderRadius: BorderRadius.circular(Dimens.fifteen),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            ),
+                          ]),
+                      child: Stack(
+                        children: [
+                          SizedBox(
                             height: 250,
-                            width: Dimens.screenWidth / 2 - 100,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1.5, color: Colors.white),
-                                borderRadius:
-                                    BorderRadius.circular(Dimens.fifteen),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 1,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ]),
-                            child: Stack(
-                              children: [
-                                SizedBox(
+                            width: double.infinity,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(Dimens.fifteen)),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.fill,
+                                imageUrl: model.profileImageUrl[0] as String,
+                                placeholder: (context, url) => Container(
                                   height: 250,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(Dimens.fifteen)),
-                                    child: CachedNetworkImage(
-                                      fit: BoxFit.fill,
-                                      imageUrl:
-                                          model.profileImageUrl[0] as String,
-                                      placeholder: (context, url) => Container(
-                                        height: 250,
-                                        width: Dimens.screenWidth / 2 - 100,
-                                        decoration: const BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/img/loading.gif'),
-                                                fit: BoxFit.cover)),
-                                      ),
-                                      errorWidget:
-                                          (context, url, dynamic error) =>
-                                              const Icon(Icons.error),
-                                    ),
-                                  ),
+                                  width: Dimens.screenWidth / 2 - 100,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/img/loading.gif'),
+                                          fit: BoxFit.cover)),
                                 ),
-                                Positioned(
-                                    bottom: 10,
-                                    left: 10,
-                                    child: Center(
-                                        child: Text(
-                                      '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
-                                      style: Styles.boldWhite16,
-                                    ))),
-                              ],
+                                errorWidget: (context, url, dynamic error) =>
+                                    const Icon(Icons.error),
+                              ),
                             ),
                           ),
-                        );
+                          Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: Center(
+                                  child: Text(
+                                '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
+                                style: Styles.boldWhite16,
+                              ))),
+                        ],
+                      ),
+                    ),
+                  );
                 }).toList(),
               );
             }),

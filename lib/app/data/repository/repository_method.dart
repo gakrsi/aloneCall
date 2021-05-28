@@ -13,8 +13,7 @@ class Repository {
     uid = currentUser();
   }
   String uid;
-  Stream<QuerySnapshot> userStream =
-      FirebaseFirestore.instance.collection(FirebaseConstant.user).snapshots();
+  Stream<QuerySnapshot> userStream(String gender)=>FirebaseFirestore.instance.collection(FirebaseConstant.user).where('gender',isEqualTo: gender).snapshots();
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
@@ -104,6 +103,21 @@ class Repository {
         .collection(FirebaseConstant.call)
         .doc(obj.receiverUid)
         .delete();
+  }
+
+  void makeCallConnected(CallingModel obj) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.call)
+        .doc(uid)
+        .update({'is_connected':true});
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(obj.receiverUid)
+        .collection(FirebaseConstant.call)
+        .doc(obj.receiverUid)
+        .update({'is_connected':true});
   }
 
   Future<bool> checkProfileCreate() async {

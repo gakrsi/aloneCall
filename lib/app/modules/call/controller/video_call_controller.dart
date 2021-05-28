@@ -123,10 +123,10 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> leaveChannel() async {
-    if(remoteUid.isEmpty){
-      await _engine.leaveChannel();
-      Get.back<dynamic>();
-    }
+    // if(remoteUid.isEmpty){
+    //   await _engine.leaveChannel();
+    //   Get.back<dynamic>();
+    // }
     await Repository().endVideoCall(callingModel).then((value) async {
       await _engine.leaveChannel();
       // Get.back<void>();

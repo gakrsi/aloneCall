@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   agora_rtc_engine: ^3.3.3
+  assets_audio_player: ^3.0.3+3
   cached_network_image: ^3.0.0
   camera: ^0.8.1
   carousel_slider: ^2.1.0
@@ -76,6 +77,7 @@ flutter:
     - assets/img/phone.png
     - assets/img/logos/
     - assets/icons/
+    - assets/audio/
 #    - assets/img
   # fonts:
   #   - family: Schyler

@@ -74,8 +74,8 @@ class AudioCallController extends GetxController{
     await _engine.enableAudio();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
-    await _engine.enableLocalAudio(openMicrophone);
-    await _engine.setEnableSpeakerphone(!enableSpeakerphone);
+    await _engine.enableLocalAudio(true);
+    await _engine.setEnableSpeakerphone(false);
     await _joinChannel();
   }
 
@@ -138,9 +138,9 @@ class AudioCallController extends GetxController{
   }
 
   void switchSpeakerphone() {
-    enableSpeakerphone = !enableSpeakerphone;
-    update();
     _engine.setEnableSpeakerphone(!enableSpeakerphone).then((value) {
+      enableSpeakerphone = !enableSpeakerphone;
+      update();
     }).catchError((Error err) {
       log('setEnableSpeakerphone $err');
     });

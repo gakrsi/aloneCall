@@ -54,6 +54,7 @@ class UserDetailsController extends GetxController{
       ..receiverUid = userModel.uid
       ..receiverName = userModel.name
       ..receiverImage = userModel.profileImageUrl[0] as String
+      ..isConnected = false
       ..isAudio = false;
     await repo.startVideoCall(dialModel);
     RoutesManagement.goToOthersVideoCallDialView(dialModel);
@@ -72,6 +73,7 @@ class UserDetailsController extends GetxController{
       ..receiverUid = userModel.uid
       ..receiverName = userModel.name
       ..receiverImage = userModel.profileImageUrl[0] as String
+      ..isConnected = false
       ..isAudio = true;
     RoutesManagement.goToAudioCall(dialModel);
   }

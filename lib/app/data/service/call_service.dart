@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/utility.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,18 @@ class CallService extends GetxController {
   void onClose() {
     callStreamSubscription.cancel();
     super.onClose();
+  }
+  void playCallingTune(){
+    AssetsAudioPlayer.newPlayer().open(
+      Audio('assets/audio/RingTone.mp3'),
+      autoStart: true,
+    );
+  }
+  void playIncomingRingTune(){
+    AssetsAudioPlayer.newPlayer().open(
+      Audio('assets/audio/ringing.mp3'),
+      autoStart: true,
+    );
   }
 
   void updateCallStatusReceived(){

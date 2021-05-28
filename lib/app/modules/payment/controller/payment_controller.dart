@@ -8,16 +8,19 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class PaymentController extends GetxController {
   Razorpay razorPay = Razorpay();
   Map<String, dynamic> options;
-  ProfileModel model = Get.arguments[0] as ProfileModel;
+  ProfileModel model;
   int amount;
-  TextEditingController amountEdit = TextEditingController()
-    ..text = Get.arguments[1] as String ;
-  Map<String, dynamic> data = Get.arguments[2] as Map<String,dynamic>;
+  TextEditingController amountEdit = TextEditingController();
+  Map<String, dynamic> data;
+
   @override
   void onInit() {
-    model = Get.arguments[0] as ProfileModel;
-    _initializePayment();
     super.onInit();
+    model = Get.arguments[0] as ProfileModel;
+    data = Get.arguments[2] as Map<String,dynamic>;
+    amount = int.parse(data['price'] as String);
+    _initializePayment();
+    checkout();
   }
 
   void _initializePayment() {
