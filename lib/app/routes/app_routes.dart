@@ -19,6 +19,7 @@ abstract class AppRoutes{
   static const editProfile = _Paths.editProfile;
   static const settings = _Paths.settings;
   static const searchPage = _Paths.searchPage;
+  static const blockedList = _Paths.blockedList;
 }
 
 abstract class _Paths{
@@ -37,4 +38,5 @@ abstract class _Paths{
   static const editProfile = '/edit_profile';
   static const settings = '/settings';
   static const searchPage = '/searchPage';
+  static const blockedList = '/blockedList';
 }

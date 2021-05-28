@@ -3,6 +3,7 @@ import 'package:alonecall/app/modules/home/view/local_widget/bottom_navigation.d
 import 'package:alonecall/app/modules/home/view/page/history.dart';
 import 'package:alonecall/app/modules/home/view/page/home_page.dart';
 import 'package:alonecall/app/modules/home/view/page/location_page.dart';
+import 'package:alonecall/app/modules/home/view/page/notification_page.dart';
 import 'package:alonecall/app/modules/home/view/page/profile_page.dart';
 import 'package:alonecall/app/modules/home/view/page/random_call_page.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class HomeView extends StatelessWidget {
                 HomePage(),
                 NearYouMapView(),
                 HistoryPage(),
-                RandomVideoCallView(),
+                NotificationPage(),
                 ProfileView()
               ],
             ),

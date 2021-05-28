@@ -5,26 +5,18 @@ import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HistoryPage extends StatelessWidget {
+class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
     child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
-            StringConstants.history,
+            StringConstants.notification,
             style: Styles.boldWhite20,
           ),
           backgroundColor: Colors.black,
           iconTheme: const IconThemeData(color: Colors.white),
-          actions: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-              child: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            ),
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -52,10 +44,10 @@ class HistoryPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                              'Name, 20 Min',
+                              'Missed a Video Call',
                               style: Styles.blackBold16),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 2, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 2, 0, 0),
                             child: Icon(
                               Icons.videocam,
                               size: Dimens.sixTeen,
@@ -67,9 +59,9 @@ class HistoryPage extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            Icons.call_made,
+                            Icons.call_missed,
                             size: Dimens.sixTeen,
-                            color: Colors.green,
+                            color: Colors.red,
                           ),
                           Text(
                               ' Today, 22:20',
@@ -79,41 +71,7 @@ class HistoryPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Container(
-                    height: Dimens.fourty,
-                    width: Dimens.fourty,
-                    decoration: BoxDecoration(
-                        color: ColorsValue.primaryColor,
-                        borderRadius: BorderRadius.circular(Dimens.fifty)),
-                    child: Icon(
-                      Icons.phone,
-                      color: Colors.white,
-                      size: Dimens.twenty,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: Dimens.five,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Container(
-                    height: Dimens.fourty,
-                    width: Dimens.fourty,
-                    decoration: BoxDecoration(
-                        color: ColorsValue.primaryColor,
-                        borderRadius: BorderRadius.circular(Dimens.fifty)),
-                    child: Icon(
-                      Icons.videocam,
-                      color: Colors.white,
-                      size: Dimens.twenty,
-                    ),
-                  ),
-                ),
-                const Divider()
+
               ],
             ),
           ),

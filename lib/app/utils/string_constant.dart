@@ -25,5 +25,6 @@ class StringConstants {
   static const String blockedList = 'Blocked list';
   static const String rateUs = 'Rate us';
   static const String aboutUs = 'About us';
+  static const String notification = 'Notification';
   static const String profile = 'Profile';
 }
