@@ -112,5 +112,12 @@ abstract class RoutesManagement{
       AppRoutes.searchPage,
     );
   }
+
+  /// Go to the Blocked List screen
+  static void goToBlockedListScreen(){
+    Get.toNamed<void>(
+      AppRoutes.blockedList,
+    );
+  }
 }
 
