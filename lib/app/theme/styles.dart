@@ -205,6 +205,18 @@ abstract class Styles {
     fontSize: Dimens.sixTeen,
   );
 
+  static TextStyle boldWhite18 = GoogleFonts.openSans(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: Dimens.eighteen,
+  );
+
+  static TextStyle boldWhite20 = GoogleFonts.openSans(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: Dimens.twenty,
+  );
+
   static TextStyle semiBoldWhite14 = GoogleFonts.openSans(
     fontWeight: FontWeight.w500,
     color: Colors.white,

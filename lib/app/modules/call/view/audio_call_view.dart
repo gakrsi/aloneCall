@@ -1,7 +1,6 @@
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/call/controller/audio_call_controller.dart';
-import 'package:alonecall/app/modules/call/view/local_widget/dial_button.dart';
 import 'package:alonecall/app/modules/call/view/local_widget/rounded_button.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -60,17 +59,21 @@ class AudioCallView extends StatelessWidget {
             children: [
               IconButton(
                   icon: con.openMicrophone
-                      ? const Icon(
+                      ? Icon(
                           Icons.mic,
-                          size: 40,
+                          size: Dimens.fourty,
                           color: Colors.white,
                         )
-                      : const Icon(Icons.mic_off, size: 40),
+                      : Icon(
+                          Icons.mic_off,
+                          size: Dimens.fourty,
+                          color: Colors.white,
+                        ),
                   onPressed: () {
                     con.switchMicrophone();
                   }),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                padding: EdgeInsets.symmetric(horizontal: Dimens.thirty),
                 child: RoundedButton(
                   iconSrc: 'assets/icons/call_end.svg',
                   press: () {
@@ -87,12 +90,16 @@ class AudioCallView extends StatelessWidget {
               ),
               IconButton(
                   icon: con.enableSpeakerphone
-                      ? const Icon(
-                          Icons.music_note,
-                          size: 40,
+                      ? Icon(
+                          Icons.volume_up,
+                          size: Dimens.fourty,
                           color: Colors.white,
                         )
-                      : const Icon(Icons.music_off, size: 40),
+                      : Icon(
+                          Icons.volume_off,
+                          size: Dimens.fourty,
+                          color: Colors.white,
+                        ),
                   onPressed: () {
                     con.switchSpeakerphone();
                   })

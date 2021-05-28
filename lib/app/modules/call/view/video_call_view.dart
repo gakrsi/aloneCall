@@ -1,8 +1,6 @@
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/call/controller/video_call_controller.dart';
 import 'package:alonecall/app/theme/theme.dart';
-import 'package:alonecall/app/utils/asset_constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
@@ -28,7 +26,7 @@ class VideoCallView extends StatelessWidget {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: Dimens.hundred * 0.8,
+                                  height: Dimens.eighty,
                                 ),
                                 circularPhoto(
                                     imageUrl: _controller.isNotDial
@@ -71,11 +69,11 @@ class VideoCallView extends StatelessWidget {
                 con.changeSize();
               },
               child: Container(
-                margin: const EdgeInsets.all(20),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                height: 120,
-                width: 120,
+                margin: EdgeInsets.all(Dimens.twenty),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimens.ten)),
+                height: Dimens.hundred + Dimens.twenty,
+                width: Dimens.hundred + Dimens.twenty,
                 child: RtcRemoteView.SurfaceView(
                   uid: con.remoteUid[0],
                 ),
@@ -98,11 +96,11 @@ class VideoCallView extends StatelessWidget {
                 con.changeSize();
               },
               child: Container(
-                margin: const EdgeInsets.all(20),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                height: 120,
-                width: 120,
+                margin: EdgeInsets.all(Dimens.twenty),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimens.ten)),
+                height: Dimens.hundred + Dimens.twenty,
+                width: Dimens.hundred + Dimens.twenty,
                 child: RtcLocalView.SurfaceView(),
               ),
             ),

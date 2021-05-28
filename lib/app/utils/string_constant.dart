@@ -19,4 +19,5 @@ class StringConstants {
   static const String imageNotFoundError = 'imageNotFoundError';
   static const String calling ='Calling…';
   static const String ringing ='Ringing';
+  static const String history ='History';
 }
