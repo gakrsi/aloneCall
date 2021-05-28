@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
@@ -95,6 +96,15 @@ class AudioCallController extends GetxController{
 
   void timer(){
 
+  }
+
+  void addHistory(){
+    var model = HistoryModel()
+    ..callerName = callingModel.callerName
+    ..callerUid = callingModel.callerUid
+    ;
+
+    Repository().addHistory(model);
   }
 
   void checkIsDial(){

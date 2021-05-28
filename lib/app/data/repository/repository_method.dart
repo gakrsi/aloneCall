@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
@@ -13,7 +14,10 @@ class Repository {
     uid = currentUser();
   }
   String uid;
-  Stream<QuerySnapshot> userStream(String gender)=>FirebaseFirestore.instance.collection(FirebaseConstant.user).where('gender',isEqualTo: gender).snapshots();
+  Stream<QuerySnapshot> userStream(String gender) => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user)
+      .where('gender', isEqualTo: gender)
+      .snapshots();
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
@@ -48,16 +52,24 @@ class Repository {
   }
 
   Future<int> checkAudioBalance() async {
-    Map<String,dynamic> data;
-    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) {
+    Map<String, dynamic> data;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .get()
+        .then((value) {
       data = value.data();
     });
     return data['audio_coin'] as int;
   }
 
   Future<int> checkVideoBalance() async {
-    Map<String,dynamic> data;
-    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) {
+    Map<String, dynamic> data;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .get()
+        .then((value) {
       data = value.data();
     });
     return data['coin'] as int;
@@ -111,13 +123,13 @@ class Repository {
         .doc(uid)
         .collection(FirebaseConstant.call)
         .doc(uid)
-        .update({'is_connected':true});
+        .update({'is_connected': true});
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(obj.receiverUid)
         .collection(FirebaseConstant.call)
         .doc(obj.receiverUid)
-        .update({'is_connected':true});
+        .update({'is_connected': true});
   }
 
   Future<bool> checkProfileCreate() async {
@@ -137,6 +149,14 @@ class Repository {
         .collection(FirebaseConstant.user)
         .doc(uid)
         .set(obj.toMap(obj));
+  }
+
+  Future<void> addHistory(HistoryModel model) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
   }
 
   Future<Map<String, dynamic>> getProfile() async {

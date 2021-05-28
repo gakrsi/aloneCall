@@ -14,7 +14,7 @@ class ProfileView extends StatelessWidget {
         builder: (_con) => Scaffold(
           appBar: AppBar(
             title: Text(
-              StringConstants.settings,
+              StringConstants.profile,
               style: Styles.boldWhite20,
             ),
             centerTitle: true,
