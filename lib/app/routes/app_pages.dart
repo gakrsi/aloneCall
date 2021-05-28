@@ -16,8 +16,11 @@ import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dar
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
 import 'package:alonecall/app/modules/random/binding/random_call_binding.dart';
 import 'package:alonecall/app/modules/random/view/random_call_view.dart';
+import 'package:alonecall/app/modules/search_users/view/search_users_view.dart';
+import 'package:alonecall/app/modules/settings/view/settings_view.dart';
 import 'package:alonecall/app/modules/userDetails/binding/user_details_binding.dart';
 import 'package:alonecall/app/modules/userDetails/view/user_details_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -112,6 +115,18 @@ abstract class AppPages{
       page: () => ProfileEditView(),
       binding: ProfileEditBinding(),
       transition: Transition.leftToRight,
+    ),
+    GetPage(
+      name: _Paths.settings,
+      transitionDuration: transitionDuration,
+      page: () => SettingsView(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.searchPage,
+      transitionDuration: transitionDuration,
+      page: () => SearchUsers(),
+      transition: Transition.downToUp,
     ),
   ];
 

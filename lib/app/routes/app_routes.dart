@@ -17,6 +17,8 @@ abstract class AppRoutes{
   static const random = _Paths.random;
   static const audioCall = _Paths.audioCall;
   static const editProfile = _Paths.editProfile;
+  static const settings = _Paths.settings;
+  static const searchPage = _Paths.searchPage;
 }
 
 abstract class _Paths{
@@ -33,4 +35,6 @@ abstract class _Paths{
   static const random = '/random';
   static const audioCall = '/audio_call';
   static const editProfile = '/edit_profile';
+  static const settings = '/settings';
+  static const searchPage = '/searchPage';
 }

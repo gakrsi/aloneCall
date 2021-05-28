@@ -3,6 +3,7 @@ import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,27 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
         builder: (_con) => Scaffold(
+          appBar: AppBar(
+            title: Text(
+              StringConstants.settings,
+              style: Styles.boldWhite20,
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.black,
+            iconTheme: const IconThemeData(color: Colors.white),
+            actions: [
+               Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: IconButton(
+                  onPressed: (){
+                    RoutesManagement.goToSettingsScreen();
+                  },
+                  color: Colors.white,
+                  icon: const Icon(Icons.settings),
+                ),
+              ),
+            ],
+          ),
           body: SingleChildScrollView(
             child: SizedBox(
               width: Dimens.screenWidth,
@@ -22,7 +44,7 @@ class ProfileView extends StatelessWidget {
                       height: Dimens.thirty,
                     ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         _con.showEditProfileDialog();
                       },
                       child: Container(
@@ -41,7 +63,7 @@ class ProfileView extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
+                              const BorderRadius.all(Radius.circular(100)),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             imageUrl: _con.model.profileImageUrl[0] as String,
@@ -50,17 +72,19 @@ class ProfileView extends StatelessWidget {
                               width: Dimens.screenWidth,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('assets/img/loading.gif'),
+                                      image:
+                                          AssetImage('assets/img/loading.gif'),
                                       fit: BoxFit.cover)),
                             ),
                             errorWidget: (context, url, dynamic error) =>
-                            const Icon(Icons.error),
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
                     ),
                     Text(
-                        '${_con.model.name} ${DateTime.now().year - int.parse(_con.model.dob.substring(0, 4))}', style: Styles.blackBold18),
+                        '${_con.model.name} ${DateTime.now().year - int.parse(_con.model.dob.substring(0, 4))}',
+                        style: Styles.blackBold18),
                     SizedBox(
                       height: Dimens.ten,
                     ),
@@ -71,7 +95,7 @@ class ProfileView extends StatelessWidget {
                           margin: EdgeInsets.symmetric(
                               horizontal: Dimens.five, vertical: Dimens.five),
                           height: Dimens.thirty,
-                          width: Dimens.eighty ,
+                          width: Dimens.eighty,
                           decoration: BoxDecoration(
                               color: ColorsValue.lightGreyColor,
                               borderRadius: BorderRadius.circular(30)),
@@ -83,7 +107,7 @@ class ProfileView extends StatelessWidget {
                                   size: Dimens.fifteen,
                                 ),
                                 Text(
-                                  '${_con.model.audioCoin*60} Sec',
+                                  '${_con.model.audioCoin * 60} Sec',
                                   style: Styles.black12,
                                 )
                               ]),
@@ -92,7 +116,7 @@ class ProfileView extends StatelessWidget {
                           margin: EdgeInsets.symmetric(
                               horizontal: Dimens.five, vertical: Dimens.five),
                           height: Dimens.thirty,
-                          width: Dimens.eighty ,
+                          width: Dimens.eighty,
                           decoration: BoxDecoration(
                               color: ColorsValue.lightGreyColor,
                               borderRadius: BorderRadius.circular(30)),
@@ -104,7 +128,7 @@ class ProfileView extends StatelessWidget {
                                   size: Dimens.fifteen,
                                 ),
                                 Text(
-                                  '${_con.model.coin*60} Sec',
+                                  '${_con.model.coin * 60} Sec',
                                   style: Styles.black12,
                                 )
                               ]),
@@ -113,7 +137,8 @@ class ProfileView extends StatelessWidget {
                     ),
                     Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: Dimens.twenty, vertical: Dimens.fifteen),
+                            horizontal: Dimens.twenty,
+                            vertical: Dimens.fifteen),
                         height: Dimens.fifty,
                         width: Dimens.screenWidth,
                         decoration: BoxDecoration(
@@ -124,7 +149,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding:  EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: Dimens.five,
                                   vertical: Dimens.five),
                               child: InkWell(
@@ -142,13 +167,13 @@ class ProfileView extends StatelessWidget {
                                   child: Center(
                                       child: Text(
                                     'Plans',
-                                          style: Styles.blackBold15,
+                                    style: Styles.blackBold15,
                                   )),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding:  EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: Dimens.five,
                                   vertical: Dimens.five),
                               child: InkWell(
@@ -179,25 +204,32 @@ class ProfileView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        planContainer('Starter','3 Minutes \n Voice Call','30',_con.model,3,false),
-                        planContainer('Starter','3 Minutes \n Video Call','50',_con.model,3,true),
+                        planContainer('Starter', '3 Minutes \n Voice Call',
+                            '30', _con.model, 3, false),
+                        planContainer('Starter', '3 Minutes \n Video Call',
+                            '50', _con.model, 3, true),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        planContainer('25% Discount','10 Minutes \n Voice Call','100',_con.model,10,false),
-                        planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,10,true),
+                        planContainer(
+                            '25% Discount',
+                            '10 Minutes \n Voice Call',
+                            '100',
+                            _con.model,
+                            10,
+                            false),
+                        planContainer(
+                            '25% Discount',
+                            '10 Minutes \n Video Call',
+                            '200',
+                            _con.model,
+                            10,
+                            true),
                       ],
                     ),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Repository().logout();
-                        },
-                        child: showTitle('Logout'))
+                   
                   ],
                 ),
               ),
@@ -220,52 +252,73 @@ class ProfileView extends StatelessWidget {
         )),
       );
 
-  Widget planContainer(String type,String desc,String price,ProfileModel model,int amount,bool isVideo) =>InkWell(
-    onTap: (){
-      RoutesManagement.goToPayment(model, price,<String,dynamic>{'type':type,'desc':desc,'price':price,'amount':amount,'is_video':isVideo},);
-    },
-    child: Container(
-      height: Dimens.hundred*1.1,
-      width: Dimens.screenWidth/2 - 30,
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorsValue.lightGreyColor)
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 30,
-            width: Dimens.hundred*1.2+5,
-            decoration: BoxDecoration(
-              color: ColorsValue.primaryColor,
-              borderRadius: BorderRadius.circular(15)
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                Text(type,style: Styles.boldWhite16.copyWith(fontSize: 14),)
-              ],
-            ),
-          ),
-          SizedBox(height: Dimens.ten,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget planContainer(String type, String desc, String price,
+          ProfileModel model, int amount, bool isVideo) =>
+      InkWell(
+        onTap: () {
+          RoutesManagement.goToPayment(
+            model,
+            price,
+            <String, dynamic>{
+              'type': type,
+              'desc': desc,
+              'price': price,
+              'amount': amount,
+              'is_video': isVideo
+            },
+          );
+        },
+        child: Container(
+          height: Dimens.hundred * 1.1,
+          width: Dimens.screenWidth / 2 - 30,
+          decoration: BoxDecoration(
+              border: Border.all(color: ColorsValue.lightGreyColor)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(desc,style: Styles.black18.copyWith(fontSize: 12),),
-              Column(
+              Container(
+                height: 30,
+                width: Dimens.hundred * 1.2 + 5,
+                decoration: BoxDecoration(
+                    color: ColorsValue.primaryColor,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      type,
+                      style: Styles.boldWhite16.copyWith(fontSize: 14),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: Dimens.ten,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(price,style: Styles.black18.copyWith(fontSize: 30),),
-                  const Text('INR',style: TextStyle(height: 0.5,fontSize: 10),)
-
+                  Text(
+                    desc,
+                    style: Styles.black18.copyWith(fontSize: 12),
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        price,
+                        style: Styles.black18.copyWith(fontSize: 30),
+                      ),
+                      const Text(
+                        'INR',
+                        style: TextStyle(height: 0.5, fontSize: 10),
+                      )
+                    ],
+                  )
                 ],
               )
-
             ],
-          )
-        ],
-      ),
-    ),
-  );
+          ),
+        ),
+      );
 }

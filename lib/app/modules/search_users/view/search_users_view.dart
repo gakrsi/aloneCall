@@ -5,34 +5,18 @@ import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HistoryPage extends StatelessWidget {
+class SearchUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
-    child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            StringConstants.history,
-            style: Styles.boldWhite20,
-          ),
-          backgroundColor: Colors.black,
-          iconTheme: const IconThemeData(color: Colors.white),
-          actions: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-              child: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-        body: Padding(
+        child: Scaffold(
+            body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: SizedBox(
             width: Dimens.screenWidth,
             height: Dimens.fifty,
             child: Row(
               children: [
+
                 Container(
                   height: Dimens.fifty,
                   width: Dimens.fifty,
@@ -51,29 +35,20 @@ class HistoryPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                              'Name',
-                              style: Styles.blackBold16),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 2, 0, 0),
-                            child: Icon(
-                              Icons.videocam,
-                              size: Dimens.sixTeen,
-                              color: Colors.black,
-                            ),
-                          ),
+                          Text(StringConstants.name, style: Styles.blackBold16),
+                          Text('age', style: Styles.blackBold16),
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.call_made,
-                            size: Dimens.sixTeen,
-                            color: Colors.grey,
+                          Text(
+                            'Language, ',
+                            style: Styles.grey14,
                           ),
                           Text(
-                              ' Today, 22:20',
-                              style: Styles.black12),
+                            'Country',
+                            style: Styles.grey14,
+                          ),
                         ],
                       )
                     ],
@@ -96,7 +71,7 @@ class HistoryPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: Dimens.five,
+                  width: Dimens.ten,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(3.0),
@@ -118,5 +93,5 @@ class HistoryPage extends StatelessWidget {
             ),
           ),
         )),
-  );
+      );
 }

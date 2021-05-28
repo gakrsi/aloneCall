@@ -1,4 +1,3 @@
-import 'package:alonecall/app/modules/history/view/history_view.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/modules/home/view/local_widget/bottom_navigation.dart';
 import 'package:alonecall/app/modules/home/view/page/history.dart';
@@ -20,7 +19,7 @@ class HomeView extends StatelessWidget {
               children: [
                 HomePage(),
                 NearYouMapView(),
-                HistoryUi(),
+                HistoryPage(),
                 RandomVideoCallView(),
                 ProfileView()
               ],

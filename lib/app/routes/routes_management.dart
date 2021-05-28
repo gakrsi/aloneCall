@@ -98,5 +98,19 @@ abstract class RoutesManagement{
       AppRoutes.random,
     );
   }
+
+  /// Go to the Settings screen
+  static void goToSettingsScreen(){
+    Get.toNamed<void>(
+      AppRoutes.settings,
+    );
+  }
+
+  /// Go to the Search screen
+  static void goToSearchScreen(){
+    Get.toNamed<void>(
+      AppRoutes.searchPage,
+    );
+  }
 }
 

@@ -6,6 +6,7 @@ class StringConstants {
   static const String orText = '  or  ';
   static const String signUp = 'SignUp';
   static const String loginOrSignUp = 'Login or SignUp';
+  static const String logOut = 'Logout';
   static const String name = 'Name';
   static const String email = 'Email';
   static const String mobileNumber = 'Mobile Number';
@@ -20,4 +21,8 @@ class StringConstants {
   static const String calling ='Calling…';
   static const String ringing ='Ringing';
   static const String history ='History';
+  static const String settings ='Settings';
+  static const String blockedList = 'Blocked list';
+  static const String rateUs = 'Rate us';
+  static const String aboutUs = 'About us';
 }

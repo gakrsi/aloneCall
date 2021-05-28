@@ -28,11 +28,14 @@ class HomePage extends StatelessWidget {
                   ),
                   leading: const Icon(Icons.camera_alt),
                   actions: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.white,
+                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        onPressed: ()
+                        {
+                          RoutesManagement.goToSearchScreen();
+                        },
+                        icon: const Icon(Icons.search, color: Colors.white,)
                       ),
                     ),
                     const Padding(

@@ -36,7 +36,7 @@ class PaymentController extends GetxController {
       'amount': amount * 100,
       'name': 'AloneCall.com',
       'description': 'Coins',
-      'prefill': {'contact': '${model.name}', 'email': '${model.country}'},
+      'prefill': {'email': 'alonecall@gmail.com', 'contact': '8888888888'},
       'external': {
         'wallets': ['paytm']
       }
