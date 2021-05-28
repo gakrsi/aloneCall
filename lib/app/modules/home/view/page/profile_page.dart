@@ -123,48 +123,52 @@ class ProfileView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                _con.changeProfileTab(0);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: Dimens.five,
-                                    vertical: Dimens.five),
-                                height: Dimens.fourty,
-                                width: Dimens.screenWidth / 2 - 45,
-                                decoration: BoxDecoration(
-                                    color: _con.profileCurrentTab == 0
-                                        ? Colors.white
-                                        : Colors.black12.withOpacity(0.04),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                  'Plans',
-                                        style: Styles.blackBold15,
-                                )),
+                            Padding(
+                              padding:  EdgeInsets.symmetric(
+                                  horizontal: Dimens.five,
+                                  vertical: Dimens.five),
+                              child: InkWell(
+                                onTap: () {
+                                  _con.changeProfileTab(0);
+                                },
+                                child: Container(
+                                  height: Dimens.fourty,
+                                  width: Dimens.screenWidth / 2 - 45,
+                                  decoration: BoxDecoration(
+                                      color: _con.profileCurrentTab == 0
+                                          ? Colors.white
+                                          : Colors.black12.withOpacity(0.04),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                    'Plans',
+                                          style: Styles.blackBold15,
+                                  )),
+                                ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                _con.changeProfileTab(1);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: Dimens.five,
-                                    vertical: Dimens.five),
-                                height: Dimens.fourty,
-                                width: Dimens.screenWidth / 2 - 45,
-                                decoration: BoxDecoration(
-                                    color: _con.profileCurrentTab == 1
-                                        ? Colors.white
-                                        : Colors.black12.withOpacity(0.02),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                  'Spent',
-                                  style: Styles.blackBold15,
-                                )),
+                            Padding(
+                              padding:  EdgeInsets.symmetric(
+                                  horizontal: Dimens.five,
+                                  vertical: Dimens.five),
+                              child: InkWell(
+                                onTap: () {
+                                  _con.changeProfileTab(1);
+                                },
+                                child: Container(
+                                  height: Dimens.fourty,
+                                  width: Dimens.screenWidth / 2 - 45,
+                                  decoration: BoxDecoration(
+                                      color: _con.profileCurrentTab == 1
+                                          ? Colors.white
+                                          : Colors.black12.withOpacity(0.02),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                    'Spent',
+                                    style: Styles.blackBold15,
+                                  )),
+                                ),
                               ),
                             )
                           ],

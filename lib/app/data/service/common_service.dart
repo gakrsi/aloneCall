@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alonecall/app/data/enum.dart';
+import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/permissions.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
@@ -9,6 +10,7 @@ import 'package:alonecall/app/utils/utility.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CommonService extends GetxController{
   /// This is used for internet change listener
@@ -20,7 +22,6 @@ class CommonService extends GetxController{
 
   @override
   void onInit() {
-    // print(Repository().currentUser());
     _checkForInternetConnectivity();
     super.onInit();
   }
@@ -131,4 +132,7 @@ class CommonService extends GetxController{
     }
     return '';
   }
+
+
+
 }

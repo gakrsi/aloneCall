@@ -31,8 +31,6 @@ class AudioCallController extends GetxController{
   double recordingVolume = 0, playbackVolume = 0, inEarMonitoringVolume = 0;
   StreamSubscription callStreamSubscription;
 
-
-
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
     // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
@@ -42,53 +40,20 @@ class AudioCallController extends GetxController{
     }
     else{
       updateCallStatus(CallStatus.ringing);
-      await repo.startVideoCall(callingModel);
-      await _initEngine();
-
     }
   }
 
-  void checkIsDial(){
-    isNotDial = callingModel.receiverUid == repo.uid;
-    update();
-  }
-
-  @override
-  void onInit() {
-    checkIsDial();
-    checkUserAvailabilityAndBalance();
-    super.onInit();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _engine.destroy();
-    callStreamSubscription.cancel();
-  }
-
   Future<void>_initEngine() async {
+    await repo.startVideoCall(callingModel);
     _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
     _addPostFrameCallback();
     await _addListeners();
     await _engine.enableAudio();
+    await _engine.setDefaultAudioRoutetoSpeakerphone(false);
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _engine.enableLocalAudio(true);
-    await _engine.setEnableSpeakerphone(false);
     await _joinChannel();
-  }
-
-  void _addPostFrameCallback() {
-    Utility.printDLog('call stream called in audio screen');
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
-        Utility.printDLog('Listening to call Stream');
-        if(ds.data() == null){
-          leaveChannel();
-        }
-      });
-    });
   }
 
   Future<void> _addListeners() async {
@@ -98,18 +63,18 @@ class AudioCallController extends GetxController{
       },
       joinChannelSuccess: (channel, uid, elapsed) {
         log('joinChannelSuccess $channel $uid $elapsed');
-          isJoined = true;
-          update();
+        isJoined = true;
+        update();
       },
       leaveChannel: (stats) async {
         log('leaveChannel ${stats.toJson()}');
-          isJoined = false;
-          update();
+        isJoined = false;
+        update();
       },
     ));
   }
 
-  Future<void>_joinChannel() async {
+  Future<void> _joinChannel() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       await Permission.microphone.request();
     }
@@ -125,6 +90,42 @@ class AudioCallController extends GetxController{
       Utility.printDLog('Leaving channel');
       await _engine.leaveChannel();
       Get.back<dynamic>();
+    });
+  }
+
+  void timer(){
+
+  }
+
+  void checkIsDial(){
+    isNotDial = callingModel.receiverUid == repo.uid;
+    update();
+  }
+
+  @override
+  void onInit() {
+    _initEngine();
+    checkIsDial();
+    checkUserAvailabilityAndBalance();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _engine.destroy();
+    callStreamSubscription.cancel();
+  }
+
+  void _addPostFrameCallback() {
+    Utility.printDLog('call stream called in audio screen');
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
+        Utility.printDLog('Listening to call Stream');
+        if(ds.data() == null){
+          leaveChannel();
+        }
+      });
     });
   }
 
