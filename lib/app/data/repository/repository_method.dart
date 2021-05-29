@@ -38,6 +38,15 @@ class Repository {
       .where('online', isEqualTo: true)
       .snapshots();
 
+  Stream<QuerySnapshot> searchUser(String item) => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user)
+      .where('name', isGreaterThanOrEqualTo: item)
+      .snapshots();
+
+  Stream<QuerySnapshot> blockUserStream() => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.blockUser)
+      .snapshots();
+
   Future<bool> checkUserOnCall(String receiverUid) async {
     var busy = false;
     await firebaseFireStore
@@ -207,6 +216,36 @@ class Repository {
         .collection(FirebaseConstant.user)
         .doc(uid)
         .update({'coin': amount});
+  }
+
+  Future<void> blockUser(ProfileModel model) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.blockUser)
+        .doc(model.uid)
+        .set(model.toMap(model));
+  }
+
+  void unBlockUser(ProfileModel model){
+    firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.blockUser)
+        .doc(model.uid)
+        .delete();
+  }
+
+  Future<bool> checkUserIsBlocked(ProfileModel model) async {
+    var val = false;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.blockUser)
+        .doc(model.uid)
+        .get()
+        .then((value) => value.exists ? val = true : val = false);
+    return val;
   }
 
   String currentUser() =>

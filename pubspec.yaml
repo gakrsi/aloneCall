@@ -39,6 +39,7 @@ dependencies:
   google_sign_in: ^5.0.3
   image_cropper: ^1.4.0
   image_picker: ^0.7.5+2
+  in_app_review: ^2.0.2
   logger: ^0.9.4
   permission_handler: ^7.1.0
   pin_code_fields: ^7.0.0

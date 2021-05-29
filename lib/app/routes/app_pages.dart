@@ -16,7 +16,9 @@ import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dar
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
 import 'package:alonecall/app/modules/random/binding/random_call_binding.dart';
 import 'package:alonecall/app/modules/random/view/random_call_view.dart';
+import 'package:alonecall/app/modules/search_users/binding/search_binding.dart';
 import 'package:alonecall/app/modules/search_users/view/search_users_view.dart';
+import 'package:alonecall/app/modules/settings/binding/setting_binding.dart';
 import 'package:alonecall/app/modules/settings/view/blocked_list_view.dart';
 import 'package:alonecall/app/modules/settings/view/settings_view.dart';
 import 'package:alonecall/app/modules/userDetails/binding/user_details_binding.dart';
@@ -121,18 +123,21 @@ abstract class AppPages{
       name: _Paths.settings,
       transitionDuration: transitionDuration,
       page: () => SettingsView(),
+      binding: SettingBinding(),
       transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.searchPage,
       transitionDuration: transitionDuration,
       page: () => SearchUsers(),
+      binding: SearchBinding(),
       transition: Transition.downToUp,
     ),
     GetPage(
       name: _Paths.blockedList,
       transitionDuration: transitionDuration,
       page: () => BlockedList(),
+      binding: SettingBinding(),
       transition: Transition.rightToLeft,
     ),
   ];

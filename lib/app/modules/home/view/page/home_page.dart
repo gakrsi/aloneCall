@@ -154,7 +154,7 @@ class HomePage extends StatelessWidget {
               return model.uid == Repository().currentUser()
                   ? const SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: EdgeInsets.only(right:Dimens.five),
                       child: InkWell(
                         onTap: () {
                           RoutesManagement.goToOthersProfileDetail(model);
@@ -166,8 +166,6 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   height: 70,
                                   width: 70,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(

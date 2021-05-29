@@ -25,12 +25,9 @@ class UserDetailsView extends StatelessWidget {
                           children: List.generate(
                               _con.imageUrl.length,
                               (index) => Container(
-                                    width: _con.currentPage == index
-                                        ? 10
-                                        : 8.0,
-                                    height:  _con.currentPage == index
-                                        ? 10
-                                        : 8.0,
+                                    width: _con.currentPage == index ? 10 : 8.0,
+                                    height:
+                                        _con.currentPage == index ? 10 : 8.0,
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 2.0),
                                     decoration: BoxDecoration(
@@ -44,40 +41,40 @@ class UserDetailsView extends StatelessWidget {
                   Positioned(
                       bottom: 0,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: Dimens.ten,vertical: Dimens.ten),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.ten, vertical: Dimens.ten),
                         width: Dimens.screenWidth,
                         decoration: const BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [Colors.transparent,Colors.black54],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            )
-                        ),
+                          colors: [Colors.transparent, Colors.black54],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${_con.userModel.name},  ${_con.age}',
-                                      style: Styles.white16
-                                          .copyWith(fontSize: 20,fontWeight: FontWeight.bold),
+                                      style: Styles.white16.copyWith(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                         '${_con.userModel.lang}, ${_con.userModel.country}',
                                         style: Styles.white16)
                                   ],
                                 ),
-                                Expanded(child: Container(),),
+                                Expanded(
+                                  child: Container(),
+                                ),
                                 InkWell(
                                   onTap: () {
                                     _con.onClickAudioCall();
@@ -86,9 +83,8 @@ class UserDetailsView extends StatelessWidget {
                                     height: 50,
                                     width: 50,
                                     decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: ColorsValue.primaryColor
-                                    ),
+                                        shape: BoxShape.circle,
+                                        color: ColorsValue.primaryColor),
                                     child: const Icon(
                                       Icons.phone,
                                       color: Colors.white,
@@ -107,20 +103,30 @@ class UserDetailsView extends StatelessWidget {
                                     width: 50,
                                     decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: ColorsValue.primaryColor
-                                    ),
+                                        color: ColorsValue.primaryColor),
                                     child: const Icon(
                                       Icons.video_call,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ],
                         ),
-                      ))
+                      )),
+                  Positioned(
+                    top: 10,
+                    right: 0,
+                    child: IconButton(
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _con.shoeBlockUserBottomSheet();
+                        }),
+                  )
                 ],
               ),
             ),

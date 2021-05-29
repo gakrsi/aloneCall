@@ -40,7 +40,7 @@ class ProfileView extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: Dimens.thirty,
+                      height: Dimens.ten,
                     ),
                     InkWell(
                       onTap: () {

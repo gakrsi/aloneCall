@@ -4,4 +4,5 @@ abstract class FirebaseConstant{
   static const String profileImage = 'PROFILE_IMAGE';
   static const String history = 'HISTORY';
   static const String call = 'CALL';
+  static const String blockUser = 'BLOCK_USER';
 }
