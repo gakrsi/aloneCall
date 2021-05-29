@@ -99,11 +99,14 @@ class UserDetailsController extends GetxController {
         child: Container(
           height: 100,
           width: 100,
-          color: Colors.white,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
           child: Center(
             child: Text(
               isBlocked ? 'UnBlock' : 'Block User',
-              style: Styles.black18,
+              style: Styles.boldBlack16,
             ),
           ),
         ),

@@ -84,6 +84,8 @@
     android:name="io.flutter.app.FlutterApplication"
     android:icon="@mipmap/ic_launcher"
     android:label="Alone Call">
+    <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA1J7mnrxs8kuUtSXvgbDl8DvW6K1mQefg"/>
 
     <meta-data
         android:name="com.facebook.sdk.ApplicationId"

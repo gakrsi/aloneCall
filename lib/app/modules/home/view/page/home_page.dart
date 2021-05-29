@@ -60,7 +60,10 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _onlineUser(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: _onlineUser(),
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
