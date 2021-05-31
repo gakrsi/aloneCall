@@ -36,6 +36,9 @@ class AudioCallView extends StatelessWidget {
                           ? _con.callingModel.callerName
                           : _con.callingModel.receiverName,
                       style: Styles.boldWhite16),
+                  _con.showTimer?  Text('${_con.hours} : ${_con.minutes} : ${_con.seconds}',
+                    style: const TextStyle(color: Colors.white60),
+                  ):
                   Text(
                     _con.callStatusText,
                     style: const TextStyle(color: Colors.white60),

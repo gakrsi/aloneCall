@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
@@ -16,6 +17,12 @@ import 'package:permission_handler/permission_handler.dart';
 
 class VideoCallController extends GetxController {
   Repository repo = Repository();
+  int callDuration = 0;
+  Timer _timer;
+  int seconds = 0;
+  int minutes = 0;
+  int hours = 0;
+
   bool isNotDial;
   String callStatusText = 'Connecting...';
   RtcEngine _engine;
@@ -25,6 +32,22 @@ class VideoCallController extends GetxController {
   StreamSubscription callStreamSubscription;
 
   bool isReceiverBig = false;
+
+  void addHistory(){
+    var model = HistoryModel()
+      ..callerName = callingModel.callerName
+      ..callerUid = callingModel.callerUid
+      ..callerImage = callingModel.callerImage
+      ..receiverUid = callingModel.receiverUid
+      ..receiverName = callingModel.receiverName
+      ..receiverImage = callingModel.receiverImage
+      ..isAudio = false
+      ..date = Timestamp.now()
+      ..time = Timestamp.now()
+      ..callDuration = callDuration
+    ;
+    Repository().addHistory(model);
+  }
 
   void changeSize(){
     isReceiverBig =!isReceiverBig;
@@ -49,6 +72,7 @@ class VideoCallController extends GetxController {
 
   @override
   void onInit() {
+    startTimer();
     _initEngine();
     checkUserAvailabilityAndBalance();
     checkIsDial();
@@ -56,10 +80,10 @@ class VideoCallController extends GetxController {
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void onClose() {
     callStreamSubscription.cancel();
     _engine.destroy();
+    super.onClose();
   }
 
   Future<void> _initEngine() async {
@@ -128,7 +152,7 @@ class VideoCallController extends GetxController {
     //   Get.back<dynamic>();
     // }
     await Repository().endVideoCall(callingModel).then((value) async {
-      await _engine.leaveChannel();
+      await _engine.leaveChannel().whenComplete(addHistory);
       // Get.back<void>();
     });
   }
@@ -218,5 +242,30 @@ class VideoCallController extends GetxController {
       callStatusText = 'Connected';
     }
     update();
+  }
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+          (Timer timer){
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+          callDuration += 1;
+          print(callDuration);
+          if (seconds > 59) {
+            minutes += 1;
+            seconds = 0;
+            if (minutes > 59) {
+              hours += 1;
+              minutes = 0;
+            }
+          }
+        }
+        update();
+      },
+
+    );
   }
 }

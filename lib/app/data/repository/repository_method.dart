@@ -35,7 +35,7 @@ class Repository {
 
   Stream<QuerySnapshot> onlineUser() => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
-      .where('online', isEqualTo: true)
+      .where('online', isEqualTo: true,)
       .snapshots();
 
   Stream<QuerySnapshot> searchUser(String item) => FirebaseFirestore.instance
@@ -45,6 +45,10 @@ class Repository {
 
   Stream<QuerySnapshot> blockUserStream() => FirebaseFirestore.instance
       .collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.blockUser)
+      .snapshots();
+
+  Stream<QuerySnapshot> historyStream() => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.history).orderBy('date',descending: true)
       .snapshots();
 
   Future<bool> checkUserOnCall(String receiverUid) async {
@@ -163,7 +167,12 @@ class Repository {
   Future<void> addHistory(HistoryModel model) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
-        .doc(uid)
+        .doc(model.callerUid)
+        .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(model.receiverUid)
         .collection(FirebaseConstant.history)
         .add(model.toJson(model));
   }
@@ -248,8 +257,17 @@ class Repository {
     return val;
   }
 
-  String currentUser() =>
-      firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
+  Future<void> subtractCoin() async{
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value){
+      var coin = value.data()['audio_coin'] as int ;
+      coin -= 1;
+      firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({
+        'audio_coin' : coin
+      });
+    });
+  }
+
+  String currentUser() => firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
   bool isUserLogin() {
     if (firebaseAuth.currentUser == null) {

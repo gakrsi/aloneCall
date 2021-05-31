@@ -1,40 +1,53 @@
-class HistoryModel{
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  HistoryModel({this.callerUid,this.imageUrl,this.callerName,this.isDial,this.callDuration,this.date,this.isMissed,this.time});
+class HistoryModel {
+  HistoryModel(
+      {this.callerUid,
+      this.callerImage,
+      this.callerName,
+      this.receiverUid,
+      this.receiverName,
+      this.receiverImage,
+      this.callDuration,
+      this.date,
+      this.time,
+      this.isAudio});
 
-  HistoryModel.fromJson(Map<String,dynamic> data){
-
-    callerName = data['caller_ name'] as String;
-    imageUrl = data['image_url'] as String;
+  HistoryModel.fromJson(Map<String, dynamic> data) {
+    callerName = data['caller_name'] as String;
+    callerImage = data['image_image'] as String;
     callerUid = data['caller_uid'] as String;
-    callDuration = data['call_duration'] as String;
-    date = data['date'] as String;
-    time = data['time'] as String;
-    isDial = data['is_dial'] as bool;
-    isMissed = data['is_missed'] as bool;
+    callDuration = data['call_duration'] as int;
+    date = data['date'] as Timestamp;
+    time = data['time'] as Timestamp;
+    receiverUid = data['receiver_uid'] as String;
+    receiverName = data['receiver_name'] as String;
+    receiverImage = data['receiver_image'] as String;
     isAudio = data['is_audio'] as bool;
   }
 
   String callerName;
-  String imageUrl;
+  String callerImage;
   String callerUid;
-  String callDuration;
-  bool isDial;
-  bool isMissed;
+  String receiverName;
+  String receiverImage;
+  String receiverUid;
+  int callDuration;
   bool isAudio;
-  String date;
-  String time;
+  Timestamp date;
+  Timestamp time;
 
-  Map<String,dynamic> toJson(HistoryModel model) {
+  Map<String, dynamic> toJson(HistoryModel model) {
     var data = <String, dynamic>{};
     data['caller_name'] = model.callerName;
-    data['image_url'] = model.imageUrl;
-    data['caller_uid'] = model.callerName;
+    data['caller_image'] = model.callerImage;
+    data['caller_uid'] = model.callerUid;
     data['call_duration'] = model.callDuration;
     data['date'] = model.date;
     data['time'] = model.time;
-    data['is_dial'] = model.isDial;
-    data['is_missed'] = model.isMissed;
+    data['receiver_name'] = model.receiverName;
+    data['receiver_image'] = model.receiverImage;
+    data['receiver_uid'] = model.receiverUid;
     data['is_audio'] = model.isAudio;
     return data;
   }

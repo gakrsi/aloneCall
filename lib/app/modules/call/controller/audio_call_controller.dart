@@ -17,6 +17,14 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AudioCallController extends GetxController{
+
+  int callDuration = 0;
+  bool showTimer = false;
+  Timer _timer;
+  int seconds = 0;
+  int minutes = 0;
+  int hours = 0;
+
   final HomeController _controller = Get.find();
   bool isNotDial;
   CallingModel callingModel = Get.arguments as CallingModel;
@@ -60,6 +68,7 @@ class AudioCallController extends GetxController{
   Future<void> _addListeners() async {
     _engine.setEventHandler(RtcEngineEventHandler(
       userJoined: (uid, elapsed){
+        startTimer();
         updateCallStatus(CallStatus.connected);
       },
       joinChannelSuccess: (channel, uid, elapsed) {
@@ -89,21 +98,25 @@ class AudioCallController extends GetxController{
   Future<void> leaveChannel() async {
     await Repository().endVideoCall(callingModel).then((value) async {
       Utility.printDLog('Leaving channel');
-      await _engine.leaveChannel();
+      await _engine.leaveChannel().whenComplete(addHistory);
       Get.back<dynamic>();
     });
   }
 
-  void timer(){
-
-  }
 
   void addHistory(){
     var model = HistoryModel()
     ..callerName = callingModel.callerName
     ..callerUid = callingModel.callerUid
+    ..callerImage = callingModel.callerImage
+    ..receiverUid = callingModel.receiverUid
+    ..receiverName = callingModel.receiverName
+    ..receiverImage = callingModel.receiverImage
+    ..isAudio = true
+    ..date = Timestamp.now()
+    ..time = Timestamp.now()
+    ..callDuration = callDuration
     ;
-
     Repository().addHistory(model);
   }
 
@@ -121,11 +134,13 @@ class AudioCallController extends GetxController{
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void onClose() {
+    _timer.cancel();
     _engine.destroy();
     callStreamSubscription.cancel();
+    super.onClose();
   }
+
 
   void _addPostFrameCallback() {
     Utility.printDLog('call stream called in audio screen');
@@ -181,8 +196,40 @@ class AudioCallController extends GetxController{
     }
     if(callStatus == CallStatus.connected){
       callStatusText = 'Connected';
+      showTimer = true;
     }
     update();
   }
+
+
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+          (Timer timer){
+          if (seconds < 0) {
+            timer.cancel();
+          } else {
+            seconds = seconds + 1;
+            callDuration += 1;
+            Repository().subtractCoin();
+            print(callDuration);
+            if (seconds > 59) {
+              minutes += 1;
+              seconds = 0;
+              if (minutes > 59) {
+                hours += 1;
+                minutes = 0;
+              }
+            }
+            update();
+          }
+
+        },
+
+    );
+  }
+
 
 }
