@@ -2,19 +2,27 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alonecall/app/data/enum.dart';
-import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/model/location_details.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/permissions.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CommonService extends GetxController{
   /// This is used for internet change listener
   StreamSubscription _streamSubscription;
 
+
+  /// Location text editing controller
+  final TextEditingController locationTextEditingController =
+  TextEditingController();
 
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
@@ -133,5 +141,130 @@ class CommonService extends GetxController{
   }
 
 
+  /// This will be used to show the google map only if the lat long
+  /// is updated by the user
+  ///
+  /// if true show the google map
+  bool isLatLngUpdated = false;
 
+  /// This will be used to know if the location data was taken from
+  /// search or from current location or from google map movement
+  ///
+  /// if true the location was from search
+  bool isFromSearch = false;
+
+  /// Location Details
+  LocationData userSelectedLocation;
+
+
+  /// A google map controller for controlling the google map details
+  /// depending on the lat long or change in the location in the map
+  GoogleMapController _mapController;
+
+  /// [controller] will be assigned to the [_mapController]
+  /// for handling the google map location and change listener
+  void onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
+  double lat = 0.0;
+  double long = 0.0;
+
+  /// Show the map layout when lat long is updated
+  ///
+  /// [lat] : the latitude position of the map
+  /// [long] : the longitude position of the map
+  void showMapLayout(double lat, double long) async {
+    await _mapController.animateCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
+    isLatLngUpdated = true;
+    update();
+  }
+
+  /// Gives the current location of the user which will be shown in
+  /// the location field.
+  void getCurrentLocation() async {
+    if (await Permissions.checkLocationPermission(true) != null) {
+      // Utility.showLoadingDialog();
+      var currentLocationData = await Utility.getCurrentLocation();
+      if (currentLocationData != null) {
+        // Utility.closeDialog();
+        lat = currentLocationData.latitude;
+        long = currentLocationData.longitude;
+        Utility.printDLog('$lat  $long');
+        isFromSearch = false;
+        showMapLayout(
+            currentLocationData.latitude, currentLocationData.longitude);
+      } else {
+        Utility.showError(
+          StringConstants.errorGettingCurrentLocation,
+        );
+      }
+    }
+  }
+  /// When the google map is moved this method will get the updated position
+  /// of the google map in [position]
+  void getCameraMoveUpdate(CameraPosition position) async {
+    lat = position.target.latitude; /// 24.9042965
+    long = position.target.longitude; /// 84.1804839
+  }
+
+  /// A method which will be triggered when the google map is idle.
+  void cameraIdle() async {
+    if (lat != 0 && long != 0) {
+      var locationData = await Utility.getAddressThroughLatLng(
+        lat,
+        long,
+      );
+      if (locationData != null) {
+        userSelectedLocation = Utility.getLocationData(locationData);
+        if (userSelectedLocation != null) {
+          if (!isFromSearch) {
+            locationTextEditingController.text = locationData.addressLine;
+          }
+        }
+      } else {
+        Utility.showError(
+          StringConstants.errorWhileGettingLocation,
+        );
+      }
+    }
+    isFromSearch = false;
+  }
+
+  /// Allows the user to search for the location by google place auto complete
+  /// and added session token for grouping the quarries. For more details can
+  /// go the [Session Tokens](https://developers.google.com/places/web-service/session-tokens).
+  ///
+  /// [searchedText] : The text which was already there in the text field.
+  void openLocationSearch(String searchedText) async {
+    var selectedLocation = await PlacesAutocomplete.show(
+      context: Get.context,
+      apiKey: NetworkConstants.googleApiKey,
+      mode: Mode.overlay,
+      sessionToken: Utility.generateV4(),
+      startText: searchedText,
+      logo: null,
+    );
+    Utility.showLoadingDialog();
+    if (selectedLocation != null) {
+      var locationPosition =
+      await Utility.getPosition(selectedLocation.description);
+      if (locationPosition != null) {
+        lat = locationPosition.latitude;
+        long = locationPosition.longitude;
+        isFromSearch = true;
+        locationTextEditingController.text = selectedLocation.description;
+        showMapLayout(locationPosition.latitude , locationPosition.longitude);
+      } else {
+        Utility.showError(
+          StringConstants.errorWhileGettingLocation,
+        );
+      }
+      Utility.closeDialog();
+    } else {
+      Utility.showError(
+        StringConstants.errorWhileGettingLocation,
+      );
+    }
+  }
 }

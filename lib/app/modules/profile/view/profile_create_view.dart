@@ -1,6 +1,10 @@
 import 'package:alonecall/app/data/enum.dart';
+import 'package:alonecall/app/data/service/common_service.dart';
+import 'package:alonecall/app/global_widgets/form_field_widget.dart';
+import 'package:alonecall/app/global_widgets/google_map_widget.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/profile/controller/profile_create_controller.dart';
+import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +33,8 @@ class ProfileCreateView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: Dimens.twenty),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -66,11 +72,11 @@ class ProfileCreateView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      InkWell(
-                          onTap: () {
-                            _con.showCountryBottomSheet();
-                          },
-                          child: _country(_con)),
+                      _country(_con),
+                      SizedBox(
+                        height: Dimens.twenty,
+                      ),
+                      _city(_con),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
@@ -79,15 +85,17 @@ class ProfileCreateView extends StatelessWidget {
                             _con.showLanguageBottomSheet();
                           },
                           child: _language(_con)),
-                      SizedBox(
-                        height: Dimens.twenty,
-                      ),
+                      Dimens.boxHeight30,
                       InkWell(
                           onTap: () => _con.validateAndSubmit(),
                           child: PrimaryButton(
                             title: 'Complete',
                             disable: true,
-                          ))
+                          )),
+                      SizedBox(
+                        height: Dimens.twenty,
+                      ),
+
                     ],
                   ),
                 ),
@@ -266,6 +274,36 @@ class ProfileCreateView extends StatelessWidget {
                     style: Styles.black18,
                   )),
       );
+
+
+  Widget _city(ProfileCreateController con) => Container(
+    height: 55,
+    width: Dimens.screenWidth,
+    decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          )
+        ]),
+    child: Padding(
+        padding: const EdgeInsets.only(left: 16.0, top: 16.5),
+        child: con.model.country == null
+            ? Text(
+          ' City',
+          style: Styles.black18,
+        )
+            : Text(
+          con.model.city,
+          style: Styles.black18,
+        )),
+  );
+
 
   Widget _country(ProfileCreateController con) => Container(
         height: 55,

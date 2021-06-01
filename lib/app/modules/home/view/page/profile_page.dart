@@ -10,232 +10,166 @@ import 'package:get/get.dart';
 class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
-        builder: (_con) => Scaffold(
-          appBar: AppBar(
-            title: Text(
-              StringConstants.profile,
-              style: Styles.boldWhite20,
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.black,
-            iconTheme: const IconThemeData(color: Colors.white),
-            actions: [
-               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                child: IconButton(
-                  onPressed: (){
-                    RoutesManagement.goToSettingsScreen();
-                  },
-                  color: Colors.white,
-                  icon: const Icon(Icons.settings),
-                ),
+        builder: (_con) => SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                StringConstants.profile,
+                style: Styles.boldWhite20,
               ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: SizedBox(
-              width: Dimens.screenWidth,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimens.sixTeen),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _con.showEditProfileDialog();
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(30 / 192 * 192),
-                        height: 192,
-                        width: 192,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(
-                            colors: [
-                              Colors.white.withOpacity(0.02),
-                              Colors.white.withOpacity(0.05)
-                            ],
-                            stops: [.5, 1],
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(100)),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: _con.model.profileImageUrl[0] as String,
-                            placeholder: (context, url) => Container(
-                              height: Dimens.screenHeight,
-                              width: Dimens.screenWidth,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/img/loading.gif'),
-                                      fit: BoxFit.cover)),
+              centerTitle: true,
+              backgroundColor: Colors.black,
+              iconTheme: const IconThemeData(color: Colors.white),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  child: IconButton(
+                    onPressed: () {
+                      RoutesManagement.goToSettingsScreen();
+                    },
+                    color: Colors.white,
+                    icon: const Icon(Icons.settings),
+                  ),
+                ),
+              ],
+            ),
+            body: _con.model.name == null
+                ? Container()
+                : SingleChildScrollView(
+                    child: SizedBox(
+                      width: Dimens.screenWidth,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: Dimens.sixTeen),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: Dimens.ten,
                             ),
-                            errorWidget: (context, url, dynamic error) =>
-                                const Icon(Icons.error),
-                          ),
+                            Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: Dimens.twenty,
+                                    vertical: Dimens.fifteen),
+                                height: Dimens.fifty,
+                                width: Dimens.screenWidth,
+                                decoration: BoxDecoration(
+                                    color: Colors.black12.withOpacity(0.04),
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Dimens.five,
+                                          vertical: Dimens.five),
+                                      child: InkWell(
+                                        onTap: () {
+                                          _con.changeProfileTab(0);
+                                        },
+                                        child: Container(
+                                          height: Dimens.fourty,
+                                          width: Dimens.screenWidth / 2 - 45,
+                                          decoration: BoxDecoration(
+                                              color: _con.profileCurrentTab == 0
+                                                  ? Colors.white
+                                                  : Colors.black12
+                                                      .withOpacity(0.04),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Center(
+                                              child: Text(
+                                            'Spent',
+                                            style: _con.profileCurrentTab == 0?Styles.blackBold15:Styles.grey14,
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Dimens.five,
+                                          vertical: Dimens.five),
+                                      child: InkWell(
+                                        onTap: () {
+                                          _con.changeProfileTab(1);
+                                        },
+                                        child: Container(
+                                          height: Dimens.fourty,
+                                          width: Dimens.screenWidth / 2 - 45,
+                                          decoration: BoxDecoration(
+                                              color: _con.profileCurrentTab == 1
+                                                  ? Colors.white
+                                                  : Colors.black12
+                                                      .withOpacity(0.02),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Center(
+                                              child: Text(
+                                            'Plans',
+                                            style: _con.profileCurrentTab == 1?Styles.blackBold15:Styles.grey14,
+                                          )),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                            SizedBox(
+                              height: Dimens.ten,
+                            ),
+
+                            _con.profileCurrentTab == 0?Container():packageDetails(_con)
+                          ],
                         ),
                       ),
                     ),
-                    Text(
-                        '${_con.model.name} ${DateTime.now().year - int.parse(_con.model.dob.substring(0, 4))}',
-                        style: Styles.blackBold18),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.five),
-                          height: Dimens.thirty,
-                          width: Dimens.eighty,
-                          decoration: BoxDecoration(
-                              color: ColorsValue.lightGreyColor,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.phone,
-                                  size: Dimens.fifteen,
-                                ),
-                                Text(
-                                  '${_con.model.audioCoin * 60} Sec',
-                                  style: Styles.black12,
-                                )
-                              ]),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.five),
-                          height: Dimens.thirty,
-                          width: Dimens.eighty,
-                          decoration: BoxDecoration(
-                              color: ColorsValue.lightGreyColor,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.videocam,
-                                  size: Dimens.fifteen,
-                                ),
-                                Text(
-                                  '${_con.model.coin * 60} Sec',
-                                  style: Styles.black12,
-                                )
-                              ]),
-                        ),
-                      ],
-                    ),
-                    Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: Dimens.twenty,
-                            vertical: Dimens.fifteen),
-                        height: Dimens.fifty,
-                        width: Dimens.screenWidth,
-                        decoration: BoxDecoration(
-                            color: Colors.black12.withOpacity(0.04),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Dimens.five,
-                                  vertical: Dimens.five),
-                              child: InkWell(
-                                onTap: () {
-                                  _con.changeProfileTab(0);
-                                },
-                                child: Container(
-                                  height: Dimens.fourty,
-                                  width: Dimens.screenWidth / 2 - 45,
-                                  decoration: BoxDecoration(
-                                      color: _con.profileCurrentTab == 0
-                                          ? Colors.white
-                                          : Colors.black12.withOpacity(0.04),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                      child: Text(
-                                    'Plans',
-                                    style: Styles.blackBold15,
-                                  )),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Dimens.five,
-                                  vertical: Dimens.five),
-                              child: InkWell(
-                                onTap: () {
-                                  _con.changeProfileTab(1);
-                                },
-                                child: Container(
-                                  height: Dimens.fourty,
-                                  width: Dimens.screenWidth / 2 - 45,
-                                  decoration: BoxDecoration(
-                                      color: _con.profileCurrentTab == 1
-                                          ? Colors.white
-                                          : Colors.black12.withOpacity(0.02),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                      child: Text(
-                                    'Spent',
-                                    style: Styles.blackBold15,
-                                  )),
-                                ),
-                              ),
-                            )
-                          ],
-                        )),
-                    SizedBox(
-                      height: Dimens.ten,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        planContainer('Starter', '3 Minutes \n Voice Call',
-                            '30', _con.model, 3, false),
-                        planContainer('Starter', '3 Minutes \n Video Call',
-                            '50', _con.model, 3, true),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        planContainer(
-                            '25% Discount',
-                            '10 Minutes \n Voice Call',
-                            '100',
-                            _con.model,
-                            10,
-                            false),
-                        planContainer(
-                            '25% Discount',
-                            '10 Minutes \n Video Call',
-                            '200',
-                            _con.model,
-                            10,
-                            true),
-                      ],
-                    ),
-
-                  ],
-                ),
-              ),
-            ),
+                  ),
           ),
         ),
       );
+
+  Widget packageDetails(HomeController con) =>Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          planContainer(
+              'Starter',
+              '3 Minutes \n Voice Call',
+              '30',
+              con.model,
+              3,
+              false,false),
+          planContainer(
+              'Starter',
+              '3 Minutes \n Video Call',
+              '50',
+              con.model,
+              3,
+              true,false),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          planContainer(
+              '25% Discount',
+              '10 Minutes \n Voice Call',
+              '100',
+              con.model,
+              10,
+              false,true,discountValue: 75),
+          planContainer(
+              '25% Discount',
+              '10 Minutes \n Video Call',
+              '200',
+              con.model,
+              10,
+              true,true,discountValue: 150),
+        ],
+      ),
+    ],
+  );
   Widget showTitle(String title) => Container(
         margin: EdgeInsets.symmetric(
             horizontal: Dimens.twenty, vertical: Dimens.five),
@@ -252,8 +186,7 @@ class ProfileView extends StatelessWidget {
       );
 
   Widget planContainer(String type, String desc, String price,
-          ProfileModel model, int amount, bool isVideo) =>
-      InkWell(
+          ProfileModel model, int amount, bool isVideo,bool isDiscount,{int discountValue = 0}) => InkWell(
         onTap: () {
           RoutesManagement.goToPayment(
             model,
@@ -261,7 +194,7 @@ class ProfileView extends StatelessWidget {
             <String, dynamic>{
               'type': type,
               'desc': desc,
-              'price': price,
+              'price': isDiscount?discountValue:price,
               'amount': amount,
               'is_video': isVideo
             },
@@ -302,7 +235,29 @@ class ProfileView extends StatelessWidget {
                     desc,
                     style: Styles.black18.copyWith(fontSize: 12),
                   ),
-                  Column(
+                  isDiscount?Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            price,
+                            style: Styles.black12.copyWith(fontSize: 15,decoration: TextDecoration.lineThrough),
+
+                          ),
+                          Text(
+                            ' $discountValue',
+                            style: Styles.black18.copyWith(fontSize: 30),
+                          ),
+
+                        ],
+                      ),
+                      const Text(
+                        'INR ',
+                        style: TextStyle(height: 0.5, fontSize: 10),
+                      )
+                    ],
+                  ):Column(
                     children: [
                       Text(
                         price,

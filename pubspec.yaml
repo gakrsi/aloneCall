@@ -9,7 +9,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  agora_rtc_engine: ^3.3.3
+  agora_rtc_engine: any
   assets_audio_player: ^3.0.3+3
   cached_network_image: ^3.0.0
   camera: ^0.8.1
@@ -18,16 +18,16 @@ dependencies:
   connectivity: ^3.0.2
   cupertino_icons: ^1.0.2
   date_time_picker: ^2.0.0
-  google_maps_flutter: ^2.0.6
-  dio: ^4.0.0
   email_validator: ^1.0.6
   equatable: ^2.0.0
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
   firebase_storage: ^8.1.0
+  fluster: ^1.2.0
   flutter:
     sdk: flutter
   flutter_facebook_auth: ^3.3.3+1
+  flutter_google_places: ^0.3.0
   flutter_rating_bar: ^4.0.0
   flutter_screenutil: ^4.0.4+1
   flutter_secure_storage: ^4.0.0
@@ -37,6 +37,7 @@ dependencies:
   geolocator: ^7.0.3
   get: ^3.26.0
   google_fonts: any
+  google_maps_flutter: ^2.0.6
   google_sign_in: ^5.0.3
   image_cropper: ^1.4.0
   image_picker: ^0.7.5+2

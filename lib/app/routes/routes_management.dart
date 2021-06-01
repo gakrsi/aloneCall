@@ -1,6 +1,7 @@
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/routes/app_pages.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:get/get.dart';
 
 /// A chunk of routes taken in the application.
@@ -49,10 +50,10 @@ abstract class RoutesManagement{
   }
 
   /// Go to the others profile screen
-  static void goToOProfileEdit(ProfileModel obj){
+  static void goToOProfileEdit(ProfileModel model){
     Get.toNamed<void>(
         AppRoutes.editProfile,
-        arguments: obj
+        arguments: model
     );
   }
 

@@ -2,12 +2,17 @@ import 'dart:io';
 
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
+import 'package:alonecall/app/data/model/location_avtar_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+/// 7597614425
 
 class Repository {
   Repository() {
@@ -35,7 +40,10 @@ class Repository {
 
   Stream<QuerySnapshot> onlineUser() => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
-      .where('online', isEqualTo: true,)
+      .where(
+        'online',
+        isEqualTo: true,
+      )
       .snapshots();
 
   Stream<QuerySnapshot> searchUser(String item) => FirebaseFirestore.instance
@@ -44,11 +52,16 @@ class Repository {
       .snapshots();
 
   Stream<QuerySnapshot> blockUserStream() => FirebaseFirestore.instance
-      .collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.blockUser)
+      .collection(FirebaseConstant.user)
+      .doc(uid)
+      .collection(FirebaseConstant.blockUser)
       .snapshots();
 
   Stream<QuerySnapshot> historyStream() => FirebaseFirestore.instance
-      .collection(FirebaseConstant.user).doc(uid).collection(FirebaseConstant.history).orderBy('date',descending: true)
+      .collection(FirebaseConstant.user)
+      .doc(uid)
+      .collection(FirebaseConstant.history)
+      .orderBy('date', descending: true)
       .snapshots();
 
   Future<bool> checkUserOnCall(String receiverUid) async {
@@ -164,6 +177,13 @@ class Repository {
         .set(obj.toMap(obj));
   }
 
+  Future<void> updateProfile(ProfileModel obj) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update(obj.toMap(obj));
+  }
+
   Future<void> addHistory(HistoryModel model) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
@@ -236,7 +256,7 @@ class Repository {
         .set(model.toMap(model));
   }
 
-  void unBlockUser(ProfileModel model){
+  void unBlockUser(ProfileModel model) {
     firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
@@ -257,17 +277,37 @@ class Repository {
     return val;
   }
 
-  Future<void> subtractCoin() async{
-    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value){
-      var coin = value.data()['audio_coin'] as int ;
+  Future<void> subtractCoin() async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .get()
+        .then((value) {
+      var coin = value.data()['audio_coin'] as int;
       coin -= 1;
-      firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({
-        'audio_coin' : coin
-      });
+      firebaseFireStore
+          .collection(FirebaseConstant.user)
+          .doc(uid)
+          .update({'audio_coin': coin});
     });
   }
 
-  String currentUser() => firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
+  Future<List<AvatarModel>> latLongOfAllUser() async {
+    Utility.printDLog('LatLong of all user function called');
+    var latLong = <AvatarModel>[];
+    var user = await firebaseFireStore.collection(FirebaseConstant.user).get();
+    for (var i = 0; i < user.docs.length; i++) {
+      var avatar = AvatarModel(
+          LatLng(user.docs[i]['lat'] as double, user.docs[i]['long'] as double),
+          user.docs[i]['uid'] as String,
+          user.docs[i]['profile_image_url'][0] as String);
+      latLong.add(avatar);
+    }
+    return latLong;
+  }
+
+  String currentUser() =>
+      firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
   bool isUserLogin() {
     if (firebaseAuth.currentUser == null) {

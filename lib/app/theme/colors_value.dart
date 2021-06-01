@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 /// in the application
 abstract class ColorsValue {
   static const Map<int, Color> primaryColorSwatch = {
-    50: Color.fromRGBO(199, 61, 93, .1),
-    100: Color.fromRGBO(199, 61, 93, .2),
-    200: Color.fromRGBO(199, 61, 93, .3),
-    300: Color.fromRGBO(199, 61, 93, .4),
-    400: Color.fromRGBO(199, 61, 93, .5),
-    500: Color.fromRGBO(199, 61, 93, .6),
-    600: Color.fromRGBO(199, 61, 93, .7),
-    700: Color.fromRGBO(199, 61, 93, .8),
-    800: Color.fromRGBO(199, 61, 93, .9),
-    900: Color.fromRGBO(199, 61, 93, 1.0),
+    50: Color(0xFFE1F5FE),
+    100: Color(0xFFB3E5FC),
+    200: Color(0xFF81D4FA),
+    300: Color(0xFF4FC3F7),
+    400: Color(0xFF29B6F6),
+    500: Color(0xFF29B6F7),
+    600: Color(0xFF039BE5),
+    700: Color(0xFF0288D1),
+    800: Color(0xFF0277BD),
+    900: Color(0xFF01579B),
   };
 
-  static const Color primaryColorRgb = Color.fromRGBO(199, 61, 93, 1);
-
-  static const Color primaryColorLight1Rgbo = Color.fromRGBO(199, 61, 93, .1);
+  // static const Color primaryColorRgb = Color.fromRGBO(199, 61, 93, 1);
+  //
+  // static const Color primaryColorLight1Rgbo = Color.fromRGBO(199, 61, 93, .1);
 
   static const Color primaryColor = Color(primaryColorHex);
 

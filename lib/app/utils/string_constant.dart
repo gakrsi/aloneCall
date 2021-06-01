@@ -27,4 +27,13 @@ class StringConstants {
   static const String aboutUs = 'About us';
   static const String notification = 'Notification';
   static const String profile = 'Profile';
+  static const String locationService = 'Location Service';
+  static const String enableLocationService = 'enableLocationService';
+  static const String locationPermissionError = 'locationPermissionError';
+  static const String errorGettingCurrentLocation = 'errorGettingCurrentLocation';
+  static const String errorWhileGettingLocation = 'errorWhileGettingLocation';
+  static const String space = 'space';
+  static const String getCurrentLocation = 'getCurrentLocation';
+  static const String searchLocation = 'searchLocation';
+
 }

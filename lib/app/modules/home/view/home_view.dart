@@ -13,6 +13,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_controller) => Scaffold(
+
             backgroundColor: Colors.white,
             bottomNavigationBar: BottomNavigation(),
             body: IndexedStack(

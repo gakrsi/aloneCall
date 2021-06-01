@@ -1,6 +1,7 @@
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
+import 'package:alonecall/app/modules/home/view/local_widget/home_drawer.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_con) => SafeArea(
             child: Scaffold(
+                drawer: drawer(),
                 appBar: AppBar(
                   centerTitle: true,
                   backgroundColor: Colors.black,
@@ -26,7 +28,6 @@ class HomePage extends StatelessWidget {
                     height: 60,
                     width: 100,
                   ),
-                  leading: const Icon(Icons.camera_alt),
                   actions: [
                      Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -47,44 +48,37 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                body: GestureDetector(
-                  onPanUpdate: (value) {
-                    if (value.delta.dx > 0) {
-                      RoutesManagement.goToOthersRandomCallView();
-                    }
-                  },
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      width: Dimens.screenWidth,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: _onlineUser(),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const SizedBox(
-                                width: 13,
-                              ),
-                              Text(
-                                'Suggessions',
-                                style: Styles.blackBold15.copyWith(
-                                    fontWeight: FontWeight.w400, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: _userGridView(_con),
-                          )
-                        ],
-                      ),
+                body: SingleChildScrollView(
+                  child: SizedBox(
+                    width: Dimens.screenWidth,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: _onlineUser(),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 13,
+                            ),
+                            Text(
+                              'Suggessions',
+                              style: Styles.blackBold15.copyWith(
+                                  fontWeight: FontWeight.w400, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: _userGridView(_con),
+                        )
+                      ],
                     ),
                   ),
                 )),

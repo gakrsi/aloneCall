@@ -16,21 +16,29 @@ class ProfileEditController extends GetxController{
 
   ProfileModel model = Get.arguments as ProfileModel;
 
-  List<String> profileImageUrl = <String>['','',''];
 
   @override
   void onInit() {
     super.onInit();
   }
 
+  void updateDob(String date) {
+    model.dob = date;
+    update();
+  }
+
   TextEditingController nameController = TextEditingController();
 
   final CommonService _commonService = Get.find();
 
-  List<String> genderList = <String>['Male','Female','Gay','Lesbian'];
+  List<String> genderList = <String>['Male','Female',];
   List<String> countryList = <String> ['India','Nepal','Bhutan','Pakistan'];
   List<String> languageList = <String>['English', 'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia (Oriya)', 'Malayalam', 'Punjabi', 'Bodo', 'Dogri', 'Kashmiri', 'Konkani', 'Maithili', 'Manipuri', 'Nepali', 'Sanskrit', 'Santali Language', 'Sindhi', 'Assamese'];
 
+  void onEditName(String value){
+    model.name = value;
+    update();
+  }
 
   void showGenderBottomSheet(){
     Get.bottomSheet<void>(
@@ -214,7 +222,7 @@ class ProfileEditController extends GetxController{
   void updateImageUrl(String imageUrl,int index) {
     if (imageUrl.isNotEmpty) {
       print(imageUrl);
-      profileImageUrl[index - 1] = imageUrl;
+      model.profileImageUrl[index - 1] = imageUrl;
       update();
     }
   }
@@ -232,24 +240,8 @@ class ProfileEditController extends GetxController{
 
   /// Upload User data Firebase
   void validateAndSubmit(){
-    if(profileImageUrl[0].isNotEmpty || profileImageUrl[1].isNotEmpty || profileImageUrl[2].isNotEmpty){
-      if(nameController.text.isNotEmpty && model.gender != null && model.country != null && model.lang != null && model.dob != null){
-        model
-          ..name = nameController.text
-          ..coin = 0
-          ..audioCoin = 0
-          ..profileImageUrl = profileImageUrl
-          ..uid = Repository().currentUser();
         updatePageStatus(PageStatus.loading);
         Repository().createProfile(model).whenComplete(RoutesManagement.goToHome);
-      }
-      else{
-        Utility.showError('Enter All field');
-      }
-    }
-    else{
-      Utility.showError('please upload at least one image');
-    }
   }
 
   /// Update the page status

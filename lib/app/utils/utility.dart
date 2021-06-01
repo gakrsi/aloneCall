@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/global_widgets/pickup_call.dart';
 import 'package:email_validator/email_validator.dart';
@@ -191,5 +193,81 @@ abstract class Utility{
       }
     }
     return first;
+  }
+
+  /// Dialog to ask user to enable a service which is required to perform
+  /// some operation.
+  ///
+  /// [title] : The title of the service required.
+  /// [message] : The message of the service required.
+  static void askToEnableServiceFromSetting(String title, String message) {
+    Get.defaultDialog<void>(
+      title: title,
+      content: Text(
+        message,
+        style: Get.textTheme.bodyText2,
+        textAlign: TextAlign.center,
+      ),
+      titleStyle: Styles.black18,
+      confirm: FlatButton(
+        color: ColorsValue.primaryColor,
+        onPressed: () {
+          Geolocator.openAppSettings();
+          Get.back<void>();
+        },
+        child: Text(
+          'ok',
+          style: Styles.white14,
+        ),
+      ),
+      cancel: FlatButton(
+        color: Colors.white,
+        onPressed: () {
+          Get.back<void>();
+        },
+        child: Text(
+          'cancel',
+          style: Styles.appColor14,
+        ),
+      ),
+      onCancel: () {},
+    );
+  }
+
+  static final Random _random = Random();
+
+
+  /// Generate session token for
+  /// google place api to reduce billing.
+  ///
+  /// [Check this link](https://developers.google.com/places/web-service/session-tokens).
+  static String generateV4() {
+    // Generate xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx / 8-4-4-4-12.
+    final special = 8 + _random.nextInt(4);
+    return '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
+        '${_bitsDigits(16, 4)}-'
+        '4${_bitsDigits(12, 3)}-'
+        '${_printDigits(special, 1)}${_bitsDigits(12, 3)}-'
+        '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}';
+  }
+
+  static String _bitsDigits(int bitCount, int digitCount) =>
+      _printDigits(_generateBits(bitCount), digitCount);
+
+  static int _generateBits(int bitCount) => _random.nextInt(1 << bitCount);
+
+  static String _printDigits(int value, int count) =>
+      value.toRadixString(16).padLeft(count, '0');
+
+
+
+  /// Get coordinates of the location.
+  ///
+  /// [placeName] : place name for which coordinates are needed.
+  static Future<geocoder.Coordinates> getPosition(String placeName) async {
+    var addresses =
+    await geocoder.Geocoder.local.findAddressesFromQuery(placeName);
+    var first = addresses.first;
+    return first.coordinates;
   }
 }
