@@ -98,11 +98,11 @@ class NearYouMapView extends StatelessWidget {
                                           Row(
                                             children: [
                                               Text(
-                                                '${model.country}, ',
+                                                '${model.city}, ',
                                                 style: Styles.grey14,
                                               ),
                                               Text(
-                                                'Country',
+                                                '${model.country}, ',
                                                 style: Styles.grey14,
                                               ),
                                             ],
