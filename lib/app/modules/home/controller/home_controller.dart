@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/maker_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
@@ -49,7 +50,7 @@ class HomeController extends GetxController {
     const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.history), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ' '),
-    const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.money), label: ' '),
   ];
 
   void changeTab(int index) {
@@ -73,8 +74,10 @@ class HomeController extends GetxController {
       }
     });
     var data = await Repository().getProfile();
+    var encoder = const JsonEncoder.withIndent('  ');
+    var prettyPrint = encoder.convert(data);
+    print(prettyPrint);
     await getCurrentLatLng();
-    print(data);
     model = ProfileModel.fromJson(data);
     super.onInit();
   }

@@ -37,15 +37,18 @@ class HistoryPage extends StatelessWidget {
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Container(
-                        width: Dimens.screenWidth,
-                        height: Dimens.fifty,
-                        decoration: const BoxDecoration(
+                    return ListView(
+                      children: List.generate(15, (index) =>  Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Container(
+                          width: Dimens.screenWidth,
+                          height: Dimens.fifty,
+                          decoration: const BoxDecoration(
                             image:
-                                DecorationImage(image: AssetConstants.loading)),
-                      ),
+                            DecorationImage(image: AssetConstants.loading,fit: BoxFit.cover),
+                          ),
+                        ),
+                      )),
                     );
                   }
                   return ListView(

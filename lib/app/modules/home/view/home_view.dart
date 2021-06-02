@@ -13,7 +13,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_controller) => Scaffold(
-
             backgroundColor: Colors.white,
             bottomNavigationBar: BottomNavigation(),
             body: IndexedStack(
@@ -27,61 +26,5 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ));
-  //StreamBuilder<QuerySnapshot>(
-  //       stream: FirebaseFirestore.instance
-  //           .collection(FirebaseConstant.user)
-  //           .doc(Repository().currentUser())
-  //           .collection(FirebaseConstant.call)
-  //           .snapshots(),
-  //       builder:
-  //           (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-  //         // if (snapshot.connectionState == ConnectionState.waiting) {
-  //         //   return Container(
-  //         //       color: Colors.white,
-  //         //       height: Dimens.screenHeight,
-  //         //       width: Dimens.screenWidth,
-  //         //       child: const Center(
-  //         //         child: CircularProgressIndicator(),
-  //         //       ));
-  //         // }
-  //         if (snapshot.data.docs.isBlank) {
-  //           return Scaffold(
-  //             backgroundColor: Colors.white,
-  //             bottomNavigationBar: BottomNavigation(),
-  //             body: IndexedStack(
-  //               index: _controller.currentTab,
-  //               children: [
-  //                 HomePage(),
-  //                 NearYouMapView(),
-  //                 HistoryPage(),
-  //                 RandomVideoCallView(),
-  //                 ProfileView()
-  //               ],
-  //             ),
-  //           );
-  //         }
-  //         var model = CallingModel.fromJson(
-  //             snapshot.data.docs[0].data() as Map<String, dynamic>);
-  //         if (model.callerUid == Repository().uid) {
-  //           return Scaffold(
-  //             backgroundColor: Colors.white,
-  //             bottomNavigationBar: BottomNavigation(),
-  //             body: IndexedStack(
-  //               index: _controller.currentTab,
-  //               children: [
-  //                 HomePage(),
-  //                 NearYouMapView(),
-  //                 HistoryPage(),
-  //                 RandomVideoCallView(),
-  //                 ProfileView(),
-  //               ],
-  //             ),
-  //           );
-  //         }
-  //
-  //         return PickUpScreen(
-  //           callingModel: model,
-  //         );
-  //       },
-  //     ));
+
 }

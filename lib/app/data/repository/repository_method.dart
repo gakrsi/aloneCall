@@ -63,6 +63,14 @@ class Repository {
       .collection(FirebaseConstant.history)
       .orderBy('date', descending: true)
       .snapshots();
+  Stream<QuerySnapshot> notificationStream() => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user)
+      .doc(uid)
+      .collection(FirebaseConstant.history)
+      .orderBy('date', descending: true)
+      // .where('call_duration',isEqualTo: 0)
+      // .where('receiver_uid',isEqualTo: uid)
+      .snapshots();
 
   Future<bool> checkUserOnCall(String receiverUid) async {
     var busy = false;
