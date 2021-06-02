@@ -1,3 +1,4 @@
+import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
@@ -51,6 +52,15 @@ Widget drawer()=>GetBuilder<HomeController>(builder: (_controller)=>Drawer(
         title: Text('About Us',style: Styles.black18.copyWith(fontSize: 14),),
         leading: const Icon(Icons.details,color: Colors.black,),
         trailing: const Icon(Icons.arrow_forward_ios_outlined,color: Colors.black,),
+      ),
+      const Divider(),
+      ListTile(
+        title: Text('Logout',style: Styles.black18.copyWith(fontSize: 14),),
+        leading: const Icon(Icons.logout,color: Colors.black,),
+        trailing: const Icon(Icons.arrow_forward_ios_outlined,color: Colors.black,),
+        onTap: (){
+          Repository().logout();
+        },
       ),
 
     ],

@@ -36,14 +36,14 @@ class ProfileView extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: Dimens.five,
-                                    vertical: Dimens.five),
+                                    vertical: Dimens.two),
                                 child: InkWell(
                                   onTap: () {
                                     _con.changeProfileTab(0);
                                   },
                                   child: Container(
                                     height: Dimens.fourty,
-                                    width: Dimens.screenWidth / 2 - 45,
+                                    width: Dimens.screenWidth / 2 - 46,
                                     decoration: BoxDecoration(
                                         color: _con.profileCurrentTab == 0
                                             ? Colors.white
@@ -69,7 +69,7 @@ class ProfileView extends StatelessWidget {
                                   },
                                   child: Container(
                                     height: Dimens.fourty,
-                                    width: Dimens.screenWidth / 2 - 45,
+                                    width: Dimens.screenWidth / 2 - 46,
                                     decoration: BoxDecoration(
                                         color: _con.profileCurrentTab == 1
                                             ? Colors.white
@@ -302,7 +302,8 @@ class ProfileView extends StatelessWidget {
                     desc,
                     style: Styles.black18.copyWith(fontSize: 12),
                   ),
-                  isDiscount?Column(
+                  isDiscount
+                      ?Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Row(
@@ -324,7 +325,8 @@ class ProfileView extends StatelessWidget {
                         style: TextStyle(height: 0.5, fontSize: 10),
                       )
                     ],
-                  ):Column(
+                  )
+                      :Column(
                     children: [
                       Text(
                         price,

@@ -21,6 +21,7 @@ class HomeController extends GetxController {
 
   bool isSwitched = false;
   String textValue = '';
+
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
 
@@ -30,18 +31,14 @@ class HomeController extends GetxController {
   String country = '';
 
   void toggleSwitch(bool value) {
-
-    if(isSwitched == false)
-    {
-        isSwitched = true;
-        textValue = 'You are visible on map now';
-        update();
-    }
-    else
-    {
-        isSwitched = false;
-        textValue = 'You are invisible on map now';
-        update();
+    if (isSwitched == false) {
+      isSwitched = true;
+      textValue = 'You are visible on map now';
+      update();
+    } else {
+      isSwitched = false;
+      textValue = 'You are invisible on map now';
+      update();
     }
   }
 
@@ -64,12 +61,13 @@ class HomeController extends GetxController {
     }
     return 'Female';
   }
-  List<LatLng> latLong = <LatLng> [ ];
+
+  List<LatLng> latLong = <LatLng>[];
   @override
   void onInit() async {
     updateCurrentLocation();
-    await Repository().latLongOfAllUser().then((value){
-      for(var i = 0; i < value.length; i++){
+    await Repository().latLongOfAllUser().then((value) {
+      for (var i = 0; i < value.length; i++) {
         latLong.add(value[i].latLng);
       }
     });
@@ -90,15 +88,13 @@ class HomeController extends GetxController {
     update();
   }
 
-  void updateCurrentLocation(){
-    Utility.getCurrentLocation().then((value){
+  void updateCurrentLocation() {
+    Utility.getCurrentLocation().then((value) {
       city = value.city;
       country = value.country;
       update();
     });
   }
-
-
 
   /// Close any open dialog.
   static void closeDialog() {
@@ -113,6 +109,7 @@ class HomeController extends GetxController {
       ),
     );
   }
+
   double lat = 0.0;
   double long = 0.0;
 
@@ -123,9 +120,11 @@ class HomeController extends GetxController {
     );
     lat = latLong.latitude;
     long = latLong.longitude;
+    Repository().distanceStream(lat, long);
     update();
     Utility.printDLog('Current lat,long $lat, $long');
   }
+
   final Completer<GoogleMapController> _mapController = Completer();
 
   /// Set of displayed markers and cluster markers on the map
@@ -135,7 +134,7 @@ class HomeController extends GetxController {
   final int minClusterZoom = 0;
 
   /// Maximum zoom at which the markers will cluster
-  final int maxClusterZoom = 5;
+  final int maxClusterZoom = 19;
 
   /// [Fluster] instance used to manage the clusters
   Fluster<MapMarker> clusterManager;
@@ -163,8 +162,8 @@ class HomeController extends GetxController {
   /// and inits the markers.
   void onMapCreated(GoogleMapController controller) {
     _mapController.complete(controller);
-      isMapLoading = false;
-      update();
+    isMapLoading = false;
+    update();
     _initMarkers();
   }
 
@@ -173,8 +172,7 @@ class HomeController extends GetxController {
     final markers = <MapMarker>[];
 
     for (var markerLocation in latLong) {
-      final markerImage =
-      await MapHelper.getMarkerImageFromUrl(markerImageUrl);
+      final markerImage = await MapHelper.getMarkerImageFromUrl(markerImageUrl);
 
       markers.add(
         MapMarker(
@@ -203,7 +201,7 @@ class HomeController extends GetxController {
       currentZoom = updatedZoom;
     }
 
-      areMarkersLoading = true;
+    areMarkersLoading = true;
     update();
 
     final updatedMarkers = await MapHelper.getClusterMarkers(
@@ -218,8 +216,8 @@ class HomeController extends GetxController {
       ..clear()
       ..addAll(updatedMarkers);
 
-      areMarkersLoading = false;
-      update();
+    areMarkersLoading = false;
+    update();
   }
 
   /// Update the page status

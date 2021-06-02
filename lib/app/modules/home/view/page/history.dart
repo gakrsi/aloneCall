@@ -120,50 +120,14 @@ class HistoryPage extends StatelessWidget {
                                               color: Colors.green,
                                             ),
                                       Text(
-                                          ' ${DateTime.parse(model.date.toDate().toString())}',
+                                          ' ${DateTime.parse(model.date.toDate().toString())}'.substring(0,17),
                                           style: Styles.black12),
                                     ],
                                   )
                                 ],
                               ),
                             ),
-                            const Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                height: Dimens.fourty,
-                                width: Dimens.fourty,
-                                decoration: BoxDecoration(
-                                    color: ColorsValue.primaryColor,
-                                    borderRadius:
-                                        BorderRadius.circular(Dimens.fifty)),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: Dimens.twenty,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: Dimens.five,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                height: Dimens.fourty,
-                                width: Dimens.fourty,
-                                decoration: BoxDecoration(
-                                    color: ColorsValue.primaryColor,
-                                    borderRadius:
-                                        BorderRadius.circular(Dimens.fifty)),
-                                child: Icon(
-                                  Icons.videocam,
-                                  color: Colors.white,
-                                  size: Dimens.twenty,
-                                ),
-                              ),
-                            ),
-                            const Divider()
+                
                           ],
                         ),
                       ),

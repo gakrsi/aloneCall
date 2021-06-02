@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:alonecall/app/data/model/maker_model.dart';
 import 'package:fluster/fluster.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +21,9 @@ class MapHelper {
   ///
   /// You can resize the marker image by providing a [targetWidth].
   static Future<BitmapDescriptor> getMarkerImageFromUrl(
-      String url, {
-        int targetWidth,
-      }) async {
+    String url, {
+    int targetWidth,
+  }) async {
     final File markerImageFile = await DefaultCacheManager().getSingleFile(url);
 
     var markerImageBytes = await markerImageFile.readAsBytes();
@@ -43,11 +43,11 @@ class MapHelper {
   /// Then it will convert the canvas to an image and generate the [BitmapDescriptor]
   /// to be used on the cluster marker icons.
   static Future<BitmapDescriptor> _getClusterMarker(
-      int clusterSize,
-      Color clusterColor,
-      Color textColor,
-      int width,
-      ) async {
+    int clusterSize,
+    Color clusterColor,
+    Color textColor,
+    int width,
+  ) async {
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final paint = Paint()..color = clusterColor;
@@ -75,17 +75,17 @@ class MapHelper {
     var textPainter2 = textPainter
       ..layout()
       ..paint(
-        canvas, Offset(radius - textPainter.width / 2, radius - textPainter.height / 2),
-    );
+        canvas,
+        Offset(radius - textPainter.width / 2, radius - textPainter.height / 2),
+      );
 
     final image = await pictureRecorder.endRecording().toImage(
-      radius.toInt() * 2,
-      radius.toInt() * 2,
-    );
+          radius.toInt() * 2,
+          radius.toInt() * 2,
+        );
     final data = await image.toByteData(
       format: ImageByteFormat.png,
     );
-
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 
@@ -93,9 +93,9 @@ class MapHelper {
   ///
   /// We don't want the marker image to be too big so we might need to resize the image.
   static Future<Uint8List> _resizeImageBytes(
-      Uint8List imageBytes,
-      int targetWidth,
-      ) async {
+    Uint8List imageBytes,
+    int targetWidth,
+  ) async {
     final imageCodec = await instantiateImageCodec(
       imageBytes,
       targetWidth: targetWidth,
@@ -110,45 +110,54 @@ class MapHelper {
     return byteData.buffer.asUint8List();
   }
 
+  // Future<void> bitMapMarker() async{
+  //   var iconurl = "your url";
+  //   // Unit8List dataBytes;
+  //   var request = await http.get(iconurl);
+  //   var bytes = await request.bodyBytes;
+  // }
+
+
   /// Inits the cluster manager with all the [MapMarker] to be displayed on the map.
   /// Here we're also setting up the cluster marker itself, also with an [clusterImageUrl].
   ///
   /// For more info about customizing your clustering logic check the [Fluster] constructor.
   static Future<Fluster<MapMarker>> initClusterManager(
-      List<MapMarker> markers,
-      int minZoom,
-      int maxZoom,
-      ) async => Fluster<MapMarker>(
-      minZoom: minZoom,
-      maxZoom: maxZoom,
-      radius: 150,
-      extent: 2048,
-      nodeSize: 64,
-      points: markers,
-      createCluster: (
+    List<MapMarker> markers,
+    int minZoom,
+    int maxZoom,
+  ) async =>
+      Fluster<MapMarker>(
+        minZoom: minZoom,
+        maxZoom: maxZoom,
+        radius: 150,
+        extent: 2048,
+        nodeSize: 64,
+        points: markers,
+        createCluster: (
           BaseCluster cluster,
           double lng,
           double lat,
-          ) =>
-          MapMarker(
-            id: cluster.id.toString(),
-            position: LatLng(lat, lng),
-            isCluster: cluster.isCluster,
-            clusterId: cluster.id,
-            pointsSize: cluster.pointsSize,
-            childMarkerId: cluster.childMarkerId,
-          ),
-    );
+        ) =>
+            MapMarker(
+                id: cluster.id.toString(),
+                position: LatLng(lat, lng),
+                isCluster: cluster.isCluster,
+                clusterId: cluster.id,
+                pointsSize: cluster.pointsSize,
+                childMarkerId: cluster.childMarkerId,
+                icon: BitmapDescriptor.defaultMarker),
+      );
 
   /// Gets a list of markers and clusters that reside within the visible bounding box for
   /// the given [currentZoom]. For more info check [Fluster.clusters].
   static Future<List<Marker>> getClusterMarkers(
-      Fluster<MapMarker> clusterManager,
-      double currentZoom,
-      Color clusterColor,
-      Color clusterTextColor,
-      int clusterWidth,
-      ) {
+    Fluster<MapMarker> clusterManager,
+    double currentZoom,
+    Color clusterColor,
+    Color clusterTextColor,
+    int clusterWidth,
+  ) {
     if (clusterManager == null) return Future.value([]);
 
     return Future.wait(clusterManager.clusters(

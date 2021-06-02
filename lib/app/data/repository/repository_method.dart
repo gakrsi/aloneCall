@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alonecall/app/data/model/calling_model.dart';
+import 'package:alonecall/app/data/model/distance_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/location_avtar_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
@@ -10,6 +11,7 @@ import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// 7597614425
@@ -51,6 +53,11 @@ class Repository {
       .where('name', isGreaterThanOrEqualTo: item)
       .snapshots();
 
+  Stream<QuerySnapshot> nearYou(String item) => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user)
+      .where('city', isGreaterThanOrEqualTo: item)
+      .snapshots();
+
   Stream<QuerySnapshot> blockUserStream() => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
       .doc(uid)
@@ -72,6 +79,16 @@ class Repository {
       // .where('receiver_uid',isEqualTo: uid)
       .snapshots();
 
+  void distanceStream(double lat, double long) async{
+    var user = await firebaseFireStore.collection(FirebaseConstant.user).get();
+    for (var i = 0; i < user.docs.length; i++) {
+      var distanceModel = DistanceModel()
+      ..uid = user.docs[i]['uid'] as String
+      ..image = user.docs[i]['profile_image_url'][0]as String
+      ..distance = Geolocator.distanceBetween(lat, long, user.docs[i]['lat'] as double, user.docs[i]['long'] as double).ceilToDouble();
+      print(distanceModel.distance/1000.ceilToDouble());
+    }
+  }
   Future<bool> checkUserOnCall(String receiverUid) async {
     var busy = false;
     await firebaseFireStore
@@ -137,6 +154,7 @@ class Repository {
   }
 
   Future<void> endVideoCall(CallingModel obj) async {
+    Utility.printDLog('End call function called');
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
@@ -196,13 +214,13 @@ class Repository {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(model.callerUid)
-        .collection(FirebaseConstant.history)
-        .add(model.toJson(model));
+        .collection(FirebaseConstant.history).doc('${model.receiverUid}${model.time}')
+        .set(model.toJson(model));
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(model.receiverUid)
-        .collection(FirebaseConstant.history)
-        .add(model.toJson(model));
+        .collection(FirebaseConstant.history).doc('${model.callerUid}${model.time}')
+        .set(model.toJson(model));
   }
 
   Future<Map<String, dynamic>> getProfile() async {

@@ -16,8 +16,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AudioCallController extends GetxController{
-
+class AudioCallController extends GetxController {
   int callDuration = 0;
   bool showTimer = false;
   Timer _timer;
@@ -43,18 +42,17 @@ class AudioCallController extends GetxController{
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
     // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
-
-    if(!onlineCheck){
+    if (!onlineCheck) {
       updateCallStatus(CallStatus.offline);
-    }
-    else{
+    } else {
       updateCallStatus(CallStatus.ringing);
     }
   }
 
-  Future<void>_initEngine() async {
+  Future<void> _initEngine() async {
     await repo.startVideoCall(callingModel);
-    _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
+    _engine = await RtcEngine.createWithConfig(
+        RtcEngineConfig(NetworkConstants.agoraRtcKey));
     _addPostFrameCallback();
     await _addListeners();
     await _engine.enableAudio();
@@ -67,7 +65,7 @@ class AudioCallController extends GetxController{
 
   Future<void> _addListeners() async {
     _engine.setEventHandler(RtcEngineEventHandler(
-      userJoined: (uid, elapsed){
+      userJoined: (uid, elapsed) {
         startTimer();
         updateCallStatus(CallStatus.connected);
       },
@@ -98,29 +96,27 @@ class AudioCallController extends GetxController{
   Future<void> leaveChannel() async {
     await Repository().endVideoCall(callingModel).then((value) async {
       Utility.printDLog('Leaving channel');
-      await _engine.leaveChannel().whenComplete(addHistory);
+      await _engine.leaveChannel();
       Get.back<dynamic>();
     });
   }
 
-
-  void addHistory(){
+  void addHistory() {
     var model = HistoryModel()
-    ..callerName = callingModel.callerName
-    ..callerUid = callingModel.callerUid
-    ..callerImage = callingModel.callerImage
-    ..receiverUid = callingModel.receiverUid
-    ..receiverName = callingModel.receiverName
-    ..receiverImage = callingModel.receiverImage
-    ..isAudio = true
-    ..date = Timestamp.now()
-    ..time = Timestamp.now()
-    ..callDuration = callDuration
-    ;
+      ..callerName = callingModel.callerName
+      ..callerUid = callingModel.callerUid
+      ..callerImage = callingModel.callerImage
+      ..receiverUid = callingModel.receiverUid
+      ..receiverName = callingModel.receiverName
+      ..receiverImage = callingModel.receiverImage
+      ..isAudio = true
+      ..date = Timestamp.now()
+      ..time = Timestamp.now()
+      ..callDuration = callDuration;
     Repository().addHistory(model);
   }
 
-  void checkIsDial(){
+  void checkIsDial() {
     isNotDial = callingModel.receiverUid == repo.uid;
     update();
   }
@@ -135,19 +131,21 @@ class AudioCallController extends GetxController{
 
   @override
   void onClose() {
-    _timer.cancel();
-    _engine.destroy();
     callStreamSubscription.cancel();
+    addHistory();
+    _engine.destroy();
+    if(_timer != null){
+      _timer.cancel();
+    }
     super.onClose();
   }
-
 
   void _addPostFrameCallback() {
     Utility.printDLog('call stream called in audio screen');
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
+      callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) {
         Utility.printDLog('Listening to call Stream');
-        if(ds.data() == null){
+        if (ds.data() == null) {
           leaveChannel();
         }
       });
@@ -156,8 +154,8 @@ class AudioCallController extends GetxController{
 
   void switchMicrophone() {
     _engine.enableLocalAudio(!openMicrophone).then((value) {
-        openMicrophone = !openMicrophone;
-        update();
+      openMicrophone = !openMicrophone;
+      update();
     }).catchError((Error err) {
       log('enableLocalAudio $err');
     });
@@ -173,63 +171,57 @@ class AudioCallController extends GetxController{
   }
 
   void _onChangeInEarMonitoringVolume(double value) {
-      inEarMonitoringVolume = value;
-      update();
+    inEarMonitoringVolume = value;
+    update();
     _engine.setInEarMonitoringVolume(value.toInt());
   }
 
   void _toggleInEarMonitoring(bool value) {
-      enableInEarMonitoring = value;
-      update();
+    enableInEarMonitoring = value;
+    update();
     _engine.enableInEarMonitoring(value);
   }
 
-  void updateCallStatus(CallStatus callStatus){
-    if(callStatus == CallStatus.connecting){
+  void updateCallStatus(CallStatus callStatus) {
+    if (callStatus == CallStatus.connecting) {
       callStatusText = 'Connecting...';
     }
-    if(callStatus == CallStatus.offline){
+    if (callStatus == CallStatus.offline) {
       callStatusText = 'User is Offline';
     }
-    if(callStatus == CallStatus.ringing){
+    if (callStatus == CallStatus.ringing) {
       callStatusText = 'Ringing...';
     }
-    if(callStatus == CallStatus.connected){
+    if (callStatus == CallStatus.connected) {
       callStatusText = 'Connected';
       showTimer = true;
     }
     update();
   }
 
-
-
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer){
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            seconds = seconds + 1;
-            callDuration += 1;
-            Repository().subtractCoin();
-            print(callDuration);
-            if (seconds > 59) {
-              minutes += 1;
-              seconds = 0;
-              if (minutes > 59) {
-                hours += 1;
-                minutes = 0;
-              }
+      (Timer timer) {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+          callDuration += 1;
+          Repository().subtractCoin();
+          print(callDuration);
+          if (seconds > 59) {
+            minutes += 1;
+            seconds = 0;
+            if (minutes > 59) {
+              hours += 1;
+              minutes = 0;
             }
-            update();
           }
-
-        },
-
+          update();
+        }
+      },
     );
   }
-
-
 }

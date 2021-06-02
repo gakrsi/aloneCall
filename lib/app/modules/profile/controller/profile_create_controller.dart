@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:alonecall/app/theme/theme.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileCreateController extends GetxController {
+  final CommonService _controller = Get.find();
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
 
@@ -21,20 +21,20 @@ class ProfileCreateController extends GetxController {
 
   @override
   void onInit() {
-    Utility.getCurrentLocation().then((value) {
-      Utility.getCurrentLocation().then((value) {
-        Utility.printDLog(value.addressLine1);
-        model
-          ..city = value.city
-          ..country = value.country;
-        update();
-      });
-    });
+    _controller.getCurrentLocation();
     Utility.getCurrentLatLng().then((value) {
       Utility.printDLog('${value.latitude} ${value.longitude}');
       model
         ..lat = value.latitude
         ..long = value.longitude;
+    });
+    Utility.getCurrentLocation().then((value) {
+      Utility.printDLog(value.addressLine1);
+      model
+        ..city = value.city
+        ..country = value.country;
+      Utility.printDLog('${value.city}, ${value.country}');
+      update();
     });
     model = ProfileModel();
     model.dob = 'Your Birthday';
