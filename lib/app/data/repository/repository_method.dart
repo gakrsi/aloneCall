@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/distance_model.dart';
+import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/location_avtar_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
@@ -21,9 +22,10 @@ class Repository {
     uid = currentUser();
   }
   String uid;
-  Stream<QuerySnapshot> userStream(String gender) => FirebaseFirestore.instance
+  Stream<QuerySnapshot> userStream(String gender,FilterModel filterModel) => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
       .where('gender', isEqualTo: gender)
+      .where('language', arrayContainsAny: filterModel.language)
       .snapshots();
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -79,16 +81,19 @@ class Repository {
       // .where('receiver_uid',isEqualTo: uid)
       .snapshots();
 
-  void distanceStream(double lat, double long) async{
+  void distanceStream(double lat, double long) async {
     var user = await firebaseFireStore.collection(FirebaseConstant.user).get();
     for (var i = 0; i < user.docs.length; i++) {
       var distanceModel = DistanceModel()
-      ..uid = user.docs[i]['uid'] as String
-      ..image = user.docs[i]['profile_image_url'][0]as String
-      ..distance = Geolocator.distanceBetween(lat, long, user.docs[i]['lat'] as double, user.docs[i]['long'] as double).ceilToDouble();
-      print(distanceModel.distance/1000.ceilToDouble());
+        ..uid = user.docs[i]['uid'] as String
+        ..image = user.docs[i]['profile_image_url'][0] as String
+        ..distance = Geolocator.distanceBetween(lat, long,
+                user.docs[i]['lat'] as double, user.docs[i]['long'] as double)
+            .ceilToDouble();
+      print(distanceModel.distance / 1000.ceilToDouble());
     }
   }
+
   Future<bool> checkUserOnCall(String receiverUid) async {
     var busy = false;
     await firebaseFireStore
@@ -197,10 +202,28 @@ class Repository {
   }
 
   Future<void> createProfile(ProfileModel obj) async {
+    var languageList  = <String>[];
+    languageList.add(obj.lang);
+    var filterModel = FilterModel()
+      ..initAge = DateTime.now().year - int.parse(obj.dob.substring(0, 4))
+      ..lastAge = (DateTime.now().year - int.parse(obj.dob.substring(0, 4))) + 5
+      ..initDistance = 0
+      ..lastDistance = 25
+      ..language = languageList;
+
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
         .set(obj.toMap(obj));
+    await addFilter(filterModel);
+  }
+
+  Future<void> updateFilter(FilterModel filterModel) async{
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.filter).update(filterModel.toJson(filterModel));
   }
 
   Future<void> updateProfile(ProfileModel obj) async {
@@ -214,13 +237,35 @@ class Repository {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(model.callerUid)
-        .collection(FirebaseConstant.history).doc('${model.receiverUid}${model.time}')
-        .set(model.toJson(model));
+        .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(model.receiverUid)
-        .collection(FirebaseConstant.history).doc('${model.callerUid}${model.time}')
-        .set(model.toJson(model));
+        .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
+  }
+
+  Future<FilterModel> getFilterDetails() async {
+    var data = <String,dynamic>{};
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.filter)
+        .get().then((value){
+          data = value.data();
+          Utility.printDLog('$data');
+    });
+    return FilterModel.fromJson(data);
+  }
+
+  Future<void> addFilter(FilterModel filterModel) async{
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.filter).set(filterModel.toJson(filterModel));
   }
 
   Future<Map<String, dynamic>> getProfile() async {

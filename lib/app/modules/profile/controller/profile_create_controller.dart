@@ -21,7 +21,6 @@ class ProfileCreateController extends GetxController {
 
   @override
   void onInit() {
-    _controller.getCurrentLocation();
     Utility.getCurrentLatLng().then((value) {
       Utility.printDLog('${value.latitude} ${value.longitude}');
       model

@@ -22,15 +22,18 @@ class CallService extends GetxController {
     callStreamSubscription.cancel();
     super.onClose();
   }
+  AssetsAudioPlayer assetsAudioPlayer;
   void playCallingTune(){
     AssetsAudioPlayer.newPlayer().open(
-      Audio('assets/audio/RingTone.mp3'),
+      Audio('assets/audio/ringing.mp3'),
       autoStart: true,
     );
   }
+  void closeCallingTune(){
+  }
   void playIncomingRingTune(){
     AssetsAudioPlayer.newPlayer().open(
-      Audio('assets/audio/ringing.mp3'),
+      Audio('assets/audio/RingTone.mp3'),
       autoStart: true,
     );
   }
@@ -54,7 +57,7 @@ class CallService extends GetxController {
         if (ds.exists) {
           var callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
           if ((callingModel.callerUid != Repository().uid) && !callReceived) {
-
+            playCallingTune();
             Utility.showCallPickupDialog(callingModel);
             Utility.printDLog('${ds.data()}');
           }
@@ -68,26 +71,3 @@ class CallService extends GetxController {
   }
 }
 
-//         var model = CallingModel.fromJson(
-//             snapshot.data.docs[0].data() as Map<String, dynamic>);
-//         if (model.callerUid == Repository().uid) {
-//           return Scaffold(
-//             backgroundColor: Colors.white,
-//             bottomNavigationBar: BottomNavigation(),
-//             body: IndexedStack(
-//               index: _controller.currentTab,
-//               children: [
-//                 HomePage(),
-//                 NearYouMapView(),
-//                 HistoryPage(),
-//                 RandomVideoCallView(),
-//                 ProfileView(),
-//               ],
-//             ),
-//           );
-//         }
-//
-//         return PickUpScreen(
-//           callingModel: model,
-//         );
-//       },

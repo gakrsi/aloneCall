@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
+import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/maker_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
@@ -26,9 +27,41 @@ class HomeController extends GetxController {
   PageStatus pageStatus = PageStatus.idle;
 
   ProfileModel model = ProfileModel();
+  FilterModel filterModel = FilterModel();
 
   String city = '';
   String country = '';
+
+  List<String> languageList = <String>[
+    'English',
+    'Hindi',
+    'Bengali',
+    'Marathi',
+    'Telugu',
+    'Tamil',
+    'Gujarati',
+    'Urdu',
+    'Kannada',
+    'Odia (Oriya)',
+    'Malayalam',
+    'Punjabi',
+    'Bodo',
+    'Dogri',
+    'Kashmiri',
+    'Konkani',
+    'Maithili',
+    'Manipuri',
+    'Nepali',
+    'Sanskrit',
+    'Santali Language',
+    'Sindhi',
+    'Assamese'
+  ];
+
+  void addLanguageToList(String value) {
+    filterModel.language.add(value);
+    update();
+  }
 
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
@@ -62,9 +95,16 @@ class HomeController extends GetxController {
     return 'Female';
   }
 
+  int startAge = 0;
+  int lastAge = 0;
+  int initialDistance = 0;
+  int lastDistance = 0;
+
   List<LatLng> latLong = <LatLng>[];
+
   @override
   void onInit() async {
+    filterModel = await Repository().getFilterDetails();
     updateCurrentLocation();
     await Repository().latLongOfAllUser().then((value) {
       for (var i = 0; i < value.length; i++) {
@@ -85,6 +125,20 @@ class HomeController extends GetxController {
 
   void changeProfileTab(int index) {
     profileCurrentTab = index;
+    update();
+  }
+
+  void updateAgeSlider(dynamic initAge, dynamic lastAge) {
+    filterModel
+      ..initAge = initAge as int
+      ..lastAge = lastAge as int;
+    update();
+  }
+
+  void updateDistanceSlider(dynamic initDistance, dynamic lastDistance) {
+    filterModel
+      ..initDistance = initialDistance
+      ..lastDistance = lastDistance as int;
     update();
   }
 

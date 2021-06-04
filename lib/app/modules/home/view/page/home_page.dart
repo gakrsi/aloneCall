@@ -7,6 +7,7 @@ import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
@@ -29,21 +30,27 @@ class HomePage extends StatelessWidget {
                     width: 100,
                   ),
                   actions: [
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
-                        onPressed: ()
-                        {
-                          RoutesManagement.goToSearchScreen();
-                        },
-                        icon: const Icon(Icons.search, color: Colors.white,)
-                      ),
+                          onPressed: () {
+                            RoutesManagement.goToSearchScreen();
+                          },
+                          icon: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          )),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.filter_list_alt,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          RoutesManagement.goToFilterScreen();
+                        },
+                        icon: const Icon(
+                          Icons.filter_list_alt,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -151,7 +158,7 @@ class HomePage extends StatelessWidget {
               return model.uid == Repository().currentUser()
                   ? const SizedBox()
                   : Padding(
-                      padding: EdgeInsets.only(right:Dimens.five),
+                      padding: EdgeInsets.only(right: Dimens.five),
                       child: InkWell(
                         onTap: () {
                           RoutesManagement.goToOthersProfileDetail(model);
@@ -222,7 +229,7 @@ class HomePage extends StatelessWidget {
   Widget _userGridView(HomeController con) => SizedBox(
         height: 1000,
         child: StreamBuilder(
-            stream: Repository().userStream(con.gender()),
+            stream: Repository().userStream(con.gender(), con.filterModel),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -231,30 +238,33 @@ class HomePage extends StatelessWidget {
 
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: List.generate(10, (index) => Container(
-                    height: 250,
-                    width: Dimens.screenWidth / 2 - 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1.5, color: Colors.white),
-                        borderRadius: BorderRadius.circular(Dimens.fifteen),
-                        image: const DecorationImage(
-                            image: AssetImage(
-                                'assets/img/loading.gif'),
-                            fit: BoxFit.cover),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          ),
-                        ]),
-                  ))
-                );
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: List.generate(
+                        10,
+                        (index) => Container(
+                              height: 250,
+                              width: Dimens.screenWidth / 2 - 100,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1.5, color: Colors.white),
+                                  borderRadius:
+                                      BorderRadius.circular(Dimens.fifteen),
+                                  image: const DecorationImage(
+                                      image:
+                                          AssetImage('assets/img/loading.gif'),
+                                      fit: BoxFit.cover),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ]),
+                            )));
               }
               return GridView.count(
                 crossAxisCount: 2,
@@ -264,6 +274,18 @@ class HomePage extends StatelessWidget {
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
                   var model = ProfileModel.fromJson(
                       document.data() as Map<String, dynamic>);
+                  var distance = Geolocator.distanceBetween(
+                          con.lat, con.long, model.lat, model.long) /
+                      1000;
+                  var age = DateTime.now().year -
+                      int.parse(model.dob.substring(0, 4));
+
+                  if (con.filterModel.initAge > age ||
+                      con.filterModel.lastAge < age ||
+                      !con.filterModel.language.contains(model.lang) || con.filterModel.initDistance > distance || con.lastDistance <distance) {
+                    return const SizedBox();
+                  }
+
                   return InkWell(
                     onTap: () =>
                         RoutesManagement.goToOthersProfileDetail(model),

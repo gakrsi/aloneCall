@@ -35,5 +35,6 @@ class StringConstants {
   static const String space = 'space';
   static const String getCurrentLocation = 'getCurrentLocation';
   static const String searchLocation = 'searchLocation';
-
+  static const String filter = 'Filter';
+  static const String apply = 'Apply';
 }

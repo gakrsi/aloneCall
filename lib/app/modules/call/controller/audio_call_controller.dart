@@ -9,6 +9,7 @@ import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,9 @@ class AudioCallController extends GetxController {
   bool enableInEarMonitoring = false;
   double recordingVolume = 0, playbackVolume = 0, inEarMonitoringVolume = 0;
   StreamSubscription callStreamSubscription;
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
+
 
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
@@ -182,6 +186,20 @@ class AudioCallController extends GetxController {
     _engine.enableInEarMonitoring(value);
   }
 
+
+
+  void playCallingTune(){
+    assetsAudioPlayer.loopMode.listen((loopMode){
+      //listen to loop
+      assetsAudioPlayer..open(
+        Audio('assets/audio/ringing.mp3'),
+        autoStart: true,
+      )
+        ..currentLoopMode
+        ..setLoopMode(LoopMode.single);
+    });
+  }
+
   void updateCallStatus(CallStatus callStatus) {
     if (callStatus == CallStatus.connecting) {
       callStatusText = 'Connecting...';
@@ -191,8 +209,10 @@ class AudioCallController extends GetxController {
     }
     if (callStatus == CallStatus.ringing) {
       callStatusText = 'Ringing...';
+      playCallingTune();
     }
     if (callStatus == CallStatus.connected) {
+      assetsAudioPlayer.pause();
       callStatusText = 'Connected';
       showTimer = true;
     }

@@ -5,4 +5,6 @@ abstract class FirebaseConstant{
   static const String history = 'HISTORY';
   static const String call = 'CALL';
   static const String blockUser = 'BLOCK_USER';
+  static const String userDetails = 'USER_DETAILS';
+  static const String filter = 'FILTER';
 }

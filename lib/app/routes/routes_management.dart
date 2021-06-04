@@ -120,5 +120,12 @@ abstract class RoutesManagement{
       AppRoutes.blockedList,
     );
   }
+
+  /// Go to the Blocked List screen
+  static void goToFilterScreen(){
+    Get.toNamed<void>(
+      AppRoutes.filter,
+    );
+  }
 }
 

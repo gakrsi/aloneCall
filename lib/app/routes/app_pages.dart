@@ -6,6 +6,7 @@ import 'package:alonecall/app/modules/edit_profile/binding/profile_edit_binding.
 import 'package:alonecall/app/modules/edit_profile/view/profile_edit_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
+import 'package:alonecall/app/modules/home/view/page/fliter_view.dart';
 import 'package:alonecall/app/modules/login/view/login_view.dart';
 import 'package:alonecall/app/modules/login/binding/login_binding.dart';
 import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
@@ -138,6 +139,12 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => BlockedList(),
       binding: SettingBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.filter,
+      transitionDuration: transitionDuration,
+      page: () => FilterView(),
       transition: Transition.rightToLeft,
     ),
   ];
