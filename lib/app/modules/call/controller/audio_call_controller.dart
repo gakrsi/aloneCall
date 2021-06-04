@@ -101,6 +101,7 @@ class AudioCallController extends GetxController {
     await Repository().endVideoCall(callingModel).then((value) async {
       Utility.printDLog('Leaving channel');
       await _engine.leaveChannel();
+      await _controller.reloadProfileDetails();
       Get.back<dynamic>();
     });
   }
@@ -188,11 +189,9 @@ class AudioCallController extends GetxController {
     _engine.enableInEarMonitoring(value);
   }
 
-
-
   void playCallingTune(){
       assetsAudioPlayer..open(
-        Audio('assets/audio/ringing.mp3'),
+        Audio('assets/audio/caller_tune.mp3'),
         autoStart: true,
       )
         ..currentLoopMode
@@ -228,10 +227,12 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          if(_controller.model.audioCoin < callDuration){
-            leaveChannel();
-            _controller.model.coin = 0;
-            Repository().updateAudioCoin(0);
+          if(callingModel.callerUid == Repository().uid){
+            if(_controller.model.audioCoin < callDuration){
+              leaveChannel();
+              _controller.model.coin = 0;
+              Repository().updateAudioCoin(0);
+            }
           }
           print(callDuration);
           if (seconds > 59) {

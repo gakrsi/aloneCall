@@ -5,6 +5,7 @@ import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,11 +19,6 @@ class NearYouMapView extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 title: Text('Near You',style: Styles.white16.copyWith(fontWeight: FontWeight.bold,fontSize: 20),),
-                actions: [
-                  IconButton(icon: const Icon(Icons.more_vert,color: Colors.white,), onPressed: (){
-                    onMapVisible(_controller);
-                  })
-                ],
               ),
               body: StreamBuilder(
                   stream: Repository().nearYou(_controller.model.city),
@@ -31,8 +27,7 @@ class NearYouMapView extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Column(
                           children: List.generate(
-                              4,
-                                  (index) => Padding(
+                              4, (index) => Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Container(
                                   width: Dimens.screenWidth,
@@ -44,15 +39,28 @@ class NearYouMapView extends StatelessWidget {
                                 ),
                               )));
                     }
+
                     return ListView(
-                        children: snapshot.data.docs
-                            .map((DocumentSnapshot document) {
+                        children: snapshot.data.docs.map((DocumentSnapshot document) {
                           var model = ProfileModel.fromJson(
                               document.data() as Map<String, dynamic>);
                           var distance = Geolocator.distanceBetween(_controller.lat,_controller.long,model.lat,model.long)/1000;
-                          if(model.uid == Repository().uid){
+                          var counter = 0;
+                          if(counter == 0){
+                            return Container(
+                              height: Dimens.screenHeight,
+                              width: Dimens.screenWidth,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/img/no_data.png')
+                                )
+                              ),
+                            );
+                          }
+                          if(model.uid == Repository().uid || distance <= 25){
                             return const SizedBox();
                           }
+                          counter ++;
                           return InkWell(
                             onTap: () {
                               RoutesManagement.goToOthersProfileDetail(model);
@@ -123,90 +131,4 @@ class NearYouMapView extends StatelessWidget {
       ),
     )
   );
-  // Widget stack() => Stack(
-  //   children: <Widget>[
-  //     // Google Map widget
-  //     _controller.lat == 0.0 ?Container():Opacity(
-  //       opacity: _controller.isMapLoading ? 0 : 1,
-  //       child: GoogleMap(
-  //         mapType: MapType.normal,
-  //         mapToolbarEnabled: true,
-  //         zoomGesturesEnabled: true,
-  //         myLocationButtonEnabled: true,
-  //         myLocationEnabled: true,
-  //         zoomControlsEnabled: true,
-  //         initialCameraPosition: CameraPosition(
-  //           target: LatLng(_controller.lat, _controller.long),
-  //           zoom: _controller.currentZoom,
-  //         ),
-  //         markers: _controller.markers,
-  //         onMapCreated: (controller) => _controller.onMapCreated(controller),
-  //         onCameraMove: (position) => _controller.updateMarkers(position.zoom),
-  //       ),
-  //     ),
-  //     // Map loading indicator
-  //     Opacity(
-  //       opacity: _controller.isMapLoading ? 1 : 0,
-  //       child: const Center(child: CircularProgressIndicator()),
-  //     ),
-  //     Positioned(
-  //       top:0,
-  //       child: Container(
-  //         width: Dimens.screenWidth,
-  //         height: Dimens.thirty,
-  //         color: Colors.black45,
-  //         child: Row(
-  //           children: [
-  //             const Icon(Icons.location_on,color: Colors.white,),
-  //             SizedBox(width: Dimens.ten,),
-  //             Text('${_controller.city}, ${_controller.country}',style: Styles.white16,)
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //     // Map markers loading indicator
-  //     if (_controller.areMarkersLoading)
-  //       Padding(
-  //         padding: const EdgeInsets.all(8.0),
-  //         child: Align(
-  //           alignment: Alignment.topCenter,
-  //           child: Card(
-  //             elevation: 2,
-  //             color: Colors.grey.withOpacity(0.9),
-  //             child: const Padding(
-  //               padding:  EdgeInsets.all(4),
-  //               child: Text(
-  //                 'Loading',
-  //                 style: TextStyle(color: Colors.white),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //   ],
-  // );
-  void onMapVisible(HomeController con){
-    Get.bottomSheet<dynamic>(
-        Container(
-          color: Colors.white,
-          height: Dimens.ninetyTwo,
-          width: Dimens.screenWidth,
-          child: ListTile(
-            title:  Text('Visibility',style: Styles.black18,),
-            subtitle: Text(con.textValue),
-            trailing: Transform.scale(
-                scale: 2,
-                child: Switch(
-                  onChanged: con.toggleSwitch,
-                  value: con.isSwitched,
-                  activeColor: Colors.blue,
-                  activeTrackColor: Colors.yellow,
-                  inactiveThumbColor: Colors.redAccent,
-                  inactiveTrackColor: Colors.orange,
-                )
-            ),
-          ),
-
-    ));
-  }
 }

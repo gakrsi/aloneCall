@@ -8,6 +8,7 @@ import 'package:alonecall/app/theme/dimens.dart';
 import 'package:alonecall/app/theme/styles.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class NotificationPage extends StatelessWidget {
                 stream: Repository().notificationStream(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
+
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return ListView(
                       children: List.generate(
@@ -55,13 +57,36 @@ class NotificationPage extends StatelessWidget {
                               )),
                     );
                   }
+                  if(snapshot.data.docs.isEmpty){
+                    return Container(
+                      height: Dimens.screenHeight,
+                      width: Dimens.screenWidth,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/img/no_data.png')
+                          )
+                      ),
+                    );
+                  }
                   return ListView(
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
-                    var model = HistoryModel.fromJson(
-                        document.data() as Map<String, dynamic>);
+                      children: snapshot.data.docs.map((DocumentSnapshot document) {
+                    var model = HistoryModel.fromJson(document.data() as Map<String, dynamic>);
+                    var counter = 0;
+                    if(counter == 0){
+                      return Container(
+                        height: Dimens.screenHeight,
+                        width: Dimens.screenWidth,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/img/no_data.png')
+                            )
+                        ),
+                      );
+                    }
                     if (model.receiverUid == Repository().uid &&
                         model.callDuration == 0.0) {
+                      counter ++;
+                      Utility.printDLog('$counter');
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: SizedBox(

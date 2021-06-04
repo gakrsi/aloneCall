@@ -51,6 +51,19 @@ class HistoryPage extends StatelessWidget {
                       )),
                     );
                   }
+                  var counter = 0;
+                  if(counter == 0){
+                    return Container(
+                      height: Dimens.screenHeight,
+                      width: Dimens.screenWidth,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/img/no_data.png')
+                          )
+                      ),
+                    );
+                  }
+                  counter ++;
                   return ListView(
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
@@ -134,94 +147,6 @@ class HistoryPage extends StatelessWidget {
                     );
                   }).toList());
                 })
-            // Padding(
-            //   padding: const EdgeInsets.all(12.0),
-            //   child: SizedBox(
-            //     width: Dimens.screenWidth,
-            //     height: Dimens.fifty,
-            //     child: Row(
-            //       children: [
-            //         Container(
-            //           height: Dimens.fifty,
-            //           width: Dimens.fifty,
-            //           decoration: BoxDecoration(
-            //               color: ColorsValue.lightGreyColor,
-            //               borderRadius: BorderRadius.circular(Dimens.fifty)),
-            //         ),
-            //         SizedBox(
-            //           width: Dimens.ten,
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.all(3.0),
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.start,
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               Row(
-            //                 children: [
-            //                   Text('Name, 20 Min', style: Styles.blackBold16),
-            //                   Padding(
-            //                     padding: const EdgeInsets.fromLTRB(5, 2, 0, 0),
-            //                     child: Icon(
-            //                       Icons.videocam,
-            //                       size: Dimens.sixTeen,
-            //                       color: Colors.black,
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //               Row(
-            //                 children: [
-            //                   Icon(
-            //                     Icons.call_made,
-            //                     size: Dimens.sixTeen,
-            //                     color: Colors.green,
-            //                   ),
-            //                   Text(' Today, 22:20', style: Styles.black12),
-            //                 ],
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //         const Spacer(),
-            //         Padding(
-            //           padding: const EdgeInsets.all(3.0),
-            //           child: Container(
-            //             height: Dimens.fourty,
-            //             width: Dimens.fourty,
-            //             decoration: BoxDecoration(
-            //                 color: ColorsValue.primaryColor,
-            //                 borderRadius: BorderRadius.circular(Dimens.fifty)),
-            //             child: Icon(
-            //               Icons.phone,
-            //               color: Colors.white,
-            //               size: Dimens.twenty,
-            //             ),
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           width: Dimens.five,
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.all(3.0),
-            //           child: Container(
-            //             height: Dimens.fourty,
-            //             width: Dimens.fourty,
-            //             decoration: BoxDecoration(
-            //                 color: ColorsValue.primaryColor,
-            //                 borderRadius: BorderRadius.circular(Dimens.fifty)),
-            //             child: Icon(
-            //               Icons.videocam,
-            //               color: Colors.white,
-            //               size: Dimens.twenty,
-            //             ),
-            //           ),
-            //         ),
-            //         const Divider()
-            //       ],
-            //     ),
-            //   ),
-            // )
             ),
       );
 }

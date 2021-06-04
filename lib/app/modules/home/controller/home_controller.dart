@@ -2,23 +2,33 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
-import 'package:alonecall/app/data/model/maker_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/local_storage_repository.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
-import 'package:alonecall/app/modules/home/view/local_widget/profile_edit_dialog.dart';
-import 'package:alonecall/app/utils/map_helper.dart';
+import 'package:alonecall/app/modules/home/view/page/fliter_view.dart';
+import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/utility.dart';
-import 'package:fluster/fluster.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class HomeController extends GetxController {
   /// Current index in [HomeView]
   int currentTab = 0;
+  int profileCurrentTab = 0;
+
+  double lat = 0.0;
+  double long = 0.0;
+
+  int startAge = 0;
+  int lastAge = 0;
+  int initialDistance = 0;
+  int lastDistance = 0;
+
+  List<LatLng> latLong = <LatLng>[];
 
   bool isSwitched = false;
   String textValue = '';
@@ -33,14 +43,11 @@ class HomeController extends GetxController {
   String country = '';
 
   List<String> languageList = <String>[
-    'English',
-    'Hindi',
-    'Bengali',
+    'English', 'Hindi', 'Bengali',
     'Marathi',
     'Telugu',
     'Tamil',
-    'Gujarati',
-    'Urdu',
+    'Gujarati', 'Urdu',
     'Kannada',
     'Odia (Oriya)',
     'Malayalam',
@@ -58,23 +65,6 @@ class HomeController extends GetxController {
     'Assamese'
   ];
 
-  void addLanguageToList(String value) {
-    filterModel.language.add(value);
-    update();
-  }
-
-  void toggleSwitch(bool value) {
-    if (isSwitched == false) {
-      isSwitched = true;
-      textValue = 'You are visible on map now';
-      update();
-    } else {
-      isSwitched = false;
-      textValue = 'You are invisible on map now';
-      update();
-    }
-  }
-
   final List<BottomNavigationBarItem> tab = <BottomNavigationBarItem>[
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: ' '),
@@ -83,24 +73,7 @@ class HomeController extends GetxController {
     const BottomNavigationBarItem(icon: Icon(Icons.money), label: ' '),
   ];
 
-  void changeTab(int index) {
-    currentTab = index;
-    update();
-  }
 
-  String gender() {
-    if (model.gender == 'Female') {
-      return 'Male';
-    }
-    return 'Female';
-  }
-
-  int startAge = 0;
-  int lastAge = 0;
-  int initialDistance = 0;
-  int lastDistance = 0;
-
-  List<LatLng> latLong = <LatLng>[];
 
   @override
   void onInit() async {
@@ -121,7 +94,26 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  int profileCurrentTab = 0;
+  void changeTab(int index) {
+    currentTab = index;
+    update();
+  }
+
+  String gender() {
+    if (model.gender == 'Female') {
+      return 'Male';
+    }
+    return 'Female';
+  }
+
+  Future<void> reloadProfileDetails() async {
+    var data = await Repository().getProfile();
+    model = ProfileModel.fromJson(data);
+    var encoder = const JsonEncoder.withIndent('  ');
+    var prettyPrint = encoder.convert(data);
+    print(prettyPrint);
+    update();
+  }
 
   void updateCoin(){
     var coin = LocalRepository().getCoin();
@@ -140,6 +132,45 @@ class HomeController extends GetxController {
     update();
   }
 
+  void updateCurrentLocation()  {
+    Utility.getCurrentLocation().then((value) {
+      city = value.city;
+      country = value.country;
+      update();
+    });
+  }
+
+  /// Get current lat long of the device.
+  Future<void> getCurrentLatLng() async {
+    var latLong = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    lat = latLong.latitude;
+    long = latLong.longitude;
+    update();
+    Repository().distanceStream(lat, long);
+    Utility.printDLog('Current lat,long $lat, $long');
+  }
+
+  ///######################################[FilterView]################################
+
+  void addLanguageToList(String value) {
+    if(filterModel.language.contains(value)){
+      filterModel.language.remove(value);
+    }
+    else{
+      filterModel.language.add(value);
+    }
+    update();
+  }
+
+  void onApplyFilter(){
+    Utility.printDLog('Apply filter');
+    Utility.showLoadingDialog();
+    Repository().updateFilter(filterModel).whenComplete(RoutesManagement.goToHome);
+
+  }
+
   void updateAgeSlider(dynamic initAge, dynamic lastAge) {
     filterModel
       ..initAge = int.parse(initAge.toString().split('.')[0])
@@ -154,136 +185,66 @@ class HomeController extends GetxController {
     update();
   }
 
-  void updateCurrentLocation()  {
-    Utility.getCurrentLocation().then((value) {
-      city = value.city;
-      country = value.country;
-      update();
-    });
+  ///######################################[PaymentView]################################
+
+  Razorpay razorPay = Razorpay();
+  Map<String, dynamic> options;
+  bool isAudio;
+  int amount;
+  int minute;
+
+  void _initializePayment() {
+    razorPay
+      ..on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess)
+      ..on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError)
+      ..on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  /// Close any open dialog.
-  static void closeDialog() {
-    if (Get.isDialogOpen ?? false) Get.back<void>();
-  }
-
-  void showEditProfileDialog() {
-    closeDialog();
-    Get.bottomSheet<void>(
-      ProfileEditDialog(
-        model: model,
-      ),
-    );
-  }
-
-  double lat = 0.0;
-  double long = 0.0;
-
-  /// Get current lat long of the device.
-  Future<void> getCurrentLatLng() async {
-    var latLong = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    lat = latLong.latitude;
-    long = latLong.longitude;
-    Repository().distanceStream(lat, long);
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    !isAudio
+        ? Repository().addVideoCoin(minute*60 + model.coin)
+        : Repository().addAudioCoin(minute*60 + model.audioCoin);
+    isAudio
+        ? model.audioCoin =  minute*60 + model.audioCoin
+        : model.coin = minute*60 + model.coin;
     update();
-    Utility.printDLog('Current lat,long $lat, $long');
+    razorPay.clear();
+    Utility.showError('SUCCESS: ${response.paymentId}');
   }
 
-  final Completer<GoogleMapController> _mapController = Completer();
-
-  /// Set of displayed markers and cluster markers on the map
-  final Set<Marker> markers = {};
-
-  /// Minimum zoom at which the markers will cluster
-  final int minClusterZoom = 0;
-
-  /// Maximum zoom at which the markers will cluster
-  final int maxClusterZoom = 19;
-
-  /// [Fluster] instance used to manage the clusters
-  Fluster<MapMarker> clusterManager;
-
-  /// Current map zoom. Initial zoom will be 15, street level
-  double currentZoom = 15;
-
-  /// Map loading flag
-  bool isMapLoading = true;
-
-  /// Markers loading flag
-  bool areMarkersLoading = true;
-
-  /// Url image used on normal markers
-  final String markerImageUrl =
-      'https://img.icons8.com/office/80/000000/marker.png';
-
-  /// Color of the cluster circle
-  final Color clusterColor = Colors.blue;
-
-  /// Color of the cluster text
-  final Color clusterTextColor = Colors.white;
-
-  /// Called when the Google Map widget is created. Updates the map loading state
-  /// and inits the markers.
-  void onMapCreated(GoogleMapController controller) {
-    _mapController.complete(controller);
-    isMapLoading = false;
-    update();
-    _initMarkers();
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Utility.showError('ERROR: ${response.code} - ${response.message}');
   }
 
-  /// Inits [Fluster] and all the markers with network images and updates the loading state.
-  void _initMarkers() async {
-    final markers = <MapMarker>[];
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Utility.showError('EXTERNAL_WALLET: ${response.walletName}');
+  }
 
-    for (var markerLocation in latLong) {
-      final markerImage = await MapHelper.getMarkerImageFromUrl(markerImageUrl);
-
-      markers.add(
-        MapMarker(
-          id: latLong.indexOf(markerLocation).toString(),
-          position: markerLocation,
-          icon: markerImage,
-        ),
-      );
+  void checkout() {
+    options = <String, dynamic>{
+      'key': 'rzp_test_HGESD2Chi4Y3yy',
+      'amount': amount * 100,
+      'name': 'AloneCall.com',
+      'description': 'Coins',
+      'prefill': {'email': 'alonecall@gmail.com', 'contact': '8888888888'},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+    try {
+      razorPay.open(options);
+    } catch (e) {
+      Utility.printDLog('$e');
     }
-
-    clusterManager = await MapHelper.initClusterManager(
-      markers,
-      minClusterZoom,
-      maxClusterZoom,
-    );
-
-    await updateMarkers();
   }
 
-  /// Gets the markers and clusters to be displayed on the map for the current zoom level and
-  /// updates state.
-  Future<void> updateMarkers([double updatedZoom]) async {
-    if (clusterManager == null || updatedZoom == currentZoom) return;
-
-    if (updatedZoom != null) {
-      currentZoom = updatedZoom;
-    }
-
-    areMarkersLoading = true;
+  void onClickPlanOption(bool audio, int am, int min){
+    _initializePayment();
+    isAudio = audio;
+    amount = am;
+    minute = min;
     update();
-
-    final updatedMarkers = await MapHelper.getClusterMarkers(
-      clusterManager,
-      currentZoom,
-      clusterColor,
-      clusterTextColor,
-      80,
-    );
-
-    markers
-      ..clear()
-      ..addAll(updatedMarkers);
-
-    areMarkersLoading = false;
-    update();
+    checkout();
   }
 
   /// Update the page status

@@ -1,10 +1,8 @@
-import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/theme/colors_value.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
-import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:get/get.dart';
@@ -163,8 +161,7 @@ class FilterView extends StatelessWidget {
                       ),
                       InkWell(
                           onTap: () {
-                            Utility.showLoadingDialog();
-                            Repository().updateFilter(_controller.filterModel).whenComplete(Utility.closeDialog);
+                            _controller.onApplyFilter();
                           },
                           child: PrimaryButton(
                             title: StringConstants.apply,

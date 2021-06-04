@@ -22,18 +22,10 @@ class CallService extends GetxController {
     callStreamSubscription.cancel();
     super.onClose();
   }
-  AssetsAudioPlayer assetsAudioPlayer;
-  void playCallingTune(){
-    AssetsAudioPlayer.newPlayer().open(
-      Audio('assets/audio/ringing.mp3'),
-      autoStart: true,
-    );
-  }
-  void closeCallingTune(){
-  }
+
   void playIncomingRingTune(){
     AssetsAudioPlayer.newPlayer().open(
-      Audio('assets/audio/RingTone.mp3'),
+      Audio('assets/audio/ringing_tume.mp3'),
       autoStart: true,
     );
   }
@@ -57,7 +49,7 @@ class CallService extends GetxController {
         if (ds.exists) {
           var callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
           if ((callingModel.callerUid != Repository().uid) && !callReceived) {
-            playCallingTune();
+            playIncomingRingTune();
             Utility.showCallPickupDialog(callingModel);
             Utility.printDLog('${ds.data()}');
           }
