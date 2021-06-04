@@ -150,6 +150,8 @@ class AudioCallController extends GetxController {
       callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) {
         Utility.printDLog('Listening to call Stream');
         if (ds.data() == null) {
+          _controller.model.audioCoin -= callDuration;
+          Repository().updateAudioCoin(_controller.model.audioCoin - callDuration);
           leaveChannel();
         }
       });
@@ -189,15 +191,12 @@ class AudioCallController extends GetxController {
 
 
   void playCallingTune(){
-    assetsAudioPlayer.loopMode.listen((loopMode){
-      //listen to loop
       assetsAudioPlayer..open(
         Audio('assets/audio/ringing.mp3'),
         autoStart: true,
       )
         ..currentLoopMode
         ..setLoopMode(LoopMode.single);
-    });
   }
 
   void updateCallStatus(CallStatus callStatus) {
@@ -229,7 +228,11 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          Repository().subtractCoin();
+          if(_controller.model.audioCoin < callDuration){
+            leaveChannel();
+            _controller.model.coin = 0;
+            Repository().updateAudioCoin(0);
+          }
           print(callDuration);
           if (seconds > 59) {
             minutes += 1;

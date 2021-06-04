@@ -6,6 +6,7 @@ import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +23,7 @@ class VideoCallController extends GetxController {
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
-
+  final HomeController _controller = Get.find();
   bool isNotDial;
   String callStatusText = 'Connecting...';
   RtcEngine _engine;
@@ -103,10 +104,11 @@ class VideoCallController extends GetxController {
     print('call stream called in video screen');
     SchedulerBinding.instance.addPostFrameCallback((_) {
       callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
-            if(ds.data() == null){
-              leaveChannel();
-              // Get.back<void>();
-            }
+        if (ds.data() == null) {
+          _controller.model.audioCoin -= callDuration;
+          Repository().updateCoin(_controller.model.coin - callDuration);
+          leaveChannel();
+        }
       });
     });
   }
@@ -243,6 +245,7 @@ class VideoCallController extends GetxController {
     }
     update();
   }
+
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
@@ -253,6 +256,11 @@ class VideoCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
+          if(_controller.model.audioCoin < callDuration){
+            leaveChannel();
+            _controller.model.audioCoin = 0;
+            Repository().updateCoin(0);
+          }
           print(callDuration);
           if (seconds > 59) {
             minutes += 1;

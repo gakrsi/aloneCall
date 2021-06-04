@@ -4,10 +4,10 @@ import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/maker_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/repository/local_storage_repository.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/home/view/local_widget/profile_edit_dialog.dart';
-import 'package:alonecall/app/modules/home/view/page/profile_page.dart';
 import 'package:alonecall/app/utils/map_helper.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:fluster/fluster.dart';
@@ -117,11 +117,23 @@ class HomeController extends GetxController {
     print(prettyPrint);
     await getCurrentLatLng();
     model = ProfileModel.fromJson(data);
+    updateCoin();
     super.onInit();
   }
 
-  ///##########################################[ProfileView]###############################################################################
   int profileCurrentTab = 0;
+
+  void updateCoin(){
+    var coin = LocalRepository().getCoin();
+    var audioCoin = LocalRepository().getCoin();
+
+    if(coin > 0){
+      Repository().updateCoin(model.coin - coin);
+    }
+    if(audioCoin > 0){
+      Repository().updateAudioCoin(model.audioCoin - coin);
+    }
+  }
 
   void changeProfileTab(int index) {
     profileCurrentTab = index;
@@ -130,19 +142,19 @@ class HomeController extends GetxController {
 
   void updateAgeSlider(dynamic initAge, dynamic lastAge) {
     filterModel
-      ..initAge = initAge as int
-      ..lastAge = lastAge as int;
+      ..initAge = int.parse(initAge.toString().split('.')[0])
+      ..lastAge = int.parse(lastAge.toString().split('.')[0]);
     update();
   }
 
   void updateDistanceSlider(dynamic initDistance, dynamic lastDistance) {
     filterModel
-      ..initDistance = initialDistance
-      ..lastDistance = lastDistance as int;
+      ..initDistance = int.parse(initDistance.toString().split('.')[0])
+      ..lastDistance = int.parse(lastDistance.toString().split('.')[0]);
     update();
   }
 
-  void updateCurrentLocation() {
+  void updateCurrentLocation()  {
     Utility.getCurrentLocation().then((value) {
       city = value.city;
       country = value.country;

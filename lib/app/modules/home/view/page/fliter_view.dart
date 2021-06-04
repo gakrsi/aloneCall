@@ -52,7 +52,7 @@ class FilterView extends StatelessWidget {
                               style: Styles.black18,
                             ),
                             _slider(_controller.filterModel.initAge,
-                                _controller.filterModel.lastAge),
+                                _controller.filterModel.lastAge,_controller),
                           ],
                         ),
                       ),
@@ -82,8 +82,8 @@ class FilterView extends StatelessWidget {
                               'Up to ${_controller.filterModel.lastDistance} kilometres away',
                               style: Styles.black18,
                             ),
-                            _slider(_controller.filterModel.initDistance,
-                                _controller.filterModel.lastDistance),
+                            _distanceSlider(_controller.filterModel.initDistance,
+                                _controller.filterModel.lastDistance,_controller),
                           ],
                         ),
                       ),
@@ -180,7 +180,7 @@ class FilterView extends StatelessWidget {
             ),
           ));
 
-  Widget _slider(int init, int last) => FlutterSlider(
+  Widget _slider(int init, int last,HomeController con) => FlutterSlider(
         values: [
           init.toDouble(),
           last.toDouble(),
@@ -228,7 +228,60 @@ class FilterView extends StatelessWidget {
           ),
         ),
     onDragging: ( handlerIndex, dynamic lowerValue,  dynamic upperValue) {
-
+          print(upperValue);
+          con.updateAgeSlider(lowerValue, upperValue);
     },
       );
+
+  Widget _distanceSlider(int init, int last,HomeController con) => FlutterSlider(
+    values: [
+      init.toDouble(),
+      last.toDouble(),
+    ],
+    rangeSlider: true,
+    max: 100, //last.toDouble(),
+    min: 0, //init.toDouble(),
+    touchSize: Dimens.twentyTwo,
+    handler: FlutterSliderHandler(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(width: 2, color: ColorsValue.primaryColor)),
+        child: const Center(
+          child: Icon(
+            Icons.pause,
+            color: ColorsValue.primaryColor,
+          ),
+        ),
+      ),
+    ),
+    rightHandler: FlutterSliderHandler(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(width: 2, color: ColorsValue.primaryColor)),
+        child: const Center(
+          child: Icon(Icons.pause, color: ColorsValue.primaryColor),
+        ),
+      ),
+    ),
+    trackBar: FlutterSliderTrackBar(
+      activeTrackBarHeight: Dimens.seven,
+      inactiveTrackBarHeight: Dimens.seven,
+      inactiveTrackBar: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.grey,
+        border: Border.all(width: 3, color: Colors.grey),
+      ),
+      activeTrackBar: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: ColorsValue.primaryColor,
+      ),
+    ),
+    onDragging: ( handlerIndex, dynamic lowerValue,  dynamic upperValue) {
+      con.updateDistanceSlider(lowerValue, upperValue);
+    },
+  );
 }

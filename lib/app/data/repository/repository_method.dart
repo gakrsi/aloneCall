@@ -348,19 +348,18 @@ class Repository {
     return val;
   }
 
-  Future<void> subtractCoin() async {
-    await firebaseFireStore
-        .collection(FirebaseConstant.user)
-        .doc(uid)
-        .get()
-        .then((value) {
-      var coin = value.data()['audio_coin'] as int;
-      coin -= 1;
-      firebaseFireStore
+  Future<void> updateAudioCoin(int coin) async {
+      await firebaseFireStore
           .collection(FirebaseConstant.user)
           .doc(uid)
           .update({'audio_coin': coin});
-    });
+  }
+
+  Future<void> updateCoin(int coin) async{
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .update({'coin': coin});
   }
 
   Future<List<AvatarModel>> latLongOfAllUser() async {

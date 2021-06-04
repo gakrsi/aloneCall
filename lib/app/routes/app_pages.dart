@@ -145,7 +145,7 @@ abstract class AppPages{
       name: _Paths.filter,
       transitionDuration: transitionDuration,
       page: () => FilterView(),
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     ),
   ];
 

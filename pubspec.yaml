@@ -40,6 +40,7 @@ dependencies:
   google_fonts: any
   google_maps_flutter: ^2.0.6
   google_sign_in: ^5.0.3
+  hive: ^2.0.4
   image_cropper: ^1.4.0
   image_picker: ^0.7.5+2
   in_app_review: ^2.0.2
