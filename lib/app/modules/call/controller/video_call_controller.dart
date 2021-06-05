@@ -9,6 +9,7 @@ import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/utils/network_constant.dart';
 import 'package:alonecall/app/utils/utility.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ import 'package:permission_handler/permission_handler.dart';
 class VideoCallController extends GetxController {
   Repository repo = Repository();
   int callDuration = 0;
+  bool showTimer = false;
+
   Timer _timer;
   int seconds = 0;
   int minutes = 0;
@@ -31,8 +34,27 @@ class VideoCallController extends GetxController {
   bool isJoined = false, switchCamera = true, switchRender = true, muted = false;
   List<int> remoteUid = [];
   StreamSubscription callStreamSubscription;
-
+  final assetsAudioPlayer = AssetsAudioPlayer();
   bool isReceiverBig = false;
+
+  @override
+  void onInit() {
+    _initEngine();
+    checkUserAvailabilityAndBalance();
+    checkIsDial();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    callStreamSubscription.cancel();
+    _engine.destroy();
+    addHistory();
+    if(_timer != null){
+      _timer.cancel();
+    }
+    super.onClose();
+  }
 
   void addHistory(){
     var model = HistoryModel()
@@ -71,21 +93,7 @@ class VideoCallController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    startTimer();
-    _initEngine();
-    checkUserAvailabilityAndBalance();
-    checkIsDial();
-    super.onInit();
-  }
 
-  @override
-  void onClose() {
-    callStreamSubscription.cancel();
-    _engine.destroy();
-    super.onClose();
-  }
 
   Future<void> _initEngine() async {
     _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
@@ -105,7 +113,6 @@ class VideoCallController extends GetxController {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
         if (ds.data() == null) {
-          _controller.model.audioCoin -= callDuration;
           Repository().updateCoin(_controller.model.coin - callDuration);
           leaveChannel();
         }
@@ -121,6 +128,7 @@ class VideoCallController extends GetxController {
           update();
       },
       userJoined: (uid, elapsed) {
+        startTimer();
         log('userJoined  $uid $elapsed');
           remoteUid.add(uid);
           update();
@@ -149,12 +157,12 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> leaveChannel() async {
-    // if(remoteUid.isEmpty){
-    //   await _engine.leaveChannel();
-    //   Get.back<dynamic>();
-    // }
     await Repository().endVideoCall(callingModel).then((value) async {
-      await _engine.leaveChannel().whenComplete(addHistory);
+      await _engine.leaveChannel();
+      Utility.printDLog('Leaving channel');
+      await _engine.leaveChannel();
+      await _controller.reloadProfileDetails();
+      // await assetsAudioPlayer.pause();
       // Get.back<void>();
     });
   }
@@ -230,18 +238,30 @@ class VideoCallController extends GetxController {
       ),
     );
 
-  void updateCallStatus(CallStatus callStatus){
-    if(callStatus == CallStatus.connecting){
+  void playCallingTune(){
+    assetsAudioPlayer..open(
+      Audio('assets/audio/caller_tune.mp3'),
+      autoStart: true,
+    )
+      ..currentLoopMode
+      ..setLoopMode(LoopMode.single);
+  }
+
+  void updateCallStatus(CallStatus callStatus) async {
+    if (callStatus == CallStatus.connecting) {
       callStatusText = 'Connecting...';
     }
-    if(callStatus == CallStatus.offline){
+    if (callStatus == CallStatus.offline) {
       callStatusText = 'User is Offline';
     }
-    if(callStatus == CallStatus.ringing){
+    if (callStatus == CallStatus.ringing) {
       callStatusText = 'Ringing...';
+      playCallingTune();
     }
-    if(callStatus == CallStatus.connected){
+    if (callStatus == CallStatus.connected) {
+      await assetsAudioPlayer.pause();
       callStatusText = 'Connected';
+      showTimer = true;
     }
     update();
   }

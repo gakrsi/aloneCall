@@ -51,8 +51,7 @@ class HistoryPage extends StatelessWidget {
                       )),
                     );
                   }
-                  var counter = 0;
-                  if(counter == 0){
+                  if(snapshot.data.docs.isEmpty){
                     return Container(
                       height: Dimens.screenHeight,
                       width: Dimens.screenWidth,
@@ -63,7 +62,6 @@ class HistoryPage extends StatelessWidget {
                       ),
                     );
                   }
-                  counter ++;
                   return ListView(
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {

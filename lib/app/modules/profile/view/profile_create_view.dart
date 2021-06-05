@@ -27,7 +27,13 @@ class ProfileCreateView extends StatelessWidget {
               centerTitle: true,
               elevation: 0,
               leading: const Icon(Icons.arrow_back_outlined)),
-          body: SingleChildScrollView(
+          body: _con.model.country ==null
+              ?Container(
+            child:  Center(
+              child: Text('Getting your Location',style: Styles.black18,),
+            ),
+          )
+              :SingleChildScrollView(
             child: Stack(
               children: [
                 Padding(

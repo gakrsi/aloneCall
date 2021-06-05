@@ -41,6 +41,25 @@ class AudioCallController extends GetxController {
   StreamSubscription callStreamSubscription;
   final assetsAudioPlayer = AssetsAudioPlayer();
 
+  @override
+  void onInit() {
+    _initEngine();
+    checkIsDial();
+    checkUserAvailabilityAndBalance();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    callStreamSubscription.cancel();
+    addHistory();
+    _engine.destroy();
+    if(_timer != null){
+      _timer.cancel();
+    }
+    super.onClose();
+  }
+
 
 
   Future<void> checkUserAvailabilityAndBalance() async {
@@ -102,6 +121,7 @@ class AudioCallController extends GetxController {
       Utility.printDLog('Leaving channel');
       await _engine.leaveChannel();
       await _controller.reloadProfileDetails();
+      await assetsAudioPlayer.pause();
       Get.back<dynamic>();
     });
   }
@@ -126,24 +146,7 @@ class AudioCallController extends GetxController {
     update();
   }
 
-  @override
-  void onInit() {
-    _initEngine();
-    checkIsDial();
-    checkUserAvailabilityAndBalance();
-    super.onInit();
-  }
 
-  @override
-  void onClose() {
-    callStreamSubscription.cancel();
-    addHistory();
-    _engine.destroy();
-    if(_timer != null){
-      _timer.cancel();
-    }
-    super.onClose();
-  }
 
   void _addPostFrameCallback() {
     Utility.printDLog('call stream called in audio screen');
@@ -198,7 +201,7 @@ class AudioCallController extends GetxController {
         ..setLoopMode(LoopMode.single);
   }
 
-  void updateCallStatus(CallStatus callStatus) {
+  void updateCallStatus(CallStatus callStatus) async {
     if (callStatus == CallStatus.connecting) {
       callStatusText = 'Connecting...';
     }
@@ -210,7 +213,7 @@ class AudioCallController extends GetxController {
       playCallingTune();
     }
     if (callStatus == CallStatus.connected) {
-      assetsAudioPlayer.pause();
+      await assetsAudioPlayer.pause();
       callStatusText = 'Connected';
       showTimer = true;
     }

@@ -20,14 +20,16 @@ class ProfileCreateController extends GetxController {
   List<String> profileImageUrl = <String>['', '', ''];
 
   @override
-  void onInit() {
-    Utility.getCurrentLatLng().then((value) {
+  void onInit() async {
+    model = ProfileModel();
+    model.dob = 'Your Birthday';
+    await Utility.getCurrentLatLng().then((value) {
       Utility.printDLog('${value.latitude} ${value.longitude}');
       model
         ..lat = value.latitude
         ..long = value.longitude;
     });
-    Utility.getCurrentLocation().then((value) {
+    await Utility.getCurrentLocation().then((value) {
       Utility.printDLog(value.addressLine1);
       model
         ..city = value.city
@@ -35,8 +37,6 @@ class ProfileCreateController extends GetxController {
       Utility.printDLog('${value.city}, ${value.country}');
       update();
     });
-    model = ProfileModel();
-    model.dob = 'Your Birthday';
     super.onInit();
   }
 
