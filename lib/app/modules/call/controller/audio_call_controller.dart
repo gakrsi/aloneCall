@@ -20,7 +20,7 @@ import 'package:permission_handler/permission_handler.dart';
 class AudioCallController extends GetxController {
   int callDuration = 0;
   bool showTimer = false;
-  Timer _timer;
+  Timer _timer,_callingTimer;
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
@@ -43,6 +43,7 @@ class AudioCallController extends GetxController {
 
   @override
   void onInit() {
+    callingTimer();
     _initEngine();
     checkIsDial();
     checkUserAvailabilityAndBalance();
@@ -91,6 +92,7 @@ class AudioCallController extends GetxController {
     _engine.setEventHandler(RtcEngineEventHandler(
       userJoined: (uid, elapsed) {
         startTimer();
+        _callingTimer.cancel();
         updateCallStatus(CallStatus.connected);
       },
       joinChannelSuccess: (channel, uid, elapsed) {
@@ -204,6 +206,24 @@ class AudioCallController extends GetxController {
       showTimer = true;
     }
     update();
+  }
+
+  void callingTimer() async {
+    const oneSec = Duration(seconds: 1);
+    _callingTimer = Timer.periodic(
+      oneSec,
+          (Timer timer) async {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+          if(seconds ==30){
+            await repo.endVideoCall(callingModel);
+          }
+          update();
+        }
+      },
+    );
   }
 
   void startTimer() async {
