@@ -62,6 +62,9 @@ class AudioCallController extends GetxController {
     if(_timer != null){
       _timer.cancel();
     }
+    if(_callingTimer != null){
+      _callingTimer.cancel();
+    }
     super.onClose();
   }
 
@@ -180,13 +183,13 @@ class AudioCallController extends GetxController {
     });
   }
 
+
+
   void playCallingTune(){
-      assetsAudioPlayer..open(
+      assetsAudioPlayer.open(
         Audio('assets/audio/caller_tune.mp3'),
         autoStart: true,
-      )
-        ..currentLoopMode
-        ..setLoopMode(LoopMode.single);
+      );
   }
 
   void updateCallStatus(CallStatus callStatus) async {

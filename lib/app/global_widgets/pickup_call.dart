@@ -26,9 +26,7 @@ class PickUpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: Dimens.thirty,
-              ),
+              SizedBox(height: Dimens.fifty,),
               circularPhoto(imageUrl: callingModel.callerImage),
               SizedBox(
                 height: Dimens.twenty,
@@ -36,6 +34,7 @@ class PickUpScreen extends StatelessWidget {
               Text('${callingModel.callerName}',
                   // '${callingModel.callerName}',
                   style: Styles.boldWhite16),
+              Expanded(child:Container()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -84,7 +83,8 @@ class PickUpScreen extends StatelessWidget {
                     ),
                   )
                 ],
-              )
+              ),
+               SizedBox(height: Dimens.fifty,)
             ],
           ),
         ),

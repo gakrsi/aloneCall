@@ -21,8 +21,7 @@ class VideoCallController extends GetxController {
   Repository repo = Repository();
   int callDuration = 0;
   bool showTimer = false;
-
-  Timer _timer;
+  Timer _timer,_callingTimer;
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
@@ -39,6 +38,7 @@ class VideoCallController extends GetxController {
 
   @override
   void onInit() {
+    callingTimer();
     _initEngine();
     checkUserAvailabilityAndBalance();
     checkIsDial();
@@ -54,6 +54,7 @@ class VideoCallController extends GetxController {
     if(_timer != null){
       _timer.cancel();
     }
+    _callingTimer.cancel();
     super.onClose();
   }
 
@@ -94,8 +95,6 @@ class VideoCallController extends GetxController {
     }
   }
 
-
-
   Future<void> _initEngine() async {
     _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
     await _engine.enableVideo();
@@ -104,18 +103,17 @@ class VideoCallController extends GetxController {
     await _engine.setClientRole(ClientRole.Broadcaster);
     await _joinChannel();
     _addListeners();
-    addPostFrameCallback();
+    _addPostFrameCallback();
   }
 
-  void addPostFrameCallback() {
-    print('###########################################################################');
-    Utility.printDLog('call stream called in video screen');
-    print('call stream called in video screen');
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription =  Repository().videoCallStream().listen((DocumentSnapshot ds) {
+  void _addPostFrameCallback() {
+    Utility.printDLog('call stream called in audio screen controller');
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) async {
+        Utility.printDLog('Listening to call Stream controller');
         if (ds.data() == null) {
-          Repository().updateCoin(_controller.model.coin - callDuration);
-          leaveChannel();
+          Utility.printDLog('Call is cut by user');
+          await leaveChannel();
         }
       });
     });
@@ -129,6 +127,7 @@ class VideoCallController extends GetxController {
           update();
       },
       userJoined: (uid, elapsed) {
+        _callingTimer.cancel();
         startTimer();
         log('userJoined  $uid $elapsed');
           remoteUid.add(uid);
@@ -148,8 +147,6 @@ class VideoCallController extends GetxController {
     ));
   }
 
-
-
   Future<void>_joinChannel() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       await [Permission.microphone, Permission.camera].request();
@@ -159,12 +156,11 @@ class VideoCallController extends GetxController {
 
   Future<void> leaveChannel() async {
     await Repository().endVideoCall(callingModel).then((value) async {
-      await _engine.leaveChannel();
       Utility.printDLog('Leaving channel');
       await _engine.leaveChannel();
       await _controller.reloadProfileDetails();
-      // await assetsAudioPlayer.pause();
-      // Get.back<void>();
+      await assetsAudioPlayer.pause();
+      Get.back<dynamic>();
     });
   }
 
@@ -238,12 +234,10 @@ class VideoCallController extends GetxController {
     );
 
   void playCallingTune(){
-    assetsAudioPlayer..open(
+    assetsAudioPlayer.open(
       Audio('assets/audio/caller_tune.mp3'),
       autoStart: true,
-    )
-      ..currentLoopMode
-      ..setLoopMode(LoopMode.single);
+    );
   }
 
   void updateCallStatus(CallStatus callStatus) async {
@@ -265,26 +259,49 @@ class VideoCallController extends GetxController {
     update();
   }
 
-  void startTimer() {
+  void callingTimer() async {
+    const oneSec = Duration(seconds: 1);
+    _callingTimer = Timer.periodic(
+      oneSec,
+          (Timer timer) async {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+          print(seconds);
+          if(seconds ==30){
+            await repo.endVideoCall(callingModel);
+          }
+          update();
+        }
+      },
+    );
+  }
+
+  void startTimer() async {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer){
+          (Timer timer) {
         if (seconds < 0) {
           timer.cancel();
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          if(_controller.model.coin == 0){
+          if(_controller.model.gender == 'Male' && _controller.model.coin <= 0){
+            Get.back<dynamic>();
             repo.endVideoCall(callingModel);
-            leaveChannel();
           }
-          if(callingModel.callerUid == Repository().uid){
-            if(_controller.model.coin < callDuration){
-              Repository().endVideoCall(callingModel);
-              _controller.model.coin = 0;
-              Repository().updateCoin(0);
-            }
+          if(callDuration.remainder(30) == 0 && _controller.model.gender == 'Male'){
+            repo.updateAudioCoin(_controller.model.coin - 30).then((value){
+              _controller.model.coin -= 30;
+              if(callingModel.callerUid == repo.uid && _controller.model.gender == 'Male'){
+                repo.addAudioCoinToUser(callingModel.receiverUid, 30);
+              }
+              else{
+                repo.addAudioCoinToUser(callingModel.callerUid, 30);
+              }
+            });
           }
           print(callDuration);
           if (seconds > 59) {
@@ -295,10 +312,9 @@ class VideoCallController extends GetxController {
               minutes = 0;
             }
           }
+          update();
         }
-        update();
       },
-
     );
   }
 }
