@@ -148,13 +148,13 @@ class AudioCallController extends GetxController {
   }
   
   void _addPostFrameCallback() {
-    Utility.printDLog('call stream called in audio screen');
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) {
-        Utility.printDLog('Listening to call Stream');
+    Utility.printDLog('call stream called in audio screen controller');
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) async {
+        Utility.printDLog('Listening to call Stream controller');
         if (ds.data() == null) {
-          _timer.cancel();
-          leaveChannel();
+          Utility.printDLog('Call is cut by user');
+          await leaveChannel();
         }
       });
     });
