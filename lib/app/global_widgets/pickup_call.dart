@@ -40,9 +40,9 @@ class PickUpScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
-                    onTap: () {
-                      Repository().endVideoCall(callingModel);
-                      con.assetsAudioPlayer.pause();
+                    onTap: () async{
+                      await Repository().endVideoCall(callingModel);
+                      await con.assetsAudioPlayer.pause();
                     },
                     child: Container(
                       height: 64,

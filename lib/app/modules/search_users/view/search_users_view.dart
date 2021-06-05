@@ -70,7 +70,7 @@ class SearchUsers extends StatelessWidget {
                         if(model.uid == Repository().uid){
                           return const SizedBox();
                         }
-                        if(model.gender == 'Male'){
+                        if(model.gender == _con.con.model.gender){
                           return const SizedBox();
                         }
                         return InkWell(

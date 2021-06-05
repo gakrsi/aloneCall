@@ -50,13 +50,14 @@ class AudioCallController extends GetxController {
   }
 
   @override
-  void onClose() {
-    repo.endVideoCall(callingModel);
-    callStreamSubscription.cancel();
+  void onClose() async {
+    await repo.endVideoCall(callingModel);
+    await leaveChannel();
+    await callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
       addHistory();
     }
-    _engine.destroy();
+    await _engine.destroy();
     if(_timer != null){
       _timer.cancel();
     }
@@ -75,8 +76,7 @@ class AudioCallController extends GetxController {
 
   Future<void> _initEngine() async {
     await repo.startVideoCall(callingModel);
-    _engine = await RtcEngine.createWithConfig(
-        RtcEngineConfig(NetworkConstants.agoraRtcKey));
+    _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
     _addPostFrameCallback();
     await _addListeners();
     await _engine.enableAudio();
@@ -153,6 +153,7 @@ class AudioCallController extends GetxController {
       callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) {
         Utility.printDLog('Listening to call Stream');
         if (ds.data() == null) {
+          _timer.cancel();
           leaveChannel();
         }
       });
@@ -215,6 +216,10 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
+          if(_controller.model.gender == 'Male' && _controller.model.audioCoin <= 0){
+            Get.back<dynamic>();
+            repo.endVideoCall(callingModel);
+          }
           if(callDuration.remainder(30) == 0 && _controller.model.gender == 'Male'){
             repo.updateAudioCoin(_controller.model.audioCoin - 30).then((value){
               _controller.model.audioCoin -= 30;
