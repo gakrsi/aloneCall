@@ -71,22 +71,9 @@ class NotificationPage extends StatelessWidget {
                   return ListView(
                       children: snapshot.data.docs.map((DocumentSnapshot document) {
                     var model = HistoryModel.fromJson(document.data() as Map<String, dynamic>);
-                    var counter = 0;
-                    if(counter == 0){
-                      return Container(
-                        height: Dimens.screenHeight,
-                        width: Dimens.screenWidth,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/img/no_data.png')
-                            )
-                        ),
-                      );
-                    }
                     if (model.receiverUid == Repository().uid &&
                         model.callDuration == 0.0) {
-                      counter ++;
-                      Utility.printDLog('$counter');
+
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: SizedBox(

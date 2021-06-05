@@ -147,9 +147,7 @@ class AudioCallController extends GetxController {
     isNotDial = callingModel.receiverUid == repo.uid;
     update();
   }
-
-
-
+  
   void _addPostFrameCallback() {
     Utility.printDLog('call stream called in audio screen');
     SchedulerBinding.instance.addPostFrameCallback((_) {

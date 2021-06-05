@@ -2,7 +2,6 @@ import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/data/service/call_service.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
-import 'package:alonecall/app/modules/call/view/local_widget/dial_user_pic.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +11,14 @@ class PickUpScreen extends StatelessWidget {
   PickUpScreen({this.callingModel});
   final CallingModel callingModel;
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: ColorsValue.primaryColor,
-        body: _body(context),
-      );
+  Widget build(BuildContext context) => GetBuilder<CallService>(
+    builder:(_con)=> Scaffold(
+          backgroundColor: ColorsValue.primaryColor,
+          body: _body(context,_con),
+        ),
+  );
 
-  Widget _body(BuildContext context) => SafeArea(
+  Widget _body(BuildContext context,CallService con) => SafeArea(
         child: SizedBox(
           height: Dimens.screenHeight,
           width: Dimens.screenWidth,
@@ -41,6 +42,7 @@ class PickUpScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Repository().endVideoCall(callingModel);
+                      con.assetsAudioPlayer.pause();
                     },
                     child: Container(
                       height: 64,
@@ -59,8 +61,8 @@ class PickUpScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      final CallService _con = Get.find();
-                      _con.updateCallStatusReceived();
+                      con.assetsAudioPlayer.pause();
+                      con.updateCallStatusReceived();
                       Get.back<dynamic>();
                       callingModel.isAudio
                           ? RoutesManagement.goToAudioCall(callingModel)

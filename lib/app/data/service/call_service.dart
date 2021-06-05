@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 class CallService extends GetxController {
   StreamSubscription callStreamSubscription;
   bool callReceived = false;
-  final assetsAudioPlayer = AssetsAudioPlayer();
+  AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
 
   @override
   void onInit() {
@@ -42,12 +42,12 @@ class CallService extends GetxController {
     update();
   }
 
-  void _addPostFrameCallback() {
+  void _addPostFrameCallback(){
     updateCallStatusDisConnected();
     Utility.printDLog('Stream Listen to Incoming Call');
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_){
       callStreamSubscription =
-          Repository().videoCallStream().listen((DocumentSnapshot ds) {
+          Repository().videoCallStream().listen((DocumentSnapshot ds) async{
         if (ds.exists) {
           var callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
           if ((callingModel.callerUid != Repository().uid) && !callReceived) {
@@ -56,8 +56,8 @@ class CallService extends GetxController {
             Utility.printDLog('${ds.data()}');
           }
         }
-        else{
-          assetsAudioPlayer.pause();
+        else {
+          await assetsAudioPlayer.pause();
           updateCallStatusDisConnected();
           Utility.closeDialog();
         }
