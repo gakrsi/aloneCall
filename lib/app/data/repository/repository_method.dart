@@ -41,17 +41,18 @@ class Repository {
     return callStream;
   }
 
-  Stream<QuerySnapshot> onlineUser() => FirebaseFirestore.instance
+  Stream<QuerySnapshot> onlineUser(String sex) => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
       .where(
         'online',
         isEqualTo: true,
-      )
+      ).where('gender',isEqualTo: sex == 'Male'?'Female':'Male')
       .snapshots();
 
-  Stream<QuerySnapshot> searchUser(String item) => FirebaseFirestore.instance
+  Stream<QuerySnapshot> searchUser(String item,) => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
       .where('name', isGreaterThanOrEqualTo: item)
+      // .where('gender',isEqualTo: 'Female')
       .snapshots();
 
   Stream<QuerySnapshot> nearYou(String item) => FirebaseFirestore.instance

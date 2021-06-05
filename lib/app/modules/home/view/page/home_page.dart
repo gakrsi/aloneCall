@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: _onlineUser(),
+                          child: _onlineUser( _con),
                         ),
                         const SizedBox(
                           height: 10,
@@ -91,8 +91,8 @@ class HomePage extends StatelessWidget {
                 )),
           ));
 
-  Widget _onlineUser() => StreamBuilder(
-      stream: Repository().onlineUser(),
+  Widget _onlineUser(HomeController con) => StreamBuilder(
+      stream: Repository().onlineUser(con.model.gender),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');

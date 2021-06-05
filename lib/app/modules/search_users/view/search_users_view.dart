@@ -64,11 +64,13 @@ class SearchUsers extends StatelessWidget {
                                     )));
                       }
                       return ListView(
-                          children: snapshot.data.docs
-                              .map((DocumentSnapshot document) {
+                          children: snapshot.data.docs.map((DocumentSnapshot document) {
                         var model = ProfileModel.fromJson(
                             document.data() as Map<String, dynamic>);
                         if(model.uid == Repository().uid){
+                          return const SizedBox();
+                        }
+                        if(model.gender == 'Male'){
                           return const SizedBox();
                         }
                         return InkWell(
@@ -116,11 +118,11 @@ class SearchUsers extends StatelessWidget {
                                         Row(
                                           children: [
                                             Text(
-                                              '${model.country}, ',
+                                              '${model.city}, ',
                                               style: Styles.grey14,
                                             ),
                                             Text(
-                                              'Country',
+                                              '${model.country}',
                                               style: Styles.grey14,
                                             ),
                                           ],

@@ -46,20 +46,20 @@ class NearYouMapView extends StatelessWidget {
                               document.data() as Map<String, dynamic>);
                           var distance = Geolocator.distanceBetween(_controller.lat,_controller.long,model.lat,model.long)/1000;
                           var counter = 0;
-                          if(counter == 0){
-                            return Container(
-                              height: Dimens.screenHeight,
-                              width: Dimens.screenWidth,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/img/no_data.png')
-                                )
-                              ),
-                            );
-                          }
-                          if(model.uid == Repository().uid || distance <= 25){
-                            return const SizedBox();
-                          }
+                          // if(counter == 0){
+                          //   return Container(
+                          //     height: Dimens.screenHeight,
+                          //     width: Dimens.screenWidth,
+                          //     decoration: const BoxDecoration(
+                          //       image: DecorationImage(
+                          //         image: AssetImage('assets/img/no_data.png')
+                          //       )
+                          //     ),
+                          //   );
+                          // }
+                          // if(model.uid == Repository().uid || distance <= 10000 || _controller.model.gender == model.gender){
+                          //   return const SizedBox();
+                          // }
                           counter ++;
                           return InkWell(
                             onTap: () {
