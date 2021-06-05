@@ -64,7 +64,6 @@ class AudioCallController extends GetxController {
   }
 
 
-
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
     // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
@@ -156,7 +155,7 @@ class AudioCallController extends GetxController {
         Utility.printDLog('Listening to call Stream');
         if (ds.data() == null) {
           _controller.model.audioCoin -= callDuration;
-          if(callingModel.callerUid == repo.uid){
+          if(_controller.model.gender == 'Male'){
             Repository().updateAudioCoin(_controller.model.audioCoin - callDuration);
           }
           leaveChannel();
@@ -182,7 +181,6 @@ class AudioCallController extends GetxController {
       log('setEnableSpeakerphone $err');
     });
   }
-
 
   void playCallingTune(){
       assetsAudioPlayer..open(
@@ -226,7 +224,7 @@ class AudioCallController extends GetxController {
             repo.endVideoCall(callingModel);
             leaveChannel();
           }
-          if(callingModel.callerUid == Repository().uid){
+          if(_controller.model.gender == 'Male'){
             if(_controller.model.audioCoin < callDuration){
               Repository().endVideoCall(callingModel);
               _controller.model.audioCoin = 0;
