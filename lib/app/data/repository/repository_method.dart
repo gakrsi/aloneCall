@@ -205,10 +205,10 @@ class Repository {
     var languageList  = <String>[];
     languageList.add(obj.lang);
     var filterModel = FilterModel()
-      ..initAge = DateTime.now().year - int.parse(obj.dob.substring(0, 4))
-      ..lastAge = (DateTime.now().year - int.parse(obj.dob.substring(0, 4))) + 5
+      ..initAge = 0
+      ..lastAge = 100
       ..initDistance = 0
-      ..lastDistance = 25
+      ..lastDistance = 10000
       ..language = languageList;
 
     await firebaseFireStore
