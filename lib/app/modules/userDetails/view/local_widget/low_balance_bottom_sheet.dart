@@ -21,8 +21,8 @@ void showLowBalanceBottomSheetForAudioCall(){
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              planContainer('Starter','3 Minutes \n Voice Call','30',_con.model,3,false),
-              planContainer('25% Discount','10 Minutes \n Voice Call','100',_con.model,10,false),
+              planContainer('Starter','3 Minutes \n Voice Call','30',_con.model,3,false,false),
+              planContainer('25% Discount','10 Minutes \n Voice Call','100',_con.model,10,false,false),
             ],
           ),
           SizedBox(
@@ -54,8 +54,8 @@ void showLowBalanceBottomSheetForVideoCall(){
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              planContainer('Starter','3 Minutes \n Video Call','50',_con.model,3,true),
-              planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,10,true),
+              planContainer('Starter','3 Minutes \n Video Call','50',_con.model,3,true,false),
+              planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,10,true,false),
             ],
           ),
           SizedBox(
@@ -87,51 +87,91 @@ Widget showTitle(String title) => Container(
         style: Styles.black18,
       )),
 );
-Widget planContainer(String type,String desc,String price,ProfileModel model,int amount,bool isVideo) =>InkWell(
-  onTap: (){
-    RoutesManagement.goToPayment(model, price,<String,dynamic>{'type':type,'desc':desc,'price':price,'amount':amount,'is_video':isVideo},);
-  },
-  child: Container(
-    height: Dimens.hundred*1.1,
-    width: Dimens.screenWidth/2 - 30,
-    decoration: BoxDecoration(
-        border: Border.all(color: ColorsValue.lightGreyColor)
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          height: 30,
-          width: Dimens.hundred*1.2+5,
+Widget planContainer(String type, String desc, String price,
+    ProfileModel model, int amount, bool isVideo, bool isDiscount,
+    {int discountValue = 0}) =>
+    GetBuilder<HomeController>(
+      builder: (_con) => InkWell(
+        onTap: () {
+          var amo = isDiscount ? discountValue : amount;
+          _con.onClickPlanOption(!isVideo, amo, amount);
+        },
+        child: Container(
+          height: Dimens.hundred * 1.1,
+          width: Dimens.screenWidth / 2 - 30,
           decoration: BoxDecoration(
-              color: ColorsValue.primaryColor,
-              borderRadius: BorderRadius.circular(15)
-          ),
-          child: Row(
+              border: Border.all(color: ColorsValue.lightGreyColor)),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-              Text(type,style: Styles.boldWhite16.copyWith(fontSize: 14),)
+              Container(
+                height: 30,
+                width: Dimens.hundred * 1.2 + 5,
+                decoration: BoxDecoration(
+                    color: ColorsValue.primaryColor,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      type,
+                      style: Styles.boldWhite16.copyWith(fontSize: 14),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: Dimens.ten,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    desc,
+                    style: Styles.black18.copyWith(fontSize: 12),
+                  ),
+                  isDiscount
+                      ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            price,
+                            style: Styles.black12.copyWith(
+                                fontSize: 15,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                          Text(
+                            ' $discountValue',
+                            style:
+                            Styles.black18.copyWith(fontSize: 30),
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        'INR ',
+                        style: TextStyle(height: 0.5, fontSize: 10),
+                      )
+                    ],
+                  )
+                      : Column(
+                    children: [
+                      Text(
+                        price,
+                        style: Styles.black18.copyWith(fontSize: 30),
+                      ),
+                      const Text(
+                        'INR',
+                        style: TextStyle(height: 0.5, fontSize: 10),
+                      )
+                    ],
+                  )
+                ],
+              )
             ],
           ),
         ),
-        SizedBox(height: Dimens.ten,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(desc,style: Styles.black18.copyWith(fontSize: 12),),
-            Column(
-              children: [
-                Text(price,style: Styles.black18.copyWith(fontSize: 30),),
-                const Text('INR',style: TextStyle(height: 0.5,fontSize: 10),)
-
-              ],
-            )
-
-          ],
-        )
-      ],
-    ),
-  ),
-);
+      ),
+    );

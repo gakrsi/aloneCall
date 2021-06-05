@@ -53,11 +53,11 @@ class UserDetailsController extends GetxController {
   }
 
   void onClickVideoCall() async {
-    // var balance = await repo.checkVideoBalance();
-    // if(balance <= 0){
-    //   showLowBalanceBottomSheetForVideoCall();
-    //   return;
-    // }
+    var balance = await repo.checkVideoBalance();
+    if(balance <= 0){
+      showLowBalanceBottomSheetForVideoCall();
+      return;
+    }
     dialModel
       ..callerUid = Repository().currentUser()
       ..callerName = _controller.model.name
@@ -72,11 +72,11 @@ class UserDetailsController extends GetxController {
   }
 
   void onClickAudioCall() async {
-    // var balance = await repo.checkAudioBalance();
-    // if(balance <= 0){
-    //   showLowBalanceBottomSheetForAudioCall();
-    //   return;
-    // }
+    var balance = await repo.checkAudioBalance();
+    if(balance <= 0){
+      showLowBalanceBottomSheetForAudioCall();
+      return;
+    }
     dialModel
       ..callerUid = Repository().currentUser()
       ..callerName = _controller.model.name
