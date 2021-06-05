@@ -63,7 +63,6 @@ class AudioCallController extends GetxController {
     super.onClose();
   }
 
-
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
     // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
@@ -154,10 +153,6 @@ class AudioCallController extends GetxController {
       callStreamSubscription = Repository().videoCallStream().listen((DocumentSnapshot ds) {
         Utility.printDLog('Listening to call Stream');
         if (ds.data() == null) {
-          _controller.model.audioCoin -= callDuration;
-          if(_controller.model.gender == 'Male'){
-            Repository().updateAudioCoin(_controller.model.audioCoin - callDuration);
-          }
           leaveChannel();
         }
       });
@@ -220,16 +215,16 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          if(_controller.model.audioCoin == 0){
-            repo.endVideoCall(callingModel);
-            leaveChannel();
-          }
-          if(_controller.model.gender == 'Male'){
-            if(_controller.model.audioCoin < callDuration){
-              Repository().endVideoCall(callingModel);
-              _controller.model.audioCoin = 0;
-              Repository().updateAudioCoin(0);
-            }
+          if(callDuration.remainder(30) == 0 && _controller.model.gender == 'Male'){
+            repo.updateAudioCoin(_controller.model.audioCoin - 30).then((value){
+              _controller.model.audioCoin -= 30;
+              if(callingModel.callerUid == repo.uid && _controller.model.gender == 'Male'){
+                repo.addAudioCoinToUser(callingModel.receiverUid, 30);
+              }
+              else{
+                repo.addAudioCoinToUser(callingModel.callerUid, 30);
+              }
+            });
           }
           print(callDuration);
           if (seconds > 59) {

@@ -283,7 +283,7 @@ class VideoCallController extends GetxController {
             if(_controller.model.coin < callDuration){
               Repository().endVideoCall(callingModel);
               _controller.model.coin = 0;
-              Repository().updateAudioCoin(0);
+              Repository().updateCoin(0);
             }
           }
           print(callDuration);

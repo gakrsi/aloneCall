@@ -82,6 +82,7 @@ class AudioCallView extends StatelessWidget {
                   press: () {
                     print('End button pressed');
                     if (con.isJoined) {
+                      con.leaveChannel();
                       Repository().endVideoCall(con.callingModel);
                     } else {
                       Get.back<dynamic>();

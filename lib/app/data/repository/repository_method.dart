@@ -362,6 +362,22 @@ class Repository {
         .update({'coin': coin});
   }
 
+  Future<void> addCoinToUser(String uid, int amount) async{
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) async{
+      var  presentCoin = value.data()['coin'] as int;
+      var am = amount + presentCoin;
+      await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({'coin':am});
+    });
+  }
+
+  Future<void> addAudioCoinToUser(String uid, int amount) async{
+    await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get().then((value) async{
+      var  presentCoin = value.data()['audio_coin'] as int;
+      var am = amount + presentCoin;
+      await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).update({'audio_coin':am});
+    });
+  }
+
   Future<List<AvatarModel>> latLongOfAllUser() async {
     Utility.printDLog('LatLong of all user function called');
     var latLong = <AvatarModel>[];

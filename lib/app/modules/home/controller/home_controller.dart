@@ -90,7 +90,6 @@ class HomeController extends GetxController {
     print(prettyPrint);
     await getCurrentLatLng();
     model = ProfileModel.fromJson(data);
-    updateCoin();
     super.onInit();
   }
 
@@ -113,18 +112,6 @@ class HomeController extends GetxController {
     var prettyPrint = encoder.convert(data);
     print(prettyPrint);
     update();
-  }
-
-  void updateCoin(){
-    var coin = LocalRepository().getCoin();
-    var audioCoin = LocalRepository().getCoin();
-
-    if(coin > 0){
-      Repository().updateCoin(model.coin - coin);
-    }
-    if(audioCoin > 0){
-      Repository().updateAudioCoin(model.audioCoin - coin);
-    }
   }
 
   void changeProfileTab(int index) {
