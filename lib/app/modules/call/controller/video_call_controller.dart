@@ -48,6 +48,7 @@ class VideoCallController extends GetxController {
   @override
   void onClose() {
     callStreamSubscription.cancel();
+    repo.endVideoCall(callingModel);
     _engine.destroy();
     addHistory();
     if(_timer != null){
@@ -189,8 +190,6 @@ class VideoCallController extends GetxController {
     });
   }
 
-
-
   /// Toolbar layout
   Widget toolbar() => Container(
       alignment: Alignment.bottomCenter,
@@ -276,10 +275,16 @@ class VideoCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          if(_controller.model.audioCoin < callDuration){
+          if(_controller.model.coin == 0){
+            repo.endVideoCall(callingModel);
             leaveChannel();
-            _controller.model.audioCoin = 0;
-            Repository().updateCoin(0);
+          }
+          if(callingModel.callerUid == Repository().uid){
+            if(_controller.model.coin < callDuration){
+              Repository().endVideoCall(callingModel);
+              _controller.model.coin = 0;
+              Repository().updateAudioCoin(0);
+            }
           }
           print(callDuration);
           if (seconds > 59) {

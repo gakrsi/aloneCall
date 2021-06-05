@@ -51,6 +51,7 @@ class AudioCallController extends GetxController {
 
   @override
   void onClose() {
+    repo.endVideoCall(callingModel);
     callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
       addHistory();
@@ -221,10 +222,14 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
+          if(_controller.model.audioCoin == 0){
+            repo.endVideoCall(callingModel);
+            leaveChannel();
+          }
           if(callingModel.callerUid == Repository().uid){
             if(_controller.model.audioCoin < callDuration){
               Repository().endVideoCall(callingModel);
-              _controller.model.coin = 0;
+              _controller.model.audioCoin = 0;
               Repository().updateAudioCoin(0);
             }
           }
