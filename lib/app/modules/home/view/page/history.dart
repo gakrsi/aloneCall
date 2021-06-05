@@ -6,7 +6,6 @@ import 'package:alonecall/app/theme/dimens.dart';
 import 'package:alonecall/app/theme/styles.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
-import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

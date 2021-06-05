@@ -52,7 +52,9 @@ class AudioCallController extends GetxController {
   @override
   void onClose() {
     callStreamSubscription.cancel();
-    addHistory();
+    if(callingModel.callerUid == repo.uid){
+      addHistory();
+    }
     _engine.destroy();
     if(_timer != null){
       _timer.cancel();
