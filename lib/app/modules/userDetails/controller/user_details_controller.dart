@@ -54,7 +54,7 @@ class UserDetailsController extends GetxController {
 
   void onClickVideoCall() async {
     var balance = await repo.checkVideoBalance();
-    if(balance <= 0){
+    if(balance <= 0 && _controller.model.gender == 'Male'){
       showLowBalanceBottomSheetForVideoCall();
       return;
     }
@@ -73,7 +73,7 @@ class UserDetailsController extends GetxController {
 
   void onClickAudioCall() async {
     var balance = await repo.checkAudioBalance();
-    if(balance <= 0){
+    if(balance <= 0 && _controller.model.gender == 'Male'){
       showLowBalanceBottomSheetForAudioCall();
       return;
     }
