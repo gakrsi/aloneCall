@@ -40,50 +40,25 @@ class ProfileEditController extends GetxController{
     update();
   }
 
-  void showGenderBottomSheet(){
-    Get.bottomSheet<void>(
-        Container(
-          height: 150,
-          width: Dimens.screenWidth,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10)
-          ),
-          child: Center(
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-                children: List.generate(genderList.length, (index) => InkWell(
-                  onTap: (){
-                    model.gender = genderList[index];
-                    update();
-                    Utility.closeBottomSheet();
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Colors.grey.withOpacity(0.4)),
-                        borderRadius: BorderRadius.circular(30),
-                        color: model.gender == genderList[index]?ColorsValue.primaryColor:Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          )
-                        ]
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8),
-                        child: Text(genderList[index],style: Styles.grey16,)
-                    ),
-                  ),
-                ))
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white
-    );
+  Future<void> onEditCountryAndCity() async{
+    Utility.showLoadingDialog();
+    await Utility.getCurrentLatLng().then((value) {
+      Utility.printDLog('${value.latitude} ${value.longitude}');
+      model
+        ..lat = value.latitude
+        ..long = value.longitude;
+    });
+    await Utility.getCurrentLocation().then((value) {
+      Utility.printDLog(value.addressLine1);
+      model
+        ..city = value.city
+        ..country = value.country;
+      Utility.printDLog('${value.city}, ${value.country}');
+      update();
+    });
+    Utility.closeDialog();
   }
+
   void showLanguageBottomSheet(){
     Get.bottomSheet<void>(
         Container(
@@ -120,52 +95,6 @@ class ProfileEditController extends GetxController{
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8),
                           child: Text(languageList[index],style: Styles.grey16,)
-                      ),
-                    ),
-                  ))
-              ),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white
-    );
-  }
-  void showCountryBottomSheet(){
-    Get.bottomSheet<void>(
-        Container(
-          height: 200,
-          width: Dimens.screenWidth,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10)
-          ),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  children: List.generate(countryList.length, (index) => InkWell(
-                    onTap: (){
-                      model.country = countryList[index];
-                      update();
-                      Utility.closeBottomSheet();
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: Colors.grey.withOpacity(0.4)),
-                          borderRadius: BorderRadius.circular(30),
-                          color: model.country == countryList[index]?ColorsValue.primaryColor:Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            )
-                          ]
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8),
-                          child: Text(countryList[index],style: Styles.grey16,)
                       ),
                     ),
                   ))

@@ -60,11 +60,7 @@ class ProfileEditView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      InkWell(
-                          onTap: () {
-                            _con.showGenderBottomSheet();
-                          },
-                          child: _gender(_con)),
+                      _gender(_con),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
@@ -72,7 +68,12 @@ class ProfileEditView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      _city(_con),
+                      InkWell(
+                        onTap: (){
+                          _con.onEditCountryAndCity();
+                        },
+                          child: _city(_con)
+                      ),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
