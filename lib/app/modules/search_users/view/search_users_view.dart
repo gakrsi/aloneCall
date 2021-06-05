@@ -68,6 +68,9 @@ class SearchUsers extends StatelessWidget {
                               .map((DocumentSnapshot document) {
                         var model = ProfileModel.fromJson(
                             document.data() as Map<String, dynamic>);
+                        if(model.uid == Repository().uid){
+                          return const SizedBox();
+                        }
                         return InkWell(
                           onTap: () {
                             RoutesManagement.goToOthersProfileDetail(model);

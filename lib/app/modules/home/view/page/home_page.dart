@@ -229,7 +229,7 @@ class HomePage extends StatelessWidget {
   Widget _userGridView(HomeController con) => SizedBox(
         height: 1000,
         child: StreamBuilder(
-            stream: Repository().userStream(con.gender(), con.filterModel),
+            stream: Repository().userStream(con.gender(),),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -280,66 +280,68 @@ class HomePage extends StatelessWidget {
                   var age = DateTime.now().year -
                       int.parse(model.dob.substring(0, 4));
 
-                  if (con.filterModel.initAge > age ||
-                      con.filterModel.lastAge < age ||
-                      !con.filterModel.language.contains(model.lang) || con.filterModel.initDistance > distance || con.lastDistance <distance) {
-                    return const SizedBox();
-                  }
-
-                  return InkWell(
-                    onTap: () =>
-                        RoutesManagement.goToOthersProfileDetail(model),
-                    child: Container(
-                      height: 250,
-                      width: Dimens.screenWidth / 2 - 100,
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1.5, color: Colors.white),
-                          borderRadius: BorderRadius.circular(Dimens.fifteen),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            ),
-                          ]),
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            height: 250,
-                            width: double.infinity,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(Dimens.fifteen)),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl: model.profileImageUrl[0] as String,
-                                placeholder: (context, url) => Container(
-                                  height: 250,
-                                  width: Dimens.screenWidth / 2 - 100,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/img/loading.gif'),
-                                          fit: BoxFit.cover)),
+                  if (con.filterModel.initAge <= age &&
+                      con.filterModel.lastAge >= age &&
+                      con.filterModel.language.contains(model.lang) &&
+                      con.filterModel.initDistance <= distance &&
+                      con.filterModel.lastDistance > distance
+                  ) {
+                    return InkWell(
+                      onTap: () =>
+                          RoutesManagement.goToOthersProfileDetail(model),
+                      child: Container(
+                        height: 250,
+                        width: Dimens.screenWidth / 2 - 100,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1.5, color: Colors.white),
+                            borderRadius: BorderRadius.circular(Dimens.fifteen),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              ),
+                            ]),
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              height: 250,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(Dimens.fifteen)),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.fill,
+                                  imageUrl: model.profileImageUrl[0] as String,
+                                  placeholder: (context, url) => Container(
+                                    height: 250,
+                                    width: Dimens.screenWidth / 2 - 100,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/img/loading.gif'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                  errorWidget: (context, url, dynamic error) =>
+                                  const Icon(Icons.error),
                                 ),
-                                errorWidget: (context, url, dynamic error) =>
-                                    const Icon(Icons.error),
                               ),
                             ),
-                          ),
-                          Positioned(
-                              bottom: 10,
-                              left: 10,
-                              child: Center(
-                                  child: Text(
-                                '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
-                                style: Styles.boldWhite16,
-                              ))),
-                        ],
+                            Positioned(
+                                bottom: 10,
+                                left: 10,
+                                child: Center(
+                                    child: Text(
+                                      '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
+                                      style: Styles.boldWhite16,
+                                    ))),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
+                  return const SizedBox();
                 }).toList(),
               );
             }),

@@ -22,10 +22,9 @@ class Repository {
     uid = currentUser();
   }
   String uid;
-  Stream<QuerySnapshot> userStream(String gender,FilterModel filterModel) => FirebaseFirestore.instance
+  Stream<QuerySnapshot> userStream(String gender) => FirebaseFirestore.instance
       .collection(FirebaseConstant.user)
       .where('gender', isEqualTo: gender)
-      .where('language', arrayContainsAny: filterModel.language)
       .snapshots();
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;

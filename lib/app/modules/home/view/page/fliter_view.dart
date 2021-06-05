@@ -77,7 +77,7 @@ class FilterView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Up to ${_controller.filterModel.lastDistance} kilometres away',
+                              'Between  ${_controller.filterModel.initDistance} and  ${_controller.filterModel.lastDistance} kilometres',
                               style: Styles.black18,
                             ),
                             _distanceSlider(_controller.filterModel.initDistance,
@@ -253,6 +253,7 @@ class FilterView extends StatelessWidget {
         ),
       ),
     ),
+
     rightHandler: FlutterSliderHandler(
       child: Container(
         decoration: BoxDecoration(
