@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 class CallService extends GetxController {
   StreamSubscription callStreamSubscription;
   bool callReceived = false;
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
   @override
   void onInit() {
     _addPostFrameCallback();
@@ -24,7 +26,7 @@ class CallService extends GetxController {
   }
 
   void playIncomingRingTune(){
-    AssetsAudioPlayer.newPlayer().open(
+    assetsAudioPlayer.open(
       Audio('assets/audio/ringing_tume.mp3'),
       autoStart: true,
     );
@@ -55,6 +57,7 @@ class CallService extends GetxController {
           }
         }
         else{
+          assetsAudioPlayer.pause();
           updateCallStatusDisConnected();
           Utility.closeDialog();
         }

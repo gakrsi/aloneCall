@@ -211,7 +211,7 @@ class VideoCallController extends GetxController {
             ),
           ),
           RawMaterialButton(
-            onPressed: leaveChannel,
+            onPressed: ()=>Repository().endVideoCall(callingModel),
             shape: const CircleBorder(),
             elevation: 2.0,
             fillColor: Colors.redAccent,

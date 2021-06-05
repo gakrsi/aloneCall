@@ -155,7 +155,9 @@ class AudioCallController extends GetxController {
         Utility.printDLog('Listening to call Stream');
         if (ds.data() == null) {
           _controller.model.audioCoin -= callDuration;
-          Repository().updateAudioCoin(_controller.model.audioCoin - callDuration);
+          if(callingModel.callerUid == repo.uid){
+            Repository().updateAudioCoin(_controller.model.audioCoin - callDuration);
+          }
           leaveChannel();
         }
       });
@@ -180,17 +182,6 @@ class AudioCallController extends GetxController {
     });
   }
 
-  void _onChangeInEarMonitoringVolume(double value) {
-    inEarMonitoringVolume = value;
-    update();
-    _engine.setInEarMonitoringVolume(value.toInt());
-  }
-
-  void _toggleInEarMonitoring(bool value) {
-    enableInEarMonitoring = value;
-    update();
-    _engine.enableInEarMonitoring(value);
-  }
 
   void playCallingTune(){
       assetsAudioPlayer..open(
@@ -220,7 +211,7 @@ class AudioCallController extends GetxController {
     update();
   }
 
-  void startTimer() {
+  void startTimer() async {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
@@ -232,7 +223,7 @@ class AudioCallController extends GetxController {
           callDuration += 1;
           if(callingModel.callerUid == Repository().uid){
             if(_controller.model.audioCoin < callDuration){
-              leaveChannel();
+              Repository().endVideoCall(callingModel);
               _controller.model.coin = 0;
               Repository().updateAudioCoin(0);
             }

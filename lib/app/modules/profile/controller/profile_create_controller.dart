@@ -302,6 +302,7 @@ class ProfileCreateController extends GetxController {
         model
           ..name = nameController.text
           ..coin = 0
+          ..online = true
           ..audioCoin = 0
           ..profileImageUrl = profileImageUrl
           ..uid = Repository().currentUser();
