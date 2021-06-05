@@ -66,8 +66,7 @@ class PickUpScreen extends StatelessWidget {
                       Get.back<dynamic>();
                       callingModel.isAudio
                           ? RoutesManagement.goToAudioCall(callingModel)
-                          : RoutesManagement.goToOthersVideoCallDialView(
-                              callingModel);
+                          : RoutesManagement.goToOthersVideoCallDialView(callingModel);
                     },
                     child: Container(
                       height: 64,

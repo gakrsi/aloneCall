@@ -162,9 +162,9 @@ class Repository {
     Utility.printDLog('End call function called');
     await firebaseFireStore
         .collection(FirebaseConstant.user)
-        .doc(uid)
+        .doc(obj.callerUid)
         .collection(FirebaseConstant.call)
-        .doc(uid)
+        .doc(obj.callerUid)
         .delete();
     await firebaseFireStore
         .collection(FirebaseConstant.user)
