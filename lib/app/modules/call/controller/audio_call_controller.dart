@@ -199,7 +199,7 @@ class AudioCallController extends GetxController {
     if (callStatus == CallStatus.offline) {
       callStatusText = 'User is Offline';
     }
-    if (callStatus == CallStatus.ringing) {
+    if (callStatus == CallStatus.ringing && callingModel.callerUid == repo.uid) {
       callStatusText = 'Ringing...';
       playCallingTune();
     }

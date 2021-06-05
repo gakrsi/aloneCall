@@ -50,7 +50,9 @@ class VideoCallController extends GetxController {
     callStreamSubscription.cancel();
     repo.endVideoCall(callingModel);
     _engine.destroy();
-    addHistory();
+    if(callingModel.callerUid == repo.uid){
+      addHistory();
+    }
     if(_timer != null){
       _timer.cancel();
     }
@@ -127,11 +129,11 @@ class VideoCallController extends GetxController {
           update();
       },
       userJoined: (uid, elapsed) {
-        _callingTimer.cancel();
         startTimer();
+        _callingTimer.cancel();
+        updateCallStatus(CallStatus.connected);
         log('userJoined  $uid $elapsed');
           remoteUid.add(uid);
-          update();
       },
       userOffline: (uid, reason) {
         log('userOffline  $uid $reason');
@@ -200,7 +202,7 @@ class VideoCallController extends GetxController {
             fillColor: muted ? Colors.blueAccent : Colors.white,
             padding: const EdgeInsets.all(12.0),
             child: Icon(
-              muted ? Icons.mic : Icons.mic_off,
+              !muted ? Icons.mic : Icons.mic_off,
               color: muted ? Colors.white : Colors.blueAccent,
               size: 20.0,
             ),
@@ -293,13 +295,13 @@ class VideoCallController extends GetxController {
             repo.endVideoCall(callingModel);
           }
           if(callDuration.remainder(30) == 0 && _controller.model.gender == 'Male'){
-            repo.updateAudioCoin(_controller.model.coin - 30).then((value){
+            repo.updateCoin(_controller.model.coin - 30).then((value){
               _controller.model.coin -= 30;
               if(callingModel.callerUid == repo.uid && _controller.model.gender == 'Male'){
-                repo.addAudioCoinToUser(callingModel.receiverUid, 30);
+                repo.addCoinToUser(callingModel.receiverUid, 30);
               }
               else{
-                repo.addAudioCoinToUser(callingModel.callerUid, 30);
+                repo.addCoinToUser(callingModel.callerUid, 30);
               }
             });
           }
