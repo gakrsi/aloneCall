@@ -42,7 +42,7 @@ abstract class RoutesManagement{
   }
 
   /// Go to the others profile screen
-  static void goToOthersProfileDetail(ProfileModel obj){
+  static void goToOthersProfileDetail({ProfileModel obj,String uid}){
     Get.toNamed<void>(
         AppRoutes.detailsPage,
         arguments: obj

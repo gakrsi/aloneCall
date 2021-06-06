@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                       padding: EdgeInsets.only(right: Dimens.five),
                       child: InkWell(
                         onTap: () {
-                          RoutesManagement.goToOthersProfileDetail(model);
+                          RoutesManagement.goToOthersProfileDetail(obj: model);
                         },
                         child: Column(
                           children: [
@@ -288,7 +288,7 @@ class HomePage extends StatelessWidget {
                   ) {
                     return InkWell(
                       onTap: () =>
-                          RoutesManagement.goToOthersProfileDetail(model),
+                          RoutesManagement.goToOthersProfileDetail(obj: model),
                       child: Container(
                         height: 250,
                         width: Dimens.screenWidth / 2 - 100,

@@ -75,7 +75,7 @@ class SearchUsers extends StatelessWidget {
                         }
                         return InkWell(
                           onTap: () {
-                            RoutesManagement.goToOthersProfileDetail(model);
+                            RoutesManagement.goToOthersProfileDetail(obj: model);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),

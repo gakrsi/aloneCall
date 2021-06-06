@@ -126,7 +126,30 @@ class UserDetailsView extends StatelessWidget {
                         onPressed: () {
                           _con.shoeBlockUserBottomSheet();
                         }),
-                  )
+                  ),
+                  _con.isUserBlockedMe
+                      ? Container(
+                          height: Dimens.screenHeight,
+                          width: Dimens.screenWidth,
+                          color: Colors.grey.withOpacity(0.2),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: Dimens.hundred * 2,
+                                width: Dimens.hundred * 2,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        width: 1, color: Colors.white)),
+                                child: Text(
+                                  '${_con.userModel.name} Blocked you',
+                                  style: Styles.boldWhite18,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),

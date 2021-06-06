@@ -15,7 +15,7 @@ class HistoryModel {
 
   HistoryModel.fromJson(Map<String, dynamic> data) {
     callerName = data['caller_name'] as String;
-    callerImage = data['image_image'] as String;
+    callerImage = data['caller_image'] as String;
     callerUid = data['caller_uid'] as String;
     callDuration = data['call_duration'] as int;
     date = data['date'] as Timestamp;

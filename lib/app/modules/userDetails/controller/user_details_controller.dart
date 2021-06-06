@@ -5,7 +5,6 @@ import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/modules/userDetails/view/local_widget/low_balance_bottom_sheet.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
-import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,11 +13,20 @@ class UserDetailsController extends GetxController {
   int age;
   bool isBlocked = false;
   int currentPage = 0;
+  bool isUserBlockedMe = false;
   ProfileModel userModel = Get.arguments as ProfileModel;
   CallingModel dialModel = CallingModel();
   Repository repo = Repository();
 
   List<dynamic> imageUrl = <dynamic>[];
+  @override
+  void onInit() async {
+    selectImage();
+    calculateAge();
+    isUserBlockedMe = await repo.checkUserIsBlockedWhileCalling(userModel);
+    checkUserIsBlocked();
+    super.onInit();
+  }
 
   void selectImage() {
     for (var i in userModel.profileImageUrl) {
@@ -42,14 +50,6 @@ class UserDetailsController extends GetxController {
         update();
       }
     });
-  }
-
-  @override
-  void onInit() {
-    selectImage();
-    calculateAge();
-    checkUserIsBlocked();
-    super.onInit();
   }
 
   void onClickVideoCall() async {
@@ -95,6 +95,9 @@ class UserDetailsController extends GetxController {
       child: InkWell(
         onTap: () {
           isBlocked ? repo.unBlockUser(userModel) : repo.blockUser(userModel);
+          isBlocked = !isBlocked;
+          update();
+          Get.back<dynamic>();
         },
         child: Container(
           height: 100,

@@ -107,6 +107,13 @@ class Repository {
     return busy;
   }
 
+  Future<ProfileModel> getUserDataByUid(String uid) async {
+    ProfileModel profileModel;
+    var data  = await firebaseFireStore.collection(FirebaseConstant.user).doc(uid).get();
+    profileModel = ProfileModel.fromJson(data.data());
+    return profileModel;
+  }
+
   Future<int> checkAudioBalance() async {
     Map<String, dynamic> data;
     await firebaseFireStore
@@ -343,6 +350,17 @@ class Repository {
         .doc(uid)
         .collection(FirebaseConstant.blockUser)
         .doc(model.uid)
+        .get()
+        .then((value) => value.exists ? val = true : val = false);
+    return val;
+  }
+  Future<bool> checkUserIsBlockedWhileCalling(ProfileModel model) async {
+    var val = false;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(model.uid)
+        .collection(FirebaseConstant.blockUser)
+        .doc(uid)
         .get()
         .then((value) => value.exists ? val = true : val = false);
     return val;
