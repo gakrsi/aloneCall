@@ -229,13 +229,12 @@ class HomePage extends StatelessWidget {
   Widget _userGridView(HomeController con) => SizedBox(
         height: 1000,
         child: StreamBuilder(
-            stream: Repository().userStream(con.gender(),),
+            stream: Repository().userStream(con.model.gender,),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return const Text('Something went wrong');
               }
-
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return GridView.count(
                     crossAxisCount: 2,

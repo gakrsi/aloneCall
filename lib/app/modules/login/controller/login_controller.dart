@@ -28,7 +28,7 @@ class LoginController extends GetxController {
 
   ///Function call when pressed login button
   void onPressedLoginButton() async {
-    if (number.length == 10) {
+    if (showLoginButton) {
       await loginWithPhoneNumber(number);
     } else {
       Utility.showError('Enter Correct phone number');
@@ -37,7 +37,7 @@ class LoginController extends GetxController {
 
   ///Function is used to login user with phone number and otp
   Future<void> loginWithPhoneNumber(String phoneNumber) async {
-    updatePageStatus(PageStatus.loading);
+    Utility.showLoadingDialog();
     try {
       await auth
           .verifyPhoneNumber(
@@ -61,26 +61,32 @@ class LoginController extends GetxController {
                 localVerificationId = verificationId;
               })
           .whenComplete(() {
-        updatePageStatus(PageStatus.idle);
+            Utility.closeDialog();
         RoutesManagement.goToOtpScreen();
       });
     } catch (onError) {
-      updatePageStatus(PageStatus.idle);
       Utility.printELog(onError.toString());
     }
   }
 
-  void loginWithOtp() {
-    updatePageStatus(PageStatus.loading);
-    final credential = PhoneAuthProvider.credential(
-        verificationId: localVerificationId, smsCode: pin);
-    auth.signInWithCredential(credential).then((value) {
-      Repository().checkProfileCreate().then((value) {
-        value
-            ? RoutesManagement.goToHome()
-            : RoutesManagement.goToProfileScreen();
+  void loginWithOtp() async {
+    Utility.showLoadingDialog();
+    final credential = PhoneAuthProvider.credential(verificationId: localVerificationId, smsCode: pin);
+    Utility.printDLog('Inside login with otp');
+    try{
+      await auth.signInWithCredential(credential).then((value) {
+        Repository().checkProfileCreate().then((value) {
+          Utility.closeDialog();
+          value
+              ? RoutesManagement.goToHome()
+              : RoutesManagement.goToProfileScreen();
+        });
       });
-    });
+    } catch  (e){
+      Utility.closeDialog();
+      Utility.showError('${e.message}');
+    }
+
   }
 
   /// Function to update the [showLoginButton] flag

@@ -82,7 +82,7 @@ class NotificationPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Container(
-                                height: Dimens.fifty,
+                                // height: Dimens.fifty,
                                 width: Dimens.fifty,
                                 decoration: BoxDecoration(
                                     color: ColorsValue.lightGreyColor,
