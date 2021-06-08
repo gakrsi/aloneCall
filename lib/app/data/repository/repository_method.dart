@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:alonecall/app/data/model/bank_detail_model.dart';
 import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/distance_model.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
@@ -232,6 +233,24 @@ class Repository {
         .doc(uid)
         .collection(FirebaseConstant.userDetails)
         .doc(FirebaseConstant.filter).update(filterModel.toJson(filterModel));
+  }
+
+  Future<void> addBankDetails(AddBankModel addBankModel) async{
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.bankDetail).set(addBankModel.toMap(addBankModel));
+  }
+
+  Future<AddBankModel> getBankDetails() async{
+    AddBankModel addBankModel;
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.bankDetail).get().then((value) => AddBankModel.fromJson(value.data()));
+    return addBankModel;
   }
 
   Future<void> updateProfile(ProfileModel obj) async {

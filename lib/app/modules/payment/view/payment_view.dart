@@ -9,6 +9,7 @@ class PaymentView extends StatelessWidget {
   Widget build(BuildContext context) => GetBuilder<PaymentController>(
     builder:(_con) => SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
             StringConstants.addBank,
@@ -18,7 +19,7 @@ class PaymentView extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: SizedBox(
-          height: Dimens.screenHeight,
+          height: Dimens.screenHeight ,
           width: Dimens.screenWidth,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +36,7 @@ class PaymentView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
-                    controller: _con.amountEdit,
+                    onChanged: (value)=>_con.addBankModel.accountNumber = value,
                     style: Styles.black18,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
@@ -58,6 +59,7 @@ class PaymentView extends StatelessWidget {
                   child: TextField(
                     controller: _con.amountEdit,
                     style: Styles.black18,
+                    obscureText: true,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                         hintText: ' Confirm account number',
@@ -77,9 +79,9 @@ class PaymentView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
-                    controller: _con.amountEdit,
+                    onChanged: (value)=>_con.addBankModel.ifsc = value,
                     style: Styles.black18,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                         hintText: ' IFSC',
                         border: InputBorder.none
@@ -98,9 +100,9 @@ class PaymentView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
-                    controller: _con.amountEdit,
+                    onChanged: (value)=>_con.addBankModel.name = value,
                     style: Styles.black18,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                         hintText: ' Account holder name',
                         border: InputBorder.none
@@ -119,7 +121,7 @@ class PaymentView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
-                    controller: _con.amountEdit,
+                    onChanged: (value)=>_con.addBankModel.number = value,
                     style: Styles.black18,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
@@ -140,9 +142,9 @@ class PaymentView extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextField(
-                    controller: _con.amountEdit,
+                    onChanged: (value)=>_con.addBankModel.nickName = value,
                     style: Styles.black18,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                         hintText: ' Nickname (optional)',
                         border: InputBorder.none
@@ -154,7 +156,7 @@ class PaymentView extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: (){
-                  // _con.onClickAdd();
+                  _con.onClickAdd();
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal:Dimens.twenty,vertical: Dimens.five),

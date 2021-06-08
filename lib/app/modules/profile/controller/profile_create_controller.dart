@@ -28,6 +28,7 @@ class ProfileCreateController extends GetxController {
       model
         ..lat = value.latitude
         ..long = value.longitude;
+
     });
     await Utility.getCurrentLocation().then((value) {
       Utility.printDLog(value.addressLine1);

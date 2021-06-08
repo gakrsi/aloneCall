@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
+import 'package:alonecall/app/data/model/bank_detail_model.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
-import 'package:alonecall/app/data/repository/local_storage_repository.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/home/view/page/fliter_view.dart';
@@ -20,10 +20,8 @@ class HomeController extends GetxController {
   /// Current index in [HomeView]
   int currentTab = 0;
   int profileCurrentTab = 0;
-
   double lat = 0.0;
   double long = 0.0;
-
   int startAge = 0;
   int lastAge = 0;
   int initialDistance = 0;
@@ -36,7 +34,7 @@ class HomeController extends GetxController {
 
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
-
+  AddBankModel addBankModel = AddBankModel();
   ProfileModel model = ProfileModel();
   FilterModel filterModel = FilterModel();
   Repository repo = Repository();
@@ -91,6 +89,7 @@ class HomeController extends GetxController {
     await getCurrentLatLng();
     model = ProfileModel.fromJson(data);
     planModelList = await repo.getPlanDetails();
+    addBankModel = await repo.getBankDetails();
     super.onInit();
   }
 
