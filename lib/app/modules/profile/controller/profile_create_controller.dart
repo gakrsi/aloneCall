@@ -50,27 +50,9 @@ class ProfileCreateController extends GetxController {
   List<String> languageList = <String>[
     'English',
     'Hindi',
-    'Bengali',
     'Marathi',
     'Telugu',
     'Tamil',
-    'Gujarati',
-    'Urdu',
-    'Kannada',
-    'Odia (Oriya)',
-    'Malayalam',
-    'Punjabi',
-    'Bodo',
-    'Dogri',
-    'Kashmiri',
-    'Konkani',
-    'Maithili',
-    'Manipuri',
-    'Nepali',
-    'Sanskrit',
-    'Santali Language',
-    'Sindhi',
-    'Assamese'
   ];
 
   void updateDob(String date) {
@@ -118,7 +100,7 @@ class ProfileCreateController extends GetxController {
                                     horizontal: 16.0, vertical: 8),
                                 child: Text(
                                   genderList[index],
-                                  style: Styles.grey16,
+                                  style: Styles.boldBlack16,
                                 )),
                           ),
                         ))),
@@ -130,7 +112,7 @@ class ProfileCreateController extends GetxController {
   void showLanguageBottomSheet() {
     Get.bottomSheet<void>(
         Container(
-          height: 400,
+          height: 200,
           width: Dimens.screenWidth,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
           child: Center(
@@ -168,7 +150,7 @@ class ProfileCreateController extends GetxController {
                                       horizontal: 16.0, vertical: 8),
                                   child: Text(
                                     languageList[index],
-                                    style: Styles.grey16,
+                                    style: Styles.blackBold16,
                                   )),
                             ),
                           ))),

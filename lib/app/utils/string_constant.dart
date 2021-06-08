@@ -12,11 +12,11 @@ class StringConstants {
   static const String mobileNumber = 'Mobile Number';
   static const String phone = 'Phone';
   static const String verifyWithOtp = 'Verify with OTP';
-  static const String tryingToAutoFill = 'Trying to auto-fill OTP 00:14';
+  static const String tryingToAutoFill = 'Trying to auto-fill OTP ';
   static const String loginUsing = 'Log in using';
   static const String password = '  Password';
   static const String havingTroubleLogin = 'Having trouble in logging?';
-  static const String getHelp = ' Get help ';
+  static const String getHelp = '';
   static const String imageNotFoundError = 'imageNotFoundError';
   static const String calling ='Calling…';
   static const String ringing ='Ringing';

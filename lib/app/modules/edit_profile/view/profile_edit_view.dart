@@ -18,12 +18,12 @@ class ProfileEditView extends StatelessWidget {
           appBar: AppBar(
               backgroundColor: Colors.white,
               title: Text(
-                'Profile',
+                'Edit Profile',
                 style: Styles.blackBold18,
               ),
               centerTitle: true,
               elevation: 0,
-              leading: const Icon(Icons.arrow_back_outlined)),
+              leading:  IconButton(icon: const Icon(Icons.arrow_back_outlined), onPressed: Get.back,)),
           body: SingleChildScrollView(
             child: Stack(
               children: [
@@ -60,10 +60,10 @@ class ProfileEditView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      _gender(_con),
-                      SizedBox(
-                        height: Dimens.twenty,
-                      ),
+                      // _gender(_con),
+                      // SizedBox(
+                      //   height: Dimens.twenty,
+                      // ),
                       _country(_con),
                       SizedBox(
                         height: Dimens.twenty,
@@ -86,7 +86,7 @@ class ProfileEditView extends StatelessWidget {
                       InkWell(
                           onTap: () => _con.validateAndSubmit(),
                           child: PrimaryButton(
-                            title: 'Complete',
+                            title: 'Update',
                             disable: true,
                           )),
                       SizedBox(
@@ -156,7 +156,7 @@ class ProfileEditView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -186,7 +186,7 @@ class ProfileEditView extends StatelessWidget {
       height: 360,
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 300,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
@@ -226,7 +226,7 @@ class ProfileEditView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -242,33 +242,33 @@ class ProfileEditView extends StatelessWidget {
     ),
   );
 
-  Widget _gender(ProfileEditController con) => Container(
-    height: 55,
-    width: Dimens.screenWidth,
-    decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          )
-        ]),
-    child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-        child: con.model.gender == null
-            ? Text(
-          ' Gender',
-          style: Styles.black18,
-        )
-            : Text(
-          con.model.gender,
-          style: Styles.black18,
-        )),
-  );
+  // Widget _gender(ProfileEditController con) => Container(
+  //   height: 55,
+  //   width: Dimens.screenWidth,
+  //   decoration: BoxDecoration(
+  //       border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+  //       borderRadius: BorderRadius.circular(5),
+  //       color: Colors.white,
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.2),
+  //           spreadRadius: 1,
+  //           blurRadius: 2,
+  //           offset: const Offset(0, 1),
+  //         )
+  //       ]),
+  //   child: Padding(
+  //       padding: const EdgeInsets.only(left: 16.0, top: 16.5),
+  //       child: con.model.gender == null
+  //           ? Text(
+  //         ' Gender',
+  //         style: Styles.black18,
+  //       )
+  //           : Text(
+  //         con.model.gender,
+  //         style: Styles.black18,
+  //       )),
+  // );
 
 
   Widget _city(ProfileEditController con) => Container(
@@ -276,7 +276,7 @@ class ProfileEditView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -305,7 +305,7 @@ class ProfileEditView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -333,7 +333,7 @@ class ProfileEditView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(

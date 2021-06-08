@@ -36,7 +36,7 @@ class OtpView extends StatelessWidget {
                     _otpTextField(context,_controller),
                     Text(StringConstants.tryingToAutoFill,style: Styles.grey14,),
                     SizedBox(height: Dimens.fifty,),
-                    RichText(
+                    /*RichText(
                       text: TextSpan(
                           text: StringConstants.havingTroubleLogin,
                           style: Styles.grey14,
@@ -44,7 +44,7 @@ class OtpView extends StatelessWidget {
                             TextSpan(text:StringConstants.getHelp,style: TextStyle(color: ColorsValue.secondaryColor,fontSize: Dimens.fourteen),)
                           ]
                       ),
-                    ),
+                    ),*/
                     SizedBox(height: Dimens.thirty,),
                     InkWell(
                       onTap: () {

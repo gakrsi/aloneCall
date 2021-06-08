@@ -13,6 +13,8 @@ dependencies:
   assets_audio_player: ^3.0.3+3
   cached_network_image: ^3.0.0
   camera: ^0.8.1
+  url_launcher: any
+  share: ^2.0.4
   carousel_slider: ^2.1.0
   cloud_firestore: ^2.2.0
   connectivity: ^3.0.2

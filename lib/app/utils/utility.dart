@@ -109,7 +109,7 @@ abstract class Utility{
     Get.rawSnackbar(
       messageText: Text(
         message,
-        style: Styles.white16,
+        style: Styles.blackBold16,
       ),
       mainButton: TextButton(
         onPressed: () {
@@ -119,10 +119,10 @@ abstract class Utility{
         },
         child: Text(
           'Okay',
-          style: Styles.white14,
+          style: Styles.blackBold16,
         ),
       ),
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.black12,
       margin: Dimens.edgeInsets15,
       borderRadius: Dimens.fifteen,
       snackStyle: SnackStyle.FLOATING,

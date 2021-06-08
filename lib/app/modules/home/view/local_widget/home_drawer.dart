@@ -1,3 +1,4 @@
+
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
@@ -6,6 +7,8 @@ import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Widget drawer() => GetBuilder<HomeController>(
     builder: (_controller) => Container(
@@ -123,24 +126,7 @@ Widget drawer() => GetBuilder<HomeController>(
                           )
                         ],
                       ),
-                      ListTile(
-                        title: Text(
-                          'Add Bank Account',
-                          style: Styles.black18.copyWith(fontSize: 14),
-                        ),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.black,
-                        ),
-                        leading: const Icon(
-                          Icons.add,
-                          color: Colors.black,
-                        ),
-                        onTap: (){
-                          RoutesManagement.goToPayment();
-                        },
-                      ),
-                      const Divider(),
+
                       ListTile(
                         title: Text(
                           'Audio Sec',
@@ -183,6 +169,60 @@ Widget drawer() => GetBuilder<HomeController>(
                       const Divider(),
                       ListTile(
                         title: Text(
+                          'Bank Account',
+                          style: Styles.black18.copyWith(fontSize: 14),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.black,
+                        ),
+                        leading: const Icon(
+                          Icons.account_balance_wallet,
+                          color: Colors.black,
+                        ),
+                        onTap: (){
+                          RoutesManagement.goToPayment();
+                        },
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: Text(
+                          'Contact Us',
+                          style: Styles.black18.copyWith(fontSize: 14),
+                        ),
+                        leading: const Icon(
+                          Icons.mail,
+                          color: Colors.black,
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.black,
+                        ),
+                        onTap: (){
+                          _sendingMails();
+                        },
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: Text(
+                          'Share',
+                          style: Styles.black18.copyWith(fontSize: 14),
+                        ),
+                        leading: const Icon(
+                          Icons.share_outlined,
+                          color: Colors.black,
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.black,
+                        ),
+                        onTap: (){
+                          _onShareData();
+                        }
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: Text(
                           'Rate Us',
                           style: Styles.black18.copyWith(fontSize: 14),
                         ),
@@ -194,21 +234,9 @@ Widget drawer() => GetBuilder<HomeController>(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.black,
                         ),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: Text(
-                          'About Us',
-                          style: Styles.black18.copyWith(fontSize: 14),
-                        ),
-                        leading: const Icon(
-                          Icons.details,
-                          color: Colors.black,
-                        ),
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.black,
-                        ),
+                        onTap: (){
+                          _launchURLForRateUs();
+                        },
                       ),
                       const Divider(),
                       ListTile(
@@ -232,3 +260,30 @@ Widget drawer() => GetBuilder<HomeController>(
                   ),
           ),
     ));
+
+
+void _sendingMails() async {
+  const url = 'mailto:alonecall@gmail.com';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+void _launchURLForRateUs() async {
+  const url = 'https://play.google.com/store/apps/details?id=bubbleshooter.orig';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+void _onShareData() async {
+
+  {
+    await Share.share('flutter.com'
+        );
+  }
+}

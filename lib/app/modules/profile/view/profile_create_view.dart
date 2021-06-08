@@ -30,7 +30,7 @@ class ProfileCreateView extends StatelessWidget {
           body: _con.model.country ==null
               ?Container(
             child:  Center(
-              child: Text('Getting your Location',style: Styles.black18,),
+              child: Text('Getting your Location ...',style: Styles.black18,),
             ),
           )
               :SingleChildScrollView(
@@ -58,7 +58,7 @@ class ProfileCreateView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      _texField(_con.nameController, ' Name'),
+                      _texField(_con.nameController, ' Your Name'),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
@@ -167,7 +167,7 @@ class ProfileCreateView extends StatelessWidget {
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -192,42 +192,45 @@ class ProfileCreateView extends StatelessWidget {
       );
 
   void showDateBottomSheet(ProfileCreateController con) {
-    Get.bottomSheet<dynamic>(Container(
-      color: Colors.white,
-      height: 360,
-      child: Column(
-        children: [
-          Container(
-            height: 300,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (DateTime dateTime) {
-                print(dateTime.toString().substring(0,10));
-                con.updateDob(dateTime.toString().substring(0,10));
-                // con.model.dob = dateTime;
+    Get.bottomSheet<dynamic>(SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        height: 360,
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              child: CupertinoDatePicker(
+                minimumYear: 1930,
+                mode: CupertinoDatePickerMode.date,
+                onDateTimeChanged: (DateTime dateTime) {
+                  print(dateTime.toString().substring(0,10));
+                  con.updateDob(dateTime.toString().substring(0,10));
+                  // con.model.dob = dateTime;
+                },
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                Get.back<dynamic>();
               },
-            ),
-          ),
-          InkWell(
-            onTap: (){
-              Get.back<dynamic>();
-            },
-            child: Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: Dimens.twenty, vertical: Dimens.five),
-              height: Dimens.fifty,
-              width: Dimens.screenWidth,
-              decoration: BoxDecoration(
-                  color: ColorsValue.primaryColor,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Center(
-                  child: Text(
-                    'Ok',
-                    style: Styles.black18,
-                  )),
-            ),
-          )
-        ],
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: Dimens.twenty, vertical: Dimens.five),
+                height: Dimens.fifty,
+                width: Dimens.screenWidth,
+                decoration: BoxDecoration(
+                    color: ColorsValue.primaryColor,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: Styles.boldWhite16,
+                    )),
+              ),
+            )
+          ],
+        ),
       ),
     ));
   }

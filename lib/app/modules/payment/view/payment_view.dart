@@ -1,3 +1,4 @@
+import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/payment/controller/payment_controller.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
@@ -31,9 +32,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     onChanged: (value)=>_con.addBankModel.accountNumber = value,
@@ -52,9 +61,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     controller: _con.amountEdit,
@@ -74,9 +91,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     onChanged: (value)=>_con.addBankModel.ifsc = value,
@@ -95,9 +120,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     onChanged: (value)=>_con.addBankModel.name = value,
@@ -116,9 +149,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     onChanged: (value)=>_con.addBankModel.number = value,
@@ -137,9 +178,17 @@ class PaymentView extends StatelessWidget {
                 height: Dimens.fifty,
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
-                    color: ColorsValue.primaryColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ]),
                 child: Center(
                   child: TextField(
                     onChanged: (value)=>_con.addBankModel.nickName = value,
@@ -163,15 +212,23 @@ class PaymentView extends StatelessWidget {
                   height: Dimens.fifty,
                   width: Dimens.screenWidth,
                   decoration: BoxDecoration(
-                      color: ColorsValue.primaryColor.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Center(
-                    child: Text('ADD',style: Styles.black18,)
-                  ),
-                ),
-              )
-            ],
+                      border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ]),
+                  child: PrimaryButton(
+                  title: 'Done',
+                  disable: true,
+                )),
+
+              )],
           ),
         ),
       ),
