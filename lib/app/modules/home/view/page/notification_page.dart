@@ -28,7 +28,7 @@ class NotificationPage extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
                   child: Icon(
-                    Icons.search,
+                    Icons.notifications_none_sharp,
                     color: Colors.white,
                   ),
                 ),
@@ -107,22 +107,12 @@ class NotificationPage extends StatelessWidget {
                                       children: [
                                         model.isAudio
                                             ? Text(
-                                                'Missed Audio Call from ${model.callerName}',
+                                                'Missed call from ${model.callerName}',
                                                 style: Styles.blackBold16)
                                             : Text(
-                                                'Missed Video Call from ${model.callerName}',
+                                                'Missed Call from ${model.callerName}',
                                                 style: Styles.blackBold16),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 2, 0, 0),
-                                          child: Icon(
-                                            model.isAudio
-                                                ? Icons.phone
-                                                : Icons.videocam,
-                                            size: Dimens.sixTeen,
-                                            color: Colors.black,
-                                          ),
-                                        ),
+
                                       ],
                                     ),
                                     Row(
@@ -142,6 +132,17 @@ class NotificationPage extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    5, 0, 10, 0),
+                                child: Icon(
+                                  model.isAudio
+                                      ? Icons.phone
+                                      : Icons.videocam,
+                                  size: Dimens.thirty,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ),

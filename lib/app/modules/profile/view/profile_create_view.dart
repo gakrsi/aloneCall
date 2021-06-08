@@ -221,7 +221,7 @@ class ProfileCreateView extends StatelessWidget {
                 width: Dimens.screenWidth,
                 decoration: BoxDecoration(
                     color: ColorsValue.primaryColor,
-                    borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(20)),
                 child: Center(
                     child: Text(
                       'Done',
@@ -240,7 +240,7 @@ class ProfileCreateView extends StatelessWidget {
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -261,7 +261,7 @@ class ProfileCreateView extends StatelessWidget {
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -290,7 +290,7 @@ class ProfileCreateView extends StatelessWidget {
     width: Dimens.screenWidth,
     decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -319,7 +319,7 @@ class ProfileCreateView extends StatelessWidget {
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -347,7 +347,7 @@ class ProfileCreateView extends StatelessWidget {
         width: Dimens.screenWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.withOpacity(0.4)),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
               BoxShadow(

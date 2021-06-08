@@ -33,7 +33,7 @@ class ProfileEditController extends GetxController{
 
   List<String> genderList = <String>['Male','Female',];
   List<String> countryList = <String> ['India','Nepal','Bhutan','Pakistan'];
-  List<String> languageList = <String>['English', 'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia (Oriya)', 'Malayalam', 'Punjabi', 'Bodo', 'Dogri', 'Kashmiri', 'Konkani', 'Maithili', 'Manipuri', 'Nepali', 'Sanskrit', 'Santali Language', 'Sindhi', 'Assamese'];
+  List<String> languageList = <String>['English', 'Hindi', 'Marathi', 'Telugu', 'Tamil'];
 
   void onEditName(String value){
     model.name = value;
@@ -62,7 +62,7 @@ class ProfileEditController extends GetxController{
   void showLanguageBottomSheet(){
     Get.bottomSheet<void>(
         Container(
-          height: 400,
+          height: Dimens.two * Dimens.hundred,
           width: Dimens.screenWidth,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10)
@@ -94,7 +94,7 @@ class ProfileEditController extends GetxController{
                       ),
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8),
-                          child: Text(languageList[index],style: Styles.grey16,)
+                          child: Text(languageList[index],style: Styles.blackBold16,)
                       ),
                     ),
                   ))

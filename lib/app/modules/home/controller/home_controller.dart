@@ -43,34 +43,18 @@ class HomeController extends GetxController {
   String country = '';
 
   List<String> languageList = <String>[
-    'English', 'Hindi', 'Bengali',
+    'English', 'Hindi',
     'Marathi',
     'Telugu',
     'Tamil',
-    'Gujarati', 'Urdu',
-    'Kannada',
-    'Odia (Oriya)',
-    'Malayalam',
-    'Punjabi',
-    'Bodo',
-    'Dogri',
-    'Kashmiri',
-    'Konkani',
-    'Maithili',
-    'Manipuri',
-    'Nepali',
-    'Sanskrit',
-    'Santali Language',
-    'Sindhi',
-    'Assamese'
   ];
 
   final List<BottomNavigationBarItem> tab = <BottomNavigationBarItem>[
-    const BottomNavigationBarItem(icon: Icon(Icons.home), label: ' '),
-    const BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.whatshot), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.near_me_sharp), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.history), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ' '),
-    const BottomNavigationBarItem(icon: Icon(Icons.money), label: ' '),
+    const BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_rounded), label: ' '),
   ];
   List<PlanModel> planModelList;
   @override

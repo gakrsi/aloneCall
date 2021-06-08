@@ -26,6 +26,9 @@ class FilterView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: Dimens.ten,
+                      ),
                       Text(
                         'Age',
                         style: Styles.black18,
@@ -39,7 +42,7 @@ class FilterView extends StatelessWidget {
                         width: Dimens.screenWidth,
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 1, color: ColorsValue.primaryColor),
+                                width: 1, color: ColorsValue.lightGreyColor),
                             borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +73,7 @@ class FilterView extends StatelessWidget {
                         width: Dimens.screenWidth,
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 1, color: ColorsValue.primaryColor),
+                                width: 1, color: ColorsValue.lightGreyColor),
                             borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -96,11 +99,11 @@ class FilterView extends StatelessWidget {
                         height: Dimens.ten,
                       ),
                       Container(
-                        height: 450,
+                        height: Dimens.two * Dimens.hundred,
                         width: Dimens.screenWidth,
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 1, color: ColorsValue.primaryColor),
+                                width: 1, color: ColorsValue.lightGreyColor),
                             borderRadius: BorderRadius.circular(20)),
                         child: Center(
                           child: Wrap(
@@ -191,12 +194,9 @@ class FilterView extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-                border: Border.all(width: 2, color: ColorsValue.primaryColor)),
+                border: Border.all(width: 2, color: ColorsValue.lightGreyColor)),
             child: const Center(
-              child: Icon(
-                Icons.pause,
-                color: ColorsValue.primaryColor,
-              ),
+
             ),
           ),
         ),
@@ -205,10 +205,7 @@ class FilterView extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-                border: Border.all(width: 2, color: ColorsValue.primaryColor)),
-            child: const Center(
-              child: Icon(Icons.pause, color: ColorsValue.primaryColor),
-            ),
+                border: Border.all(width: 2, color: ColorsValue.lightGreyColor)),
           ),
         ),
         trackBar: FlutterSliderTrackBar(
@@ -244,13 +241,7 @@ class FilterView extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            border: Border.all(width: 2, color: ColorsValue.primaryColor)),
-        child: const Center(
-          child: Icon(
-            Icons.pause,
-            color: ColorsValue.primaryColor,
-          ),
-        ),
+            border: Border.all(width: 2, color: ColorsValue.lightGreyColor)),
       ),
     ),
 
@@ -259,10 +250,7 @@ class FilterView extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            border: Border.all(width: 2, color: ColorsValue.primaryColor)),
-        child: const Center(
-          child: Icon(Icons.pause, color: ColorsValue.primaryColor),
-        ),
+            border: Border.all(width: 2, color: ColorsValue.lightGreyColor)),
       ),
     ),
     trackBar: FlutterSliderTrackBar(

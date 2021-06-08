@@ -127,32 +127,32 @@ class UserDetailsView extends StatelessWidget {
                           _con.shoeBlockUserBottomSheet();
                         }),
                   ),
-                  _con.isUserBlockedMe
-                      ? Container(
-                          height: Dimens.screenHeight,
-                          width: Dimens.screenWidth,
-                          color: Colors.grey.withOpacity(0.7),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                        width: 1, color: Colors.white)),
-                                child: Center(
-                                  child: Text(
-                                    '${_con.userModel.name} Blocked you',
-                                    style: Styles.boldWhite18,
-                                  ),
-                                ),
-                              )
-                            ],
+                  !_con.isUserBlockedMe
+                      ? Container() :
+                  Container(
+                    height: Dimens.screenHeight,
+                    width: Dimens.screenWidth,
+                    color: Colors.grey.withOpacity(0.7),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  width: 1, color: Colors.white)),
+                          child: Center(
+                            child: Text(
+                              '${_con.userModel.name} Blocked you',
+                              style: Styles.boldWhite18,
+                            ),
                           ),
                         )
-                      : Container()
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

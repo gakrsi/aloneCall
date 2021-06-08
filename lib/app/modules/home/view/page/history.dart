@@ -28,7 +28,7 @@ class HistoryPage extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
                   child: Icon(
-                    Icons.search,
+                    Icons.history,
                     color: Colors.white,
                   ),
                 ),
@@ -120,17 +120,6 @@ class HistoryPage extends StatelessWidget {
                                             : Text(
                                                 '${model.callerName}, ${model.callDuration} sec',
                                                 style: Styles.blackBold16),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 2, 0, 0),
-                                          child: Icon(
-                                            model.isAudio
-                                                ? Icons.phone
-                                                : Icons.videocam,
-                                            size: Dimens.sixTeen,
-                                            color: Colors.black,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                     Row(
@@ -153,6 +142,19 @@ class HistoryPage extends StatelessWidget {
                                       ],
                                     )
                                   ],
+                                ),
+
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    5, 0, 10, 0),
+                                child: Icon(
+                                  model.isAudio
+                                      ? Icons.phone
+                                      : Icons.videocam,
+                                  size: Dimens.thirty,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],

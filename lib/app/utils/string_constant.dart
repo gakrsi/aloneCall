@@ -27,7 +27,7 @@ class StringConstants {
   static const String blockedList = 'Blocked list';
   static const String rateUs = 'Rate us';
   static const String aboutUs = 'About us';
-  static const String notification = 'Notification';
+  static const String notification = 'Notifications';
   static const String profile = 'Profile';
   static const String locationService = 'Location Service';
   static const String enableLocationService = 'enableLocationService';

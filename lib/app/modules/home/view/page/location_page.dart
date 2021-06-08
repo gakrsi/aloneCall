@@ -19,6 +19,15 @@ class NearYouMapView extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 title: Text('Near You',style: Styles.white16.copyWith(fontWeight: FontWeight.bold,fontSize: 20),),
+                actions: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                    child: Icon(
+                      Icons.near_me,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
               body: StreamBuilder(
                   stream: Repository().nearYou(_controller.model.city),

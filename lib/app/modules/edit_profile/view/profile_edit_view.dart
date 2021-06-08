@@ -60,28 +60,30 @@ class ProfileEditView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      // _gender(_con),
-                      // SizedBox(
-                      //   height: Dimens.twenty,
-                      // ),
-                      _country(_con),
-                      SizedBox(
-                        height: Dimens.twenty,
-                      ),
-                      InkWell(
-                        onTap: (){
-                          _con.onEditCountryAndCity();
-                        },
-                          child: _city(_con)
-                      ),
-                      SizedBox(
-                        height: Dimens.twenty,
-                      ),
+
                       InkWell(
                           onTap: () {
                             _con.showLanguageBottomSheet();
                           },
                           child: _language(_con)),
+                      SizedBox(
+                        height: Dimens.twenty,
+                      ),
+                      InkWell(
+                          onTap: (){
+                            _con.onEditCountryAndCity();
+                          },
+                          child: _city(_con)
+                      ),
+                      SizedBox(
+                        height: Dimens.twenty,
+                      ),
+                      // _gender(_con),
+                      // SizedBox(
+                      //   height: Dimens.twenty,
+                      // ),
+                      _country(_con),
+
                       Dimens.boxHeight30,
                       InkWell(
                           onTap: () => _con.validateAndSubmit(),
