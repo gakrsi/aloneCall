@@ -21,6 +21,7 @@ class StringConstants {
   static const String calling ='Calling…';
   static const String ringing ='Ringing';
   static const String history ='History';
+  static const String addBank ='Add Bank Details';
   static const String wallet ='Wallet';
   static const String settings ='Settings';
   static const String blockedList = 'Blocked list';

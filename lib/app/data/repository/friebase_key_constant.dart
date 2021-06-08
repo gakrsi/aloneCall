@@ -7,4 +7,5 @@ abstract class FirebaseConstant{
   static const String blockUser = 'BLOCK_USER';
   static const String userDetails = 'USER_DETAILS';
   static const String filter = 'FILTER';
+  static const String plan = 'PLAN';
 }

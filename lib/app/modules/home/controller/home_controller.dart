@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
+import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/local_storage_repository.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
@@ -38,6 +39,7 @@ class HomeController extends GetxController {
 
   ProfileModel model = ProfileModel();
   FilterModel filterModel = FilterModel();
+  Repository repo = Repository();
 
   String city = '';
   String country = '';
@@ -72,24 +74,23 @@ class HomeController extends GetxController {
     const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.money), label: ' '),
   ];
-
-
-
+  List<PlanModel> planModelList;
   @override
   void onInit() async {
-    filterModel = await Repository().getFilterDetails();
+    filterModel = await repo.getFilterDetails();
     updateCurrentLocation();
-    await Repository().latLongOfAllUser().then((value) {
+    await repo.latLongOfAllUser().then((value) {
       for (var i = 0; i < value.length; i++) {
         latLong.add(value[i].latLng);
       }
     });
-    var data = await Repository().getProfile();
+    var data = await repo.getProfile();
     var encoder = const JsonEncoder.withIndent('  ');
     var prettyPrint = encoder.convert(data);
     print(prettyPrint);
     await getCurrentLatLng();
     model = ProfileModel.fromJson(data);
+    planModelList = await repo.getPlanDetails();
     super.onInit();
   }
 
@@ -106,7 +107,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> reloadProfileDetails() async {
-    var data = await Repository().getProfile();
+    var data = await repo.getProfile();
     model = ProfileModel.fromJson(data);
     var encoder = const JsonEncoder.withIndent('  ');
     var prettyPrint = encoder.convert(data);
@@ -135,7 +136,7 @@ class HomeController extends GetxController {
     lat = latLong.latitude;
     long = latLong.longitude;
     update();
-    Repository().distanceStream(lat, long);
+    repo.distanceStream(lat, long);
     Utility.printDLog('Current lat,long $lat, $long');
   }
 
@@ -154,7 +155,7 @@ class HomeController extends GetxController {
   void onApplyFilter(){
     Utility.printDLog('Apply filter');
     Utility.showLoadingDialog();
-    Repository().updateFilter(filterModel).whenComplete(RoutesManagement.goToHome);
+    repo.updateFilter(filterModel).whenComplete(RoutesManagement.goToHome);
 
   }
 
@@ -189,8 +190,8 @@ class HomeController extends GetxController {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     !isAudio
-        ? Repository().addVideoCoin(minute*60 + model.coin)
-        : Repository().addAudioCoin(minute*60 + model.audioCoin);
+        ? repo.addVideoCoin(minute*60 + model.coin)
+        : repo.addAudioCoin(minute*60 + model.audioCoin);
     isAudio
         ? model.audioCoin =  minute*60 + model.audioCoin
         : model.coin = minute*60 + model.coin;
@@ -211,7 +212,7 @@ class HomeController extends GetxController {
     options = <String, dynamic>{
       'key': 'rzp_test_HGESD2Chi4Y3yy',
       'amount': amount * 100,
-      'name': 'AloneCall.com',
+      'name': 'AloneCall',
       'description': 'Coins',
       'prefill': {'email': 'alonecall@gmail.com', 'contact': '8888888888'},
       'external': {

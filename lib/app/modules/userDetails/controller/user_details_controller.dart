@@ -5,6 +5,7 @@ import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/modules/userDetails/view/local_widget/low_balance_bottom_sheet.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
+import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,7 @@ class UserDetailsController extends GetxController {
     selectImage();
     calculateAge();
     isUserBlockedMe = await repo.checkUserIsBlockedWhileCalling(userModel);
+    Utility.printDLog('Blocked By User $isUserBlockedMe');
     checkUserIsBlocked();
     super.onInit();
   }

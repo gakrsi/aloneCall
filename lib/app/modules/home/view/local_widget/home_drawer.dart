@@ -91,7 +91,8 @@ Widget drawer() => GetBuilder<HomeController>(
                   ),
                 ),
               ],
-            ) : Column(
+            )
+                : ListView(
                     children: [
                       UserAccountsDrawerHeader(
                         decoration: const BoxDecoration(color: Colors.black),
@@ -122,6 +123,24 @@ Widget drawer() => GetBuilder<HomeController>(
                           )
                         ],
                       ),
+                      ListTile(
+                        title: Text(
+                          'Add Bank Account',
+                          style: Styles.black18.copyWith(fontSize: 14),
+                        ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.black,
+                        ),
+                        leading: const Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                        onTap: (){
+                          RoutesManagement.goToPayment();
+                        },
+                      ),
+                      const Divider(),
                       ListTile(
                         title: Text(
                           'Audio Sec',

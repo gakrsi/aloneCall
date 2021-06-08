@@ -341,8 +341,10 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   }
-                  return const SizedBox();
-                }).toList(),
+                  else{
+                    return const SizedBox();
+                  }
+                 }).toList(),
               );
             }),
       );

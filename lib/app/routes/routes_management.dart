@@ -80,10 +80,9 @@ abstract class RoutesManagement{
   }
 
   /// Go to the payment screen
-  static void goToPayment(ProfileModel model,String amount, Map<String,dynamic> data){
+  static void goToPayment(){
     Get.toNamed<void>(
         AppRoutes.payment,
-        arguments: [model,amount,data]
     );
   }
 

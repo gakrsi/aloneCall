@@ -89,28 +89,45 @@ class ProfileView extends StatelessWidget {
         ),
       );
 
-  Widget packageDetails(HomeController con) => Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              planContainer('Starter', '3 Minutes \n Voice Call', '30', con.model, 3, false, false),
-              planContainer('Starter', '3 Minutes \n Video Call', '50', con.model, 3, true, false),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              planContainer('25% Discount', '10 Minutes \n Voice Call', '100',
-                  con.model, 10, false, true,
-                  discountValue: 75),
-              planContainer('25% Discount', '10 Minutes \n Video Call', '200',
-                  con.model, 10, true, true,
-                  discountValue: 150),
-            ],
-          ),
-        ],
-      );
+  Widget packageDetails(HomeController con) => Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: GridView.count(
+        crossAxisCount: 2,
+        physics: const NeverScrollableScrollPhysics(),
+        children: List.generate(
+            con.planModelList.length,
+            (index) => planContainer(
+                con.planModelList[index].title,
+                con.planModelList[index].desc,
+                '${con.planModelList[index].price}',
+                con.model,
+                con.planModelList[index].price,
+                con.planModelList[index].isVideo,
+                con.planModelList[index].discountPrice != 0,discountValue: con.planModelList[index].discountPrice))),
+  );
+
+  // Column(
+  //   children: [
+  //     Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         planContainer('Starter', '3 Minutes \n Voice Call', '30', con.model, 3, false, false),
+  //         planContainer('Starter', '3 Minutes \n Video Call', '50', con.model, 3, true, false),
+  //       ],
+  //     ),
+  //     Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         planContainer('25% Discount', '10 Minutes \n Voice Call', '100',
+  //             con.model, 10, false, true,
+  //             discountValue: 75),
+  //         planContainer('25% Discount', '10 Minutes \n Video Call', '200',
+  //             con.model, 10, true, true,
+  //             discountValue: 150),
+  //       ],
+  //     ),
+  //   ],
+  // );
   Widget showTitle(String title) => Container(
         margin: EdgeInsets.symmetric(
             horizontal: Dimens.twenty, vertical: Dimens.five),
@@ -146,15 +163,13 @@ class ProfileView extends StatelessWidget {
           );
         }
 
-        if(snapshot.data.docs.isEmpty){
+        if (snapshot.data.docs.isEmpty) {
           return Container(
             height: Dimens.screenHeight,
             width: Dimens.screenWidth,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/img/no_data.png')
-                )
-            ),
+                    image: AssetImage('assets/img/no_data.png'))),
           );
         }
         return ListView(
@@ -242,7 +257,7 @@ class ProfileView extends StatelessWidget {
           },
           child: Container(
             height: Dimens.hundred * 1.1,
-            width: Dimens.screenWidth / 2 - 30,
+            width: Dimens.hundred,
             decoration: BoxDecoration(
                 border: Border.all(color: ColorsValue.lightGreyColor)),
             child: Column(
@@ -290,7 +305,7 @@ class ProfileView extends StatelessWidget {
                                   Text(
                                     ' $discountValue',
                                     style:
-                                        Styles.black18.copyWith(fontSize: 30),
+                                        Styles.black18.copyWith(fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -304,7 +319,7 @@ class ProfileView extends StatelessWidget {
                             children: [
                               Text(
                                 price,
-                                style: Styles.black18.copyWith(fontSize: 30),
+                                style: Styles.black18.copyWith(fontSize: 20),
                               ),
                               const Text(
                                 'INR',

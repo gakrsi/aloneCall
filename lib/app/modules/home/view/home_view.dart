@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
                   NearYouMapView(),
                   HistoryPage(),
                   NotificationPage(),
-                  _controller.model.gender == 'Male'?ProfileView():FemaleProfileView()
+                  _controller.model.gender != 'Male'?ProfileView():FemaleProfileView()
                 ],
               ),
             ),

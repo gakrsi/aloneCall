@@ -131,19 +131,22 @@ class UserDetailsView extends StatelessWidget {
                       ? Container(
                           height: Dimens.screenHeight,
                           width: Dimens.screenWidth,
-                          color: Colors.grey.withOpacity(0.2),
+                          color: Colors.grey.withOpacity(0.7),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                height: Dimens.hundred * 2,
-                                width: Dimens.hundred * 2,
+                                padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
                                         width: 1, color: Colors.white)),
-                                child: Text(
-                                  '${_con.userModel.name} Blocked you',
-                                  style: Styles.boldWhite18,
+                                child: Center(
+                                  child: Text(
+                                    '${_con.userModel.name} Blocked you',
+                                    style: Styles.boldWhite18,
+                                  ),
                                 ),
                               )
                             ],

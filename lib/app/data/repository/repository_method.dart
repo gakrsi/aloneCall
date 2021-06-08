@@ -5,6 +5,7 @@ import 'package:alonecall/app/data/model/distance_model.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/location_avtar_model.dart';
+import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
@@ -354,6 +355,7 @@ class Repository {
         .then((value) => value.exists ? val = true : val = false);
     return val;
   }
+
   Future<bool> checkUserIsBlockedWhileCalling(ProfileModel model) async {
     var val = false;
     await firebaseFireStore
@@ -363,6 +365,7 @@ class Repository {
         .doc(uid)
         .get()
         .then((value) => value.exists ? val = true : val = false);
+    Utility.printDLog('Blocked By user $val');
     return val;
   }
 
@@ -410,14 +413,24 @@ class Repository {
     return latLong;
   }
 
-  String currentUser() =>
-      firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
+  String currentUser() => firebaseAuth.currentUser == null ? '' : firebaseAuth.currentUser.uid;
 
   bool isUserLogin() {
     if (firebaseAuth.currentUser == null) {
       return false;
     }
     return true;
+  }
+
+  Future<List<PlanModel>> getPlanDetails() async {
+    var planList = <PlanModel>[];
+    await firebaseFireStore.collection(FirebaseConstant.plan).get().then((value){
+      value.docs.forEach((element) {
+        print(element.data());
+        planList.add(PlanModel.fromJson(element.data()));
+      });
+    });
+    return planList;
   }
 
   void logout() {
