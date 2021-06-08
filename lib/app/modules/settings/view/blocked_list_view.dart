@@ -1,6 +1,8 @@
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
+import 'package:alonecall/app/modules/home/controller/home_controller.dart';
+import 'package:alonecall/app/modules/settings/controller/setting_controller.dart';
 import 'package:alonecall/app/theme/colors_value.dart';
 import 'package:alonecall/app/theme/dimens.dart';
 import 'package:alonecall/app/theme/styles.dart';
@@ -9,6 +11,7 @@ import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BlockedList extends StatelessWidget {
   @override
@@ -103,9 +106,14 @@ class BlockedList extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
-                              IconButton(
-                                  icon: const Icon(Icons.more_vert),
-                                  onPressed: () {})
+                              GetBuilder<SettingController>(
+                                builder:(_con)=> IconButton(
+                                    icon: const Icon(Icons.more_vert),
+                                    onPressed: () {
+                                      _con.shoeBlockUserBottomSheet(model);
+                                      // Get.find<HomeController>().
+                                    }),
+                              )
                             ],
                           ),
                         ),

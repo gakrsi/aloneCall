@@ -167,6 +167,7 @@ Widget drawer() => GetBuilder<HomeController>(
                         onTap: RoutesManagement.goToBlockedListScreen,
                       ),
                       const Divider(),
+                      _controller.model.gender == 'Male'?const SizedBox():
                       ListTile(
                         title: Text(
                           'Bank Account',

@@ -67,7 +67,6 @@ class SettingsView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){
-                      _con.rateUs();
                     },
                     child: Container(
                       height: 50,
