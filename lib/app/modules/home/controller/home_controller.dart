@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'package:alonecall/app/data/enum.dart';
 import 'package:alonecall/app/data/model/bank_detail_model.dart';
 import 'package:alonecall/app/data/model/filter_model.dart';
+import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
+import 'package:alonecall/app/modules/home/view/page/female_profile_view.dart';
 import 'package:alonecall/app/modules/home/view/page/fliter_view.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/utility.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -41,6 +44,8 @@ class HomeController extends GetxController {
 
   String city = '';
   String country = '';
+
+  double accountBalance = 0;
 
   List<String> languageList = <String>[
     'English', 'Hindi',
@@ -74,11 +79,17 @@ class HomeController extends GetxController {
     model = ProfileModel.fromJson(data);
     planModelList = await repo.getPlanDetails();
     addBankModel = await repo.getBankDetails();
+    calculateBalance();
     super.onInit();
   }
 
   void changeTab(int index) {
     currentTab = index;
+    update();
+  }
+
+  void calculateBalance(){
+    accountBalance = (model.audioCoin/60)*3 + (model.coin/60)*6;
     update();
   }
 
@@ -223,5 +234,24 @@ class HomeController extends GetxController {
   void updatePageStatus(PageStatus pageStatus) {
     this.pageStatus = pageStatus;
     update();
+  }
+
+  ///######################################[FemaleProfileView]################################
+
+  void withdraw(int amount) async {
+    Utility.showLoadingDialog();
+    var historyModel = HistoryModel()
+    ..receiverName = 'money'
+    ..callDuration = accountBalance
+    ..callerName = 'AloneCall'
+    ..isAudio = false
+    ..callerUid = model.uid;
+
+    await repo.withdraw(historyModel).whenComplete(() async{
+      await repo.updateAudioCoin(0);
+      await repo.updateCoin(0);
+      Utility.closeDialog();
+    });
+
   }
 }

@@ -12,13 +12,13 @@ class PickUpScreen extends StatelessWidget {
   final CallingModel callingModel;
   @override
   Widget build(BuildContext context) => GetBuilder<CallService>(
-    builder:(_con)=> Scaffold(
+        builder: (_con) => Scaffold(
           backgroundColor: ColorsValue.primaryColor,
-          body: _body(context,_con),
+          body: _body(context, _con),
         ),
-  );
+      );
 
-  Widget _body(BuildContext context,CallService con) => SafeArea(
+  Widget _body(BuildContext context, CallService con) => SafeArea(
         child: SizedBox(
           height: Dimens.screenHeight,
           width: Dimens.screenWidth,
@@ -26,20 +26,26 @@ class PickUpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: Dimens.fifty,),
+              SizedBox(
+                height: Dimens.fifty,
+              ),
               circularPhoto(imageUrl: callingModel.callerImage),
               SizedBox(
                 height: Dimens.twenty,
               ),
+              callingModel.isAudio
+                  ? Text('Audio Call',
+                      style: Styles.boldWhite16)
+                  : Text('Video Call',
+                      style: Styles.boldWhite16),
               Text('${callingModel.callerName}',
-                  // '${callingModel.callerName}',
                   style: Styles.boldWhite16),
-              Expanded(child:Container()),
+              Expanded(child: Container()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
-                    onTap: () async{
+                    onTap: () async {
                       await Repository().endVideoCall(callingModel);
                       await con.assetsAudioPlayer.pause();
                     },
@@ -65,7 +71,8 @@ class PickUpScreen extends StatelessWidget {
                       Get.back<dynamic>();
                       callingModel.isAudio
                           ? RoutesManagement.goToAudioCall(callingModel)
-                          : RoutesManagement.goToOthersVideoCallDialView(callingModel);
+                          : RoutesManagement.goToOthersVideoCallDialView(
+                              callingModel);
                     },
                     child: Container(
                       height: 64,
@@ -84,7 +91,9 @@ class PickUpScreen extends StatelessWidget {
                   )
                 ],
               ),
-               SizedBox(height: Dimens.fifty,)
+              SizedBox(
+                height: Dimens.fifty,
+              )
             ],
           ),
         ),

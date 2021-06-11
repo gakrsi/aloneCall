@@ -17,7 +17,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-/// 7597614425
 
 class Repository {
   Repository() {
@@ -79,8 +78,6 @@ class Repository {
       .doc(uid)
       .collection(FirebaseConstant.history)
       .orderBy('date', descending: true)
-      // .where('call_duration',isEqualTo: 0)
-      // .where('receiver_uid',isEqualTo: uid)
       .snapshots();
 
   void distanceStream(double lat, double long) async {
@@ -214,17 +211,30 @@ class Repository {
     var languageList  = <String>[];
     languageList.add(obj.lang);
     var filterModel = FilterModel()
-      ..initAge = 0
+      ..initAge = 18
       ..lastAge = 100
       ..initDistance = 0
       ..lastDistance = 10000
-      ..language = languageList;
+      ..language = <String>[
+        'English',
+        'Hindi',
+        'Marathi',
+        'Telugu',
+        'Tamil',
+      ];
 
     await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
         .set(obj.toMap(obj));
     await addFilter(filterModel);
+  }
+
+  Future<void> requestMoney(ProfileModel obj) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .set(obj.toMap(obj));
   }
 
   Future<void> updateFilter(FilterModel filterModel) async{
@@ -243,14 +253,14 @@ class Repository {
         .doc(FirebaseConstant.bankDetail).set(addBankModel.toMap(addBankModel));
   }
 
+
   Future<AddBankModel> getBankDetails() async{
-    AddBankModel addBankModel;
-    await firebaseFireStore
+    DocumentSnapshot data =  await firebaseFireStore
         .collection(FirebaseConstant.user)
         .doc(uid)
         .collection(FirebaseConstant.userDetails)
-        .doc(FirebaseConstant.bankDetail).get().then((value) => AddBankModel.fromJson(value.data()));
-    return addBankModel;
+        .doc(FirebaseConstant.bankDetail).get();
+    return AddBankModel.fromJson(data.data() as Map<String,dynamic>);
   }
 
   Future<void> updateProfile(ProfileModel obj) async {
@@ -270,6 +280,17 @@ class Repository {
         .collection(FirebaseConstant.user)
         .doc(model.receiverUid)
         .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
+  }
+
+  Future<void> withdraw(HistoryModel model) async {
+    await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(model.callerUid)
+        .collection(FirebaseConstant.history)
+        .add(model.toJson(model));
+    await firebaseFireStore
+        .collection(FirebaseConstant.request)
         .add(model.toJson(model));
   }
 

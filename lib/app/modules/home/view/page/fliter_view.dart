@@ -187,7 +187,7 @@ class FilterView extends StatelessWidget {
         ],
         rangeSlider: true,
         max: 100, //last.toDouble(),
-        min: 0, //init.toDouble(),
+        min: 18, //init.toDouble(),
         touchSize: Dimens.twentyTwo,
         handler: FlutterSliderHandler(
           child: Container(

@@ -9,5 +9,6 @@ abstract class FirebaseConstant{
   static const String filter = 'FILTER';
   static const String plan = 'PLAN';
   static const String bankDetail = 'BANK_DETAIL';
+  static const String request = 'REQUEST';
 
 }

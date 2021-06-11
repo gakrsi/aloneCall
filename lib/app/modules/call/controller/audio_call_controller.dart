@@ -54,6 +54,7 @@ class AudioCallController extends GetxController {
   void onClose() async {
     await repo.endVideoCall(callingModel);
     await leaveChannel();
+    await Repository().makeUserOnline();
     await callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
       addHistory();
@@ -84,6 +85,7 @@ class AudioCallController extends GetxController {
     _addPostFrameCallback();
     await _addListeners();
     await _engine.enableAudio();
+    await _engine.setEnableSpeakerphone(enableSpeakerphone);
     await _engine.setDefaultAudioRoutetoSpeakerphone(false);
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
@@ -101,6 +103,7 @@ class AudioCallController extends GetxController {
       joinChannelSuccess: (channel, uid, elapsed) {
         log('joinChannelSuccess $channel $uid $elapsed');
         isJoined = true;
+        Repository().makeUserOffline();
         update();
       },
       leaveChannel: (stats) async {
@@ -174,16 +177,21 @@ class AudioCallController extends GetxController {
     });
   }
 
-  void switchSpeakerphone() {
-    _engine.setEnableSpeakerphone(!enableSpeakerphone).then((value) {
-      enableSpeakerphone = !enableSpeakerphone;
-      update();
-    }).catchError((Error err) {
-      log('setEnableSpeakerphone $err');
-    });
+  void switchSpeakerphone() async {
+    try{
+      await _engine.setEnableSpeakerphone(!enableSpeakerphone).then((value) {
+        enableSpeakerphone = !enableSpeakerphone;
+        Utility.printDLog('Enable Speaker Phone $enableSpeakerphone');
+        update();
+      });
+    } catch(e){
+      Utility.printELog('${e.message}');
+    }
+
+    // .catchError((Error err) {
+    //   log('setEnableSpeakerphone $err');
+    // });
   }
-
-
 
   void playCallingTune(){
       assetsAudioPlayer.open(

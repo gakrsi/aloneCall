@@ -22,9 +22,9 @@ class UserDetailsController extends GetxController {
   List<dynamic> imageUrl = <dynamic>[];
   @override
   void onInit() async {
+    isUserBlockedMe = await repo.checkUserIsBlockedWhileCalling(userModel);
     selectImage();
     calculateAge();
-    isUserBlockedMe = await repo.checkUserIsBlockedWhileCalling(userModel);
     Utility.printDLog('Blocked By User $isUserBlockedMe');
     checkUserIsBlocked();
     super.onInit();

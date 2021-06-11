@@ -9,11 +9,11 @@ class AddBankModel{
     number = data['number'] as String;
     nickName = data['nick_name'] as String;
   }
-  String accountNumber;
-  String ifsc;
-  String name;
-  String number = ' ';
-  String nickName = ' ';
+  String accountNumber = '';
+  String ifsc = '';
+  String name = '';
+  String number = '';
+  String nickName = '';
 
   Map<String,dynamic> toMap(AddBankModel model){
     var data = <String,dynamic>{};
