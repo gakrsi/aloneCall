@@ -21,7 +21,6 @@ import android.view.WindowManager
 
 class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        window.addFlags(LayoutParams.FLAG_SECURE)
         GeneratedPluginRegistrant.registerWith(flutterEngine);
 
         val flutter_native_splash = true

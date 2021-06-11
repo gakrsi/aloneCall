@@ -159,7 +159,7 @@ class FemaleProfileView extends StatelessWidget {
       child: GetBuilder<HomeController>(
         builder:(_con)=> InkWell(
           onTap: () {
-            _con.withdraw(amount)
+            //_con.withdraw(amount);
             Get.back<dynamic>();
           },
           child: Container(
