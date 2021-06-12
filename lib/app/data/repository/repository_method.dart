@@ -8,6 +8,7 @@ import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/location_avtar_model.dart';
 import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/model/withdraw_model.dart';
 import 'package:alonecall/app/data/repository/friebase_key_constant.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/utility.dart';
@@ -77,6 +78,12 @@ class Repository {
       .collection(FirebaseConstant.user)
       .doc(uid)
       .collection(FirebaseConstant.history)
+      .orderBy('date', descending: true)
+      .snapshots();
+  Stream<QuerySnapshot> withdrawStream() => FirebaseFirestore.instance
+      .collection(FirebaseConstant.user)
+      .doc(uid)
+      .collection(FirebaseConstant.withdraw)
       .orderBy('date', descending: true)
       .snapshots();
 
@@ -283,11 +290,11 @@ class Repository {
         .add(model.toJson(model));
   }
 
-  Future<void> withdraw(HistoryModel model) async {
+  Future<void> withdraw(Withdraw model) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
-        .doc(model.callerUid)
-        .collection(FirebaseConstant.history)
+        .doc(uid)
+        .collection(FirebaseConstant.withdraw)
         .add(model.toJson(model));
     await firebaseFireStore
         .collection(FirebaseConstant.request)
