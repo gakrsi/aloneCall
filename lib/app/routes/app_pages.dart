@@ -15,6 +15,7 @@ import 'package:alonecall/app/modules/payment/binding/payment_binding.dart';
 import 'package:alonecall/app/modules/payment/view/payment_view.dart';
 import 'package:alonecall/app/modules/profile/binding/profile_create_binding.dart';
 import 'package:alonecall/app/modules/profile/view/profile_create_view.dart';
+import 'package:alonecall/app/modules/profile/view/terms_and_conditions_view.dart';
 import 'package:alonecall/app/modules/random/binding/random_call_binding.dart';
 import 'package:alonecall/app/modules/random/view/random_call_view.dart';
 import 'package:alonecall/app/modules/search_users/binding/search_binding.dart';
@@ -145,6 +146,12 @@ abstract class AppPages{
       name: _Paths.filter,
       transitionDuration: transitionDuration,
       page: () => FilterView(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.termsAndConditions,
+      transitionDuration: transitionDuration,
+      page: () => TermsAndConditionsView(),
       transition: Transition.downToUp,
     ),
   ];

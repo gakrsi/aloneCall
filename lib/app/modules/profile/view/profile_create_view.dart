@@ -4,6 +4,7 @@ import 'package:alonecall/app/global_widgets/form_field_widget.dart';
 import 'package:alonecall/app/global_widgets/google_map_widget.dart';
 import 'package:alonecall/app/global_widgets/primary_button.dart';
 import 'package:alonecall/app/modules/profile/controller/profile_create_controller.dart';
+import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,7 +80,11 @@ class ProfileCreateView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      _country(_con),
+                      InkWell(
+                          onTap: () {
+                            _con.showLanguageBottomSheet();
+                          },
+                          child: _language(_con)),
                       SizedBox(
                         height: Dimens.twenty,
                       ),
@@ -87,11 +92,7 @@ class ProfileCreateView extends StatelessWidget {
                       SizedBox(
                         height: Dimens.twenty,
                       ),
-                      InkWell(
-                          onTap: () {
-                            _con.showLanguageBottomSheet();
-                          },
-                          child: _language(_con)),
+                      _country(_con),
                       Dimens.boxHeight30,
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,33 +397,13 @@ class ProfileCreateView extends StatelessWidget {
               ),
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'Terms of Service', style: const TextStyle(
-                      fontSize: 16, color: Colors.black,
-                      decoration: TextDecoration.underline,
+                        text: 'Terms and conditions', style: const TextStyle(
+                      fontSize: 16, color: Colors.blue,
                     ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // code to open / launch terms of service link here
-                          }
+                          ..onTap = RoutesManagement.goToTermsAndConditionsScreen
                     ),
-                    TextSpan(
-                        text: ' and ', style: const TextStyle(
-                        fontSize: 18, color: Colors.black
-                    ),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Privacy Policy', style: const TextStyle(
-                              fontSize: 18, color: Colors.black,
-                              decoration: TextDecoration.underline
-                          ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // code to open / launch privacy policy link here
-                                }
-                          )
                         ]
-                    )
-                  ]
               )
           )
       ),
