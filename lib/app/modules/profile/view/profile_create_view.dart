@@ -201,7 +201,9 @@ class ProfileCreateView extends StatelessWidget {
             Container(
               height: 300,
               child: CupertinoDatePicker(
-                minimumYear: 1930,
+                minimumYear: 1940,
+                initialDateTime: DateTime.now().subtract(Duration(days: 6570)),
+                maximumYear: DateTime.now().year - 18,
                 mode: CupertinoDatePickerMode.date,
                 onDateTimeChanged: (DateTime dateTime) {
                   print(dateTime.toString().substring(0,10));
