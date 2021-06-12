@@ -242,7 +242,7 @@ class HomeController extends GetxController {
     Utility.showLoadingDialog();
     var historyModel = HistoryModel()
     ..receiverName = 'money'
-    ..callDuration = accountBalance
+    ..callerImage = '$accountBalance'
     ..callerName = 'AloneCall'
     ..isAudio = false
     ..callerUid = model.uid;
