@@ -7,6 +7,7 @@ import 'package:alonecall/app/modules/profile/controller/profile_create_controll
 import 'package:alonecall/app/utils/string_constant.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:alonecall/app/theme/theme.dart';
@@ -91,6 +92,17 @@ class ProfileCreateView extends StatelessWidget {
                             _con.showLanguageBottomSheet();
                           },
                           child: _language(_con)),
+                      Dimens.boxHeight30,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                          value: _con.isCheckPrivacy,
+                          onChanged:(value)=> _con.updatePrivacy(value)
+                      ),
+                          Container(child: Flexible(child: privacyPolicyLinkAndTermsOfService())),
+                        ],
+                      ),
                       Dimens.boxHeight30,
                       InkWell(
                           onTap: () => _con.validateAndSubmit(),
@@ -369,4 +381,48 @@ class ProfileCreateView extends StatelessWidget {
                     style: Styles.black18,
                   )),
       );
+
+
+  Widget privacyPolicyLinkAndTermsOfService() => Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(10),
+      child: Center(
+          child: Text.rich(
+              TextSpan(
+                  text: 'By continuing, you agree to our ', style: const TextStyle(
+                  fontSize: 16, color: Colors.black
+              ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Terms of Service', style: const TextStyle(
+                      fontSize: 16, color: Colors.black,
+                      decoration: TextDecoration.underline,
+                    ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // code to open / launch terms of service link here
+                          }
+                    ),
+                    TextSpan(
+                        text: ' and ', style: const TextStyle(
+                        fontSize: 18, color: Colors.black
+                    ),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Privacy Policy', style: const TextStyle(
+                              fontSize: 18, color: Colors.black,
+                              decoration: TextDecoration.underline
+                          ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // code to open / launch privacy policy link here
+                                }
+                          )
+                        ]
+                    )
+                  ]
+              )
+          )
+      ),
+    );
 }

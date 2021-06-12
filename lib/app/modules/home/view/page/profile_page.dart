@@ -64,7 +64,7 @@ class ProfileView extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.black12.withOpacity(0.04),
                         borderRadius: BorderRadius.circular(15)),
-                    child: _con.model.gender != 'Male'
+                    child: _con.model.gender == 'Male'
                         ?Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,7 +182,7 @@ class ProfileView extends StatelessWidget {
                 elevation: 0,
                 centerTitle: true,
               ),
-              body: _con.model.gender != 'Male'
+              body: _con.model.gender == 'Male'
                 ? _con.profileCurrentTab == 0 ? spent() : packageDetails(_con)
                 :_con.profileCurrentTab == 0 ? earn() : wallets()),
         ),

@@ -12,10 +12,12 @@ import 'package:alonecall/app/theme/theme.dart';
 
 class ProfileCreateController extends GetxController {
   final CommonService _controller = Get.find();
+
   /// The current status of the page.
   PageStatus pageStatus = PageStatus.idle;
 
   ProfileModel model;
+  bool isCheckPrivacy = false;
 
   List<String> profileImageUrl = <String>['', '', ''];
 
@@ -28,7 +30,6 @@ class ProfileCreateController extends GetxController {
       model
         ..lat = value.latitude
         ..long = value.longitude;
-
     });
     await Utility.getCurrentLocation().then((value) {
       Utility.printDLog(value.addressLine1);
@@ -45,7 +46,10 @@ class ProfileCreateController extends GetxController {
 
   final CommonService _commonService = Get.find();
 
-  List<String> genderList = <String>['Male', 'Female', ];
+  List<String> genderList = <String>[
+    'Male',
+    'Female',
+  ];
   List<String> countryList = <String>['India', 'Nepal', 'Bhutan', 'Pakistan'];
   List<String> languageList = <String>[
     'English',
@@ -54,6 +58,11 @@ class ProfileCreateController extends GetxController {
     'Telugu',
     'Tamil',
   ];
+
+  void updatePrivacy(bool value) {
+    isCheckPrivacy = value;
+    update();
+  }
 
   void updateDob(String date) {
     model.dob = date;
@@ -282,17 +291,21 @@ class ProfileCreateController extends GetxController {
           model.country != null &&
           model.lang != null &&
           model.dob != null) {
-        model
-          ..name = nameController.text
-          ..coin = 0
-          ..online = true
-          ..audioCoin = 0
-          ..profileImageUrl = profileImageUrl
-          ..uid = Repository().currentUser();
-        updatePageStatus(PageStatus.loading);
-        Repository()
-            .createProfile(model)
-            .whenComplete(RoutesManagement.goToHome);
+        if (isCheckPrivacy) {
+          model
+            ..name = nameController.text
+            ..coin = 0
+            ..online = true
+            ..audioCoin = 0
+            ..profileImageUrl = profileImageUrl
+            ..uid = Repository().currentUser();
+          updatePageStatus(PageStatus.loading);
+          Repository()
+              .createProfile(model)
+              .whenComplete(RoutesManagement.goToHome);
+        } else {
+          Utility.showError('Please check Terms And Conditons');
+        }
       } else {
         Utility.showError('Enter All field');
       }

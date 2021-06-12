@@ -20,7 +20,9 @@ import 'package:permission_handler/permission_handler.dart';
 class AudioCallController extends GetxController {
   int callDuration = 0;
   bool showTimer = false;
-  Timer _timer,_callingTimer;
+  Timer _timer;
+  Timer _callingTimer;
+  int callingSecond = 0;
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
@@ -96,11 +98,13 @@ class AudioCallController extends GetxController {
   Future<void> _addListeners() async {
     _engine.setEventHandler(RtcEngineEventHandler(
       userJoined: (uid, elapsed) {
+        Utility.printDLog('User join the channel');
         startTimer();
         _callingTimer.cancel();
         updateCallStatus(CallStatus.connected);
       },
       joinChannelSuccess: (channel, uid, elapsed) {
+        Utility.printDLog('You Join the Channel');
         log('joinChannelSuccess $channel $uid $elapsed');
         isJoined = true;
         Repository().makeUserOffline();
@@ -224,11 +228,11 @@ class AudioCallController extends GetxController {
     _callingTimer = Timer.periodic(
       oneSec,
           (Timer timer) async {
-        if (seconds < 0) {
+        if (callingSecond < 0) {
           timer.cancel();
         } else {
-          seconds = seconds + 1;
-          if(seconds ==30){
+          callingSecond = callingSecond + 1;
+          if(callingSecond ==30){
             await repo.endVideoCall(callingModel);
           }
           update();
@@ -238,6 +242,7 @@ class AudioCallController extends GetxController {
   }
 
   void startTimer() async {
+    Utility.printDLog('Timer start');
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
