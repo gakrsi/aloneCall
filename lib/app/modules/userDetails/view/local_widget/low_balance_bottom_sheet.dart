@@ -54,8 +54,8 @@ void showLowBalanceBottomSheetForVideoCall(){
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              planContainer('Starter','3 Minutes \n Video Call','50',_con.model,3,true,false),
-              planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,10,true,false),
+              planContainer('Starter','3 Minutes \n Video Call','50',_con.model,50,true,false),
+              planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,200,true,false),
             ],
           ),
           SizedBox(
@@ -93,7 +93,7 @@ Widget planContainer(String type, String desc, String price,
     GetBuilder<HomeController>(
       builder: (_con) => InkWell(
         onTap: () {
-          var amo = isDiscount ? discountValue : amount;
+          var amo = isDiscount ? discountValue : int.parse(price);
           _con.onClickPlanOption(!isVideo, amo, amount);
         },
         child: Container(

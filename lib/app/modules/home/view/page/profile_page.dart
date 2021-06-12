@@ -1,5 +1,6 @@
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/model/withdraw_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/global_widgets/circular_photo.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
@@ -15,6 +16,45 @@ class ProfileView extends StatelessWidget {
         builder: (_con) => SafeArea(
           child: Scaffold(
               backgroundColor: Colors.white,
+              floatingActionButton: _con.profileCurrentTab == 0?const SizedBox():FloatingActionButton.extended(onPressed: (){
+                if(_con.addBankModel.accountNumber == null){
+                  Get.bottomSheet<dynamic>(Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Add bank account details',
+                        style: Styles.boldBlack16,
+                      ),
+                    ),
+                  ),);
+                }
+                else if(_con.accountBalance <= 100){
+                  Get.bottomSheet<dynamic>(Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Minimum amount is 100',
+                        style: Styles.boldBlack16,
+                      ),
+                    ),
+                  ),);
+                }
+
+                else{
+                  _con.withdraw();
+                }
+              }, label: Text('Withdraw',style: Styles.black12,),elevation: 1,),
+              floatingActionButtonLocation: _con.profileCurrentTab == 1?FloatingActionButtonLocation.centerFloat:FloatingActionButtonLocation.endFloat,
               appBar: AppBar(
                 title: Container(
                     margin: EdgeInsets.symmetric(
@@ -24,7 +64,8 @@ class ProfileView extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.black12.withOpacity(0.04),
                         borderRadius: BorderRadius.circular(15)),
-                    child: Row(
+                    child: _con.model.gender == 'Male'
+                        ?Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -45,7 +86,63 @@ class ProfileView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                'Spent',
+                                    'Spent',
+                                    style: _con.profileCurrentTab == 0
+                                        ? Styles.blackBold15
+                                        : Styles.grey14,
+                                  )),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimens.five, vertical: Dimens.five),
+                          child: InkWell(
+                            onTap: () {
+                              _con.changeProfileTab(1);
+                            },
+                            child: Container(
+                              height: Dimens.fourty,
+                              width: Dimens.screenWidth / 2 - 46,
+                              decoration: BoxDecoration(
+                                  color: _con.profileCurrentTab == 1
+                                      ? Colors.white
+                                      : Colors.black12.withOpacity(0.02),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                    'Plans',
+                                    style: _con.profileCurrentTab == 1
+                                        ? Styles.blackBold15
+                                        : Styles.grey14,
+                                  )),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                        :Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimens.five, vertical: Dimens.two),
+                          child: InkWell(
+                            onTap: () {
+                              _con.changeProfileTab(0);
+                            },
+                            child: Container(
+                              height: Dimens.fourty,
+                              width: Dimens.screenWidth / 2 - 46,
+                              decoration: BoxDecoration(
+                                  color: _con.profileCurrentTab == 0
+                                      ? Colors.white
+                                      : Colors.black12.withOpacity(0.04),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                'Earn',
                                 style: _con.profileCurrentTab == 0
                                     ? Styles.blackBold15
                                     : Styles.grey14,
@@ -70,7 +167,7 @@ class ProfileView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                'Plans',
+                                'Wallets',
                                 style: _con.profileCurrentTab == 1
                                     ? Styles.blackBold15
                                     : Styles.grey14,
@@ -79,13 +176,15 @@ class ProfileView extends StatelessWidget {
                           ),
                         )
                       ],
-                    )),
+                    )
+                ),
                 backgroundColor: Colors.white,
                 elevation: 0,
                 centerTitle: true,
               ),
-              body:
-                  _con.profileCurrentTab == 0 ? spent() : packageDetails(_con)),
+              body: _con.model.gender == 'Male'
+                ? _con.profileCurrentTab == 0 ? spent() : packageDetails(_con)
+                :_con.profileCurrentTab == 0 ? earn() : wallets()),
         ),
       );
 
@@ -334,4 +433,249 @@ class ProfileView extends StatelessWidget {
           ),
         ),
       );
+
+
+  Widget earn() => StreamBuilder(
+      stream: Repository().notificationStream(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+                15,
+                    (index) => Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    width: Dimens.screenWidth,
+                    height: Dimens.fifty,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetConstants.loading, fit: BoxFit.cover),
+                    ),
+                  ),
+                )),
+          );
+        }
+
+        if (snapshot.data.docs.isEmpty) {
+          return Container(
+            height: Dimens.screenHeight,
+            width: Dimens.screenWidth,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/img/no_data.png'))),
+          );
+        }
+        return ListView(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              var model =
+              HistoryModel.fromJson(document.data() as Map<String, dynamic>);
+              if (model.callDuration != 0.0) {
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SizedBox(
+                    width: Dimens.screenWidth,
+                    height: Dimens.fifty,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: Dimens.fifty,
+                          width: Dimens.fifty,
+                          decoration: BoxDecoration(
+                              color: ColorsValue.lightGreyColor,
+                              borderRadius: BorderRadius.circular(Dimens.fifty)),
+                          child: circularPhoto(
+                              imageUrl: model.callerUid == Repository().uid
+                                  ? model.receiverImage
+                                  : model.callerImage),
+                        ),
+                        SizedBox(
+                          width: Dimens.ten,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('${model.receiverName}',
+                                      style: Styles.blackBold16),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(5, 2, 0, 0),
+                                    child: Icon(
+                                      model.isAudio ? Icons.phone : Icons.videocam,
+                                      size: Dimens.sixTeen,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.call_made,
+                                    size: Dimens.sixTeen,
+                                    color: Colors.green,
+                                  ),
+                                  Text(
+                                      ' ${DateTime.parse(model.date.toDate().toString())}'
+                                          .substring(0, 17),
+                                      style: Styles.black12),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        Text('${model.callDuration} sec',
+                            style: Styles.blackBold16),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox();
+            }).toList());
+      });
+
+  Widget withdrawHistory() => StreamBuilder(
+      stream: Repository().withdrawStream(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+                15,
+                    (index) => Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    width: Dimens.screenWidth,
+                    height: Dimens.fifty,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetConstants.loading, fit: BoxFit.cover),
+                    ),
+                  ),
+                )),
+          );
+        }
+
+        if (snapshot.data.docs.isEmpty) {
+          return Container(
+            height: Dimens.screenHeight,
+            width: Dimens.screenWidth,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/img/no_data.png'))),
+          );
+        }
+
+        return ListView(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              var model =
+              Withdraw.fromJson(document.data() as Map<String, dynamic>);
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SizedBox(
+                    width: Dimens.screenWidth,
+                    height: Dimens.fifty,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: Dimens.fifty,
+                          width: Dimens.fifty,
+                          decoration: BoxDecoration(
+                              color: ColorsValue.lightGreyColor,
+                              image: const DecorationImage(
+                                  image: AssetImage('assets/img/logos/logo1.png')),
+                              borderRadius: BorderRadius.circular(Dimens.fifty)),
+                        ),
+                        SizedBox(
+                          width: Dimens.ten,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text('Withdraw',
+                                      style: Styles.blackBold16),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                      ' ${DateTime.parse(model.date.toDate().toString())}'
+                                          .substring(0, 17),
+                                      style: Styles.black12),
+                                  Text(
+                                      '   ${model.status}...',
+                                      style: Styles.black12.copyWith(color: Colors.green)),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        Text('${model.amount} Rs',
+                            style: Styles.blackBold16),
+                      ],
+                    ),
+                  ),
+                );
+              return const SizedBox();
+            }).toList());
+      });
+
+  Widget wallets()=> GetBuilder<HomeController>(
+    builder:(_con)=> ListView(
+      children: [
+        ListTile(
+          title: Text('Balance',style: Styles.black18,),
+          trailing: Text('${_con.accountBalance}',style: Styles.blackBold18,),
+        ),
+        const Divider(),
+        withdrawHistory(),
+      ],
+    ),
+  );
+
+  void showBottomSheet() {
+    Get.bottomSheet<dynamic>(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GetBuilder<HomeController>(
+        builder:(_con)=> InkWell(
+          onTap: () {
+            _con.withdraw();
+            Get.back<dynamic>();
+          },
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            child: Center(
+              child: Text(
+                'Request for money',
+                style: Styles.boldBlack16,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ));
+  }
 }

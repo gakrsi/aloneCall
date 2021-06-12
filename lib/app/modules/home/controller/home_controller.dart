@@ -6,6 +6,7 @@ import 'package:alonecall/app/data/model/filter_model.dart';
 import 'package:alonecall/app/data/model/history_model.dart';
 import 'package:alonecall/app/data/model/plan_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
+import 'package:alonecall/app/data/model/withdraw_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/home/view/page/female_profile_view.dart';
@@ -238,18 +239,18 @@ class HomeController extends GetxController {
 
   ///######################################[FemaleProfileView]################################
 
-  void withdraw(int amount) async {
+  void withdraw() async {
     Utility.showLoadingDialog();
-    var historyModel = HistoryModel()
-    ..receiverName = 'money'
-    ..callDuration = accountBalance as int
-    ..callerName = 'AloneCall'
-    ..isAudio = false
-    ..callerUid = model.uid;
-
-    await repo.withdraw(historyModel).whenComplete(() async{
+    var withdraw = Withdraw()
+    ..date = Timestamp.now()
+    ..amount = accountBalance
+    ..status = 'Processing';
+    await repo.withdraw(withdraw).whenComplete(() async{
+      accountBalance = 0;
+      update();
       await repo.updateAudioCoin(0);
       await repo.updateCoin(0);
+      await reloadProfileDetails();
       Utility.closeDialog();
     });
 

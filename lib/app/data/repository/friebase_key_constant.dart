@@ -10,5 +10,5 @@ abstract class FirebaseConstant{
   static const String plan = 'PLAN';
   static const String bankDetail = 'BANK_DETAIL';
   static const String request = 'REQUEST';
-
+  static const String withdraw = 'WITHDRAW';
 }
