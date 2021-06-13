@@ -11,29 +11,32 @@ void showLowBalanceBottomSheetForAudioCall(){
     SizedBox(
       height: Dimens.hundred*3,
       width: Dimens.screenWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Your balance is low',style: Styles.black18,),
-          SizedBox(
-            height: Dimens.ten,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              planContainer('Starter','3 Minutes \n Voice Call','30',_con.model,3,false,false),
-              planContainer('25% Discount','10 Minutes \n Voice Call','100',_con.model,10,false,false),
-            ],
-          ),
-          SizedBox(
-            height: Dimens.ten,
-          ),
-          InkWell(
-              onTap: () {
-                Get.back<dynamic>();
-              },
-              child: showTitle('Back'))
-        ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Your balance is low, please recharge',style: Styles.black18,),
+            SizedBox(
+              height: Dimens.ten,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                planContainer('Chota pack','3 Minutes \n Voice Call','30',_con.model,3,false,false),
+                planContainer('Bada pack','10 Minutes \n Voice Call','100',_con.model,10,false,false),
+              ],
+            ),
+            SizedBox(
+              height: Dimens.ten,
+            ),
+            InkWell(
+                onTap: () {
+                  Get.back<dynamic>();
+                },
+                child: showTitle('Back'))
+          ],
+        ),
       ),
     ),
     backgroundColor: Colors.white,
@@ -45,28 +48,31 @@ void showLowBalanceBottomSheetForVideoCall(){
     SizedBox(
       height: Dimens.hundred*3,
       width: Dimens.screenWidth,
-      child: Column(
-        children: [
-          Text('Your balance is low',style: Styles.black18,),
-          SizedBox(
-            height: Dimens.ten,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              planContainer('Starter','3 Minutes \n Video Call','50',_con.model,50,true,false),
-              planContainer('25% Discount','10 Minutes \n Video Call','200',_con.model,200,true,false),
-            ],
-          ),
-          SizedBox(
-            height: Dimens.ten,
-          ),
-          InkWell(
-              onTap: () {
-                Get.back<dynamic>();
-              },
-              child: showTitle('Back'))
-        ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+        child: Column(
+          children: [
+            Text('Your balance is low, please recharge',style: Styles.black18,),
+            SizedBox(
+              height: Dimens.ten,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                planContainer('Chota pack','3 Minutes \n Video Call','50',_con.model,50,true,false),
+                planContainer('Bada pack','10 Minutes \n Video Call','200',_con.model,200,true,false),
+              ],
+            ),
+            SizedBox(
+              height: Dimens.ten,
+            ),
+            InkWell(
+                onTap: () {
+                  Get.back<dynamic>();
+                },
+                child: showTitle('Back'))
+          ],
+        ),
       ),
     ),
     backgroundColor: Colors.white,

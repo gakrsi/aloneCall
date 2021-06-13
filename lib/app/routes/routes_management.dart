@@ -126,5 +126,12 @@ abstract class RoutesManagement{
       AppRoutes.filter,
     );
   }
+  /// Go to the Terms and Conditions screen
+  static void goToTermsAndConditionsScreen(){
+    Get.toNamed<void>(
+      AppRoutes.termsAndConditions,
+    );
+  }
+
 }
 

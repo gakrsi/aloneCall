@@ -51,6 +51,8 @@ dependencies:
   razorpay_flutter: ^1.2.6
   share: ^2.0.4
   url_launcher: any
+  flutter_pdfview: ^1.0.4
+  advance_pdf_viewer: ^2.0.0
 
 
 
@@ -88,6 +90,7 @@ flutter:
     - assets/img/logos/
     - assets/icons/
     - assets/audio/
+    - assets/pdf/terms.pdf
 #    - assets/img
   # fonts:
   #   - family: Schyler
