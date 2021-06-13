@@ -12,7 +12,7 @@ class CallService extends GetxController {
   StreamSubscription callStreamSubscription;
   bool callReceived = false;
   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
-
+  CallingModel callingModel = CallingModel();
   @override
   void onInit() {
     _addPostFrameCallback();
@@ -42,6 +42,10 @@ class CallService extends GetxController {
     update();
   }
 
+  void showCallDialog(){
+    Utility.showCallPickupDialog(callingModel);
+  }
+
   void _addPostFrameCallback(){
     updateCallStatusDisConnected();
     Utility.printDLog('Stream Listen to Incoming Call');
@@ -49,10 +53,11 @@ class CallService extends GetxController {
       callStreamSubscription =
           Repository().videoCallStream().listen((DocumentSnapshot ds) async{
         if (ds.exists) {
-          var callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
+          callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
           if ((callingModel.callerUid != Repository().uid) && !callReceived) {
+            await Repository().makeUserOffline();
             playIncomingRingTune();
-            Utility.showCallPickupDialog(callingModel);
+            showCallDialog();
             Utility.printDLog('${ds.data()}');
           }
         }

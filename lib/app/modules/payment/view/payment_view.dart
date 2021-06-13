@@ -270,7 +270,7 @@ class PaymentView extends StatelessWidget {
                                     )
                                   ]),
                               child: PrimaryButton(
-                                title: 'Done',
+                                title: _con.addBankModel.accountNumber == null?'Done':'Update',
                                 disable: true,
                               )),
                         )

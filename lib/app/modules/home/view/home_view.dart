@@ -1,6 +1,6 @@
+import 'package:alonecall/app/data/service/call_service.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/modules/home/view/local_widget/bottom_navigation.dart';
-import 'package:alonecall/app/modules/home/view/page/female_profile_view.dart';
 import 'package:alonecall/app/modules/home/view/page/history.dart';
 import 'package:alonecall/app/modules/home/view/page/home_page.dart';
 import 'package:alonecall/app/modules/home/view/page/location_page.dart';
@@ -14,6 +14,12 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_controller) => SafeArea(
         child: Scaffold(
+              floatingActionButton: GetBuilder<CallService>(builder: (_controller)=>!_controller.callReceived?const SizedBox():FloatingActionButton(
+                onPressed: (){
+                  _controller.showCallDialog();
+                },
+                child: const Icon(Icons.call,color: Colors.green,),
+              )),
               backgroundColor: Colors.white,
               bottomNavigationBar: BottomNavigation(),
               body: IndexedStack(
@@ -24,7 +30,6 @@ class HomeView extends StatelessWidget {
                   HistoryPage(),
                   NotificationPage(),
                   ProfileView()
-
                 ],
               ),
             ),

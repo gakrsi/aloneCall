@@ -16,7 +16,7 @@ class ProfileView extends StatelessWidget {
         builder: (_con) => SafeArea(
           child: Scaffold(
               backgroundColor: Colors.white,
-              floatingActionButton: _con.profileCurrentTab == 0?const SizedBox():FloatingActionButton.extended(onPressed: (){
+              floatingActionButton: _con.profileCurrentTab == 0 || _con.model.gender == "Male"?const SizedBox():FloatingActionButton.extended(onPressed: (){
                 if(_con.addBankModel.accountNumber == null){
                   Get.bottomSheet<dynamic>(Container(
                     height: 100,

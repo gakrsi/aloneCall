@@ -73,6 +73,7 @@ abstract class Utility{
     Get.dialog<void>(
       PickUpScreen(callingModel: callingModel,),
       barrierDismissible: true,
+
     );
   }
 

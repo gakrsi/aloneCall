@@ -54,6 +54,7 @@ class AudioCallController extends GetxController {
 
   @override
   void onClose() async {
+    _controller.calculateBalance();
     await repo.endVideoCall(callingModel);
     await leaveChannel();
     await Repository().makeUserOnline();
@@ -82,6 +83,7 @@ class AudioCallController extends GetxController {
   }
 
   Future<void> _initEngine() async {
+    await repo.makeUserOffline();
     await repo.startVideoCall(callingModel);
     _engine = await RtcEngine.createWithConfig(RtcEngineConfig(NetworkConstants.agoraRtcKey));
     _addPostFrameCallback();
