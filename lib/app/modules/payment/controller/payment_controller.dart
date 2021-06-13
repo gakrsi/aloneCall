@@ -10,18 +10,27 @@ class PaymentController extends GetxController {
   TextEditingController amountEdit = TextEditingController();
   bool isLoading = true;
   String confirmAccount = '';
+  bool initial = false;
 
   @override
   void onInit() async {
-    await Repository().getBankDetails().then((value){
-      addBankModel = value;
-      print(addBankModel.accountNumber);
-      isLoading = false;
-      update();
-    });
+    isLoading = false;
+    update();
     super.onInit();
   }
+  void getBankDetail(AddBankModel value) async {
+    await Repository().checkBank().then((value)async {
+      initial = value;
+      if(value){
+        await Repository().getBankDetails().then(getBankDetail);
+      }
+      else{
+      }
+    });
+    addBankModel = value;
+    update();
 
+  }
   void onClickAdd(){
     if(addBankModel.accountNumber.isEmpty || addBankModel.ifsc.isEmpty || addBankModel.name.isEmpty){
       Utility.showError('Enter all Details');

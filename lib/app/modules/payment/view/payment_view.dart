@@ -19,10 +19,9 @@ class PaymentView extends StatelessWidget {
               backgroundColor: Colors.black,
               iconTheme: const IconThemeData(color: Colors.white),
             ),
-            body: _con.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
+            body:
+            _con.isLoading
+                ? const Center(child: CircularProgressIndicator())
                 : SizedBox(
                     height: Dimens.screenHeight,
                     width: Dimens.screenWidth,
@@ -56,7 +55,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.accountNumber ?? ' ',
+                              initialValue: _con.addBankModel.accountNumber ?? '',
                               onChanged: (value) =>
                                   _con.addBankModel.accountNumber = value,
                               style: Styles.black18,
@@ -91,7 +90,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.accountNumber ?? ' ',
+                              initialValue: _con.addBankModel.accountNumber ?? '',
                               onChanged: (value) => _con.confirmAccount = value,
                               style: Styles.black18,
                               obscureText: true,
@@ -126,7 +125,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.ifsc ?? ' ',
+                              initialValue: _con.addBankModel.ifsc ?? '',
                               onChanged: (value) =>
                                   _con.addBankModel.ifsc = value,
                               style: Styles.black18,
@@ -160,7 +159,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.name ?? ' ',
+                              initialValue: _con.addBankModel.name ?? '',
                               onChanged: (value) =>
                                   _con.addBankModel.name = value,
                               style: Styles.black18,
@@ -195,7 +194,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.number ?? ' ',
+                              initialValue: _con.addBankModel.number ?? '',
                               onChanged: (value) =>
                                   _con.addBankModel.number = value,
                               style: Styles.black18,
@@ -230,7 +229,7 @@ class PaymentView extends StatelessWidget {
                               ]),
                           child: Center(
                             child: TextFormField(
-                              initialValue: _con.addBankModel.nickName ?? ' ',
+                              initialValue: _con.addBankModel.nickName ?? '',
                               onChanged: (value) =>
                                   _con.addBankModel.nickName = value,
                               style: Styles.black18,
@@ -270,7 +269,7 @@ class PaymentView extends StatelessWidget {
                                     )
                                   ]),
                               child: PrimaryButton(
-                                title: _con.addBankModel.accountNumber == null?'Done':'Update',
+                                title: !_con.initial ?'Done':'Update',
                                 disable: true,
                               )),
                         )

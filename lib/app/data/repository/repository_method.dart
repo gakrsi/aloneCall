@@ -270,6 +270,16 @@ class Repository {
     return AddBankModel.fromJson(data.data() as Map<String,dynamic>);
   }
 
+  Future<bool> checkBank() async{
+    bool val;
+    var data =  await firebaseFireStore
+        .collection(FirebaseConstant.user)
+        .doc(uid)
+        .collection(FirebaseConstant.userDetails)
+        .doc(FirebaseConstant.bankDetail).get().then((value) => value.exists ? val = true : val = false);;
+    return val;
+  }
+
   Future<void> updateProfile(ProfileModel obj) async {
     await firebaseFireStore
         .collection(FirebaseConstant.user)
