@@ -54,6 +54,7 @@ class CallService extends GetxController {
           Repository().videoCallStream().listen((DocumentSnapshot ds) async{
         if (ds.exists) {
           callingModel = CallingModel.fromJson(ds.data() as Map<String, dynamic>);
+          update();
           if ((callingModel.callerUid != Repository().uid) && !callReceived) {
             await Repository().makeUserOffline();
             playIncomingRingTune();

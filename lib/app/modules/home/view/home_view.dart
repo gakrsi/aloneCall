@@ -13,13 +13,19 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
       builder: (_controller) => SafeArea(
-        child: Scaffold(
-              floatingActionButton: GetBuilder<CallService>(builder: (_controller)=>!_controller.callReceived?const SizedBox():FloatingActionButton(
-                onPressed: (){
-                  _controller.showCallDialog();
-                },
-                child: const Icon(Icons.call,color: Colors.green,),
-              )),
+            child: Scaffold(
+              floatingActionButton: GetBuilder<CallService>(
+                  builder: (_controller) => _controller.callingModel.callerUid == null
+                      ? const SizedBox()
+                      : FloatingActionButton(
+                          onPressed: () {
+                            _controller.showCallDialog();
+                          },
+                          child: const Icon(
+                            Icons.call,
+                            color: Colors.black,
+                          ),
+                        )),
               backgroundColor: Colors.white,
               bottomNavigationBar: BottomNavigation(),
               body: IndexedStack(
@@ -33,6 +39,5 @@ class HomeView extends StatelessWidget {
                 ],
               ),
             ),
-      ));
-
+          ));
 }
