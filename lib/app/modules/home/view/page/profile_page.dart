@@ -192,6 +192,8 @@ class ProfileView extends StatelessWidget {
     padding: const EdgeInsets.all(8.0),
     child: GridView.count(
         crossAxisCount: 2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 10,
         physics: const NeverScrollableScrollPhysics(),
         children: List.generate(
             con.planModelList.length,
@@ -205,28 +207,6 @@ class ProfileView extends StatelessWidget {
                 con.planModelList[index].discountPrice != 0,discountValue: con.planModelList[index].discountPrice))),
   );
 
-  // Column(
-  //   children: [
-  //     Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         planContainer('Starter', '3 Minutes \n Voice Call', '30', con.model, 3, false, false),
-  //         planContainer('Starter', '3 Minutes \n Video Call', '50', con.model, 3, true, false),
-  //       ],
-  //     ),
-  //     Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         planContainer('25% Discount', '10 Minutes \n Voice Call', '100',
-  //             con.model, 10, false, true,
-  //             discountValue: 75),
-  //         planContainer('25% Discount', '10 Minutes \n Video Call', '200',
-  //             con.model, 10, true, true,
-  //             discountValue: 150),
-  //       ],
-  //     ),
-  //   ],
-  // );
   Widget showTitle(String title) => Container(
         margin: EdgeInsets.symmetric(
             horizontal: Dimens.twenty, vertical: Dimens.five),
@@ -241,6 +221,7 @@ class ProfileView extends StatelessWidget {
           style: Styles.black18,
         )),
       );
+
   Widget spent() => StreamBuilder(
       stream: Repository().notificationStream(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -355,8 +336,8 @@ class ProfileView extends StatelessWidget {
             _con.onClickPlanOption(!isVideo, amo, amount);
           },
           child: Container(
-            height: Dimens.hundred * 1.1,
-            width: Dimens.hundred,
+            height: Dimens.hundred ,
+            // width: Dimens.hundred,
             decoration: BoxDecoration(
                 border: Border.all(color: ColorsValue.lightGreyColor)),
             child: Column(

@@ -65,6 +65,8 @@ class HomeController extends GetxController {
   List<PlanModel> planModelList;
   @override
   void onInit() async {
+    var data = await repo.getProfile();
+    model = ProfileModel.fromJson(data);
     filterModel = await repo.getFilterDetails();
     updateCurrentLocation();
     await repo.latLongOfAllUser().then((value) {
@@ -72,12 +74,10 @@ class HomeController extends GetxController {
         latLong.add(value[i].latLng);
       }
     });
-    var data = await repo.getProfile();
     var encoder = const JsonEncoder.withIndent('  ');
     var prettyPrint = encoder.convert(data);
     print(prettyPrint);
     await getCurrentLatLng();
-    model = ProfileModel.fromJson(data);
     planModelList = await repo.getPlanDetails();
     addBankModel = await repo.getBankDetails();
     calculateBalance();
