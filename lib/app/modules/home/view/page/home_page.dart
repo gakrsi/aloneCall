@@ -228,7 +228,8 @@ class HomePage extends StatelessWidget {
 
   Widget _userGridView(HomeController con) => SizedBox(
         height: 1000,
-        child: StreamBuilder(
+        child: con.model.gender!= null
+            ?StreamBuilder(
             stream: Repository().userStream(con.model.gender,),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -345,6 +346,34 @@ class HomePage extends StatelessWidget {
                   }
                  }).toList(),
               );
-            }),
+            })
+            :GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+                10,
+                    (index) => Container(
+                  height: 250,
+                  width: Dimens.screenWidth / 2 - 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1.5, color: Colors.white),
+                      borderRadius:
+                      BorderRadius.circular(Dimens.fifteen),
+                      image: const DecorationImage(
+                          image:
+                          AssetImage('assets/img/loading.gif'),
+                          fit: BoxFit.cover),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        ),
+                      ]),
+                ))),
       );
 }
