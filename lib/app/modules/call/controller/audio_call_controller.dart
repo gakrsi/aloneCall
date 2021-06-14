@@ -75,7 +75,6 @@ class AudioCallController extends GetxController {
 
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
-    // var busyCheck = await repo.checkUserOnCall(callingModel.receiverUid);
     if (!onlineCheck) {
       updateCallStatus(CallStatus.offline);
     } else {

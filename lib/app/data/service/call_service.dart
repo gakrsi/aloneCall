@@ -63,6 +63,8 @@ class CallService extends GetxController {
           }
         }
         else {
+          callingModel = CallingModel();
+          update();
           await assetsAudioPlayer.pause();
           updateCallStatusDisConnected();
           Utility.closeDialog();
