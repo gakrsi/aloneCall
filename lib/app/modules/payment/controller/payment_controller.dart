@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PaymentController extends GetxController {
-
   AddBankModel addBankModel = AddBankModel();
   TextEditingController amountEdit = TextEditingController();
   bool isLoading = true;
@@ -14,33 +13,39 @@ class PaymentController extends GetxController {
 
   @override
   void onInit() async {
-    isLoading = false;
+    getBankDetail();
     update();
     super.onInit();
   }
-  void getBankDetail(AddBankModel value) async {
-    await Repository().checkBank().then((value)async {
+
+  void getBankDetail() async {
+    await Repository().checkBank().then((value) async {
       initial = value;
-      if(value){
-        await Repository().getBankDetails().then(getBankDetail);
-      }
-      else{
+      Utility.printDLog('Bank details is added $value');
+      if (value) {
+        await Repository().getBankDetails().then((value) {
+          addBankModel = value;
+          Utility.printDLog('Bank details $value');
+
+        });
       }
     });
-    addBankModel = value;
+    isLoading = false;
     update();
-
   }
-  void onClickAdd(){
-    if(addBankModel.accountNumber.isEmpty || addBankModel.ifsc.isEmpty || addBankModel.name.isEmpty){
+
+  void onClickAdd() {
+    if (addBankModel.accountNumber.isEmpty ||
+        addBankModel.ifsc.isEmpty ||
+        addBankModel.name.isEmpty) {
       Utility.showError('Enter all Details');
-    }
-    else if  (addBankModel.accountNumber != confirmAccount){
+    } else if (addBankModel.accountNumber != confirmAccount) {
       Utility.showError('Confirm account number is not correct');
-    }
-    else{
+    } else {
       Utility.showLoadingDialog();
-      Repository().addBankDetails(addBankModel).then((value) => Utility.closeDialog());
+      Repository()
+          .addBankDetails(addBankModel)
+          .then((value) => Utility.closeDialog());
     }
   }
 }

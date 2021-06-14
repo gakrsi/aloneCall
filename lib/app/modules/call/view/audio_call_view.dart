@@ -17,7 +17,7 @@ class AudioCallView extends StatelessWidget {
             child: WillPopScope(
               onWillPop: () async {
                 if (_con.lastPressedAt == null ||
-                    DateTime.now().difference(_con.lastPressedAt) > Duration(seconds: 1)) {
+                    DateTime.now().difference(_con.lastPressedAt) > const Duration(seconds: 1)) {
                   Utility.showError('Double back to quit the call');
                   _con.lastPressedAt = DateTime.now();
                   return false;
