@@ -16,7 +16,12 @@ class AudioCallView extends StatelessWidget {
           builder: (_con) => SafeArea(
             child: WillPopScope(
               onWillPop: () async {
-                Utility.showError('Double back to quit the call');
+                if (_con.lastPressedAt == null ||
+                    DateTime.now().difference(_con.lastPressedAt) > Duration(seconds: 1)) {
+                  Utility.showError('Double back to quit the call');
+                  _con.lastPressedAt = DateTime.now();
+                  return false;
+                }
                 return true;
               },
               child: SizedBox(

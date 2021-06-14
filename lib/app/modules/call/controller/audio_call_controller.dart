@@ -26,6 +26,7 @@ class AudioCallController extends GetxController {
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
+  DateTime lastPressedAt;
 
   final HomeController _controller = Get.find();
   bool isNotDial;
