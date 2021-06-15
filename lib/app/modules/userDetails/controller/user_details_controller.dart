@@ -57,19 +57,20 @@ class UserDetailsController extends GetxController {
     var balance = await repo.checkVideoBalance();
     if(balance <= 0 && _controller.model.gender == 'Male'){
       RoutesManagement.goToMyProfileView();
-      return;
     }
-    dialModel
-      ..callerUid = Repository().currentUser()
-      ..callerName = _controller.model.name
-      ..callerImage = _controller.model.profileImageUrl[0] as String
-      ..receiverUid = userModel.uid
-      ..receiverName = userModel.name
-      ..receiverImage = userModel.profileImageUrl[0] as String
-      ..isConnected = false
-      ..isAudio = false;
-    await repo.startVideoCall(dialModel);
-    RoutesManagement.goToOthersVideoCallDialView(dialModel);
+    else {
+      dialModel
+        ..callerUid = Repository().currentUser()
+        ..callerName = _controller.model.name
+        ..callerImage = _controller.model.profileImageUrl[0] as String
+        ..receiverUid = userModel.uid
+        ..receiverName = userModel.name
+        ..receiverImage = userModel.profileImageUrl[0] as String
+        ..isConnected = false
+        ..isAudio = false;
+      await repo.startVideoCall(dialModel);
+      RoutesManagement.goToOthersVideoCallDialView(dialModel);
+    }
   }
 
   void onClickAudioCall() async {
@@ -77,16 +78,18 @@ class UserDetailsController extends GetxController {
     if(balance <= 0 && _controller.model.gender == 'Male'){
       RoutesManagement.goToMyProfileView();
     }
-    dialModel
-      ..callerUid = Repository().currentUser()
-      ..callerName = _controller.model.name
-      ..callerImage = _controller.model.profileImageUrl[0] as String
-      ..receiverUid = userModel.uid
-      ..receiverName = userModel.name
-      ..receiverImage = userModel.profileImageUrl[0] as String
-      ..isConnected = false
-      ..isAudio = true;
-    RoutesManagement.goToAudioCall(dialModel);
+    else {
+      dialModel
+        ..callerUid = Repository().currentUser()
+        ..callerName = _controller.model.name
+        ..callerImage = _controller.model.profileImageUrl[0] as String
+        ..receiverUid = userModel.uid
+        ..receiverName = userModel.name
+        ..receiverImage = userModel.profileImageUrl[0] as String
+        ..isConnected = false
+        ..isAudio = true;
+      RoutesManagement.goToAudioCall(dialModel);
+    }
   }
 
   void shoeBlockUserBottomSheet() {
