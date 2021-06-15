@@ -5,7 +5,6 @@ import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/asset_constants.dart';
-import 'package:alonecall/app/utils/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

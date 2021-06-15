@@ -197,6 +197,7 @@ class ProfileCreateView extends StatelessWidget {
             style: Styles.black18,
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.person),
                 border: InputBorder.none,
                 hintText: hint,
                 hintStyle: Styles.black18),
@@ -265,11 +266,16 @@ class ProfileCreateView extends StatelessWidget {
                 offset: const Offset(0, 1),
               )
             ]),
-        child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-            child: Text(con.model.dob)
-            ),
-      );
+        child:  Row(
+              children: [
+                const Padding(
+                   padding: EdgeInsets.fromLTRB(22, 2, 10, 2),
+                  child: Icon(Icons.event_note, color: Colors.grey,),
+                ),
+                Text(con.model.dob),
+              ],
+            )
+            );
 
   Widget _gender(ProfileCreateController con) => Container(
         height: 55,
@@ -286,17 +292,22 @@ class ProfileCreateView extends StatelessWidget {
                 offset: const Offset(0, 1),
               )
             ]),
-        child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-            child: con.model.gender == null
+        child: Row(
+          children: [
+            const Padding(
+                padding: EdgeInsets.fromLTRB(22, 2, 5, 2),
+                child: Icon(Icons.whatshot, color: Colors.grey,),),
+            con.model.gender == null
                 ? Text(
-                    ' Gender',
-                    style: Styles.black18,
-                  )
+              ' Gender',
+              style: Styles.black18,
+            )
                 : Text(
-                    con.model.gender,
-                    style: Styles.black18,
-                  )),
+              con.model.gender,
+              style: Styles.black18,
+            )
+          ],
+        )
       );
 
 
@@ -315,9 +326,12 @@ class ProfileCreateView extends StatelessWidget {
             offset: const Offset(0, 1),
           )
         ]),
-    child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-        child: con.model.country == null
+    child: Row(
+      children: [
+        const Padding(
+          padding: EdgeInsets.fromLTRB(22, 2, 5, 2),
+          child: Icon(Icons.place, color: Colors.grey,),),
+        con.model.country == null
             ? Text(
           ' City',
           style: Styles.black18,
@@ -325,7 +339,9 @@ class ProfileCreateView extends StatelessWidget {
             : Text(
           con.model.city,
           style: Styles.black18,
-        )),
+        )
+      ],
+    )
   );
 
 
@@ -344,17 +360,22 @@ class ProfileCreateView extends StatelessWidget {
                 offset: const Offset(0, 1),
               )
             ]),
-        child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-            child: con.model.country == null
+        child: Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(22, 2, 5, 2),
+              child: Icon(Icons.flag, color: Colors.grey,),),
+            con.model.country == null
                 ? Text(
-                    ' Country',
-                    style: Styles.black18,
-                  )
+              ' Country',
+              style: Styles.black18,
+            )
                 : Text(
-                    con.model.country,
-                    style: Styles.black18,
-                  )),
+              con.model.country,
+              style: Styles.black18,
+            )
+          ],
+        )
       );
 
   Widget _language(ProfileCreateController con) => Container(
@@ -372,17 +393,22 @@ class ProfileCreateView extends StatelessWidget {
                 offset: const Offset(0, 1),
               )
             ]),
-        child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.5),
-            child: con.model.lang == null
+        child:Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(22, 2, 5, 2),
+              child: Icon(Icons.language, color: Colors.grey,),),
+            con.model.lang == null
                 ? Text(
-                    ' Language',
-                    style: Styles.black18,
-                  )
+              ' Language',
+              style: Styles.black18,
+            )
                 : Text(
-                    con.model.lang,
-                    style: Styles.black18,
-                  )),
+              con.model.lang,
+              style: Styles.black18,
+            )
+          ],
+        )
       );
 
 

@@ -22,6 +22,7 @@ abstract class AppRoutes{
   static const blockedList = _Paths.blockedList;
   static const filter = _Paths.filter;
   static const termsAndConditions = _Paths.termsAndConditions;
+  static const myProfileScreen = _Paths.myProfileScreen;
 }
 
 abstract class _Paths{
@@ -43,4 +44,5 @@ abstract class _Paths{
   static const blockedList = '/blockedList';
   static const filter = '/filter';
   static const termsAndConditions = '/termsAndConditions';
+  static const myProfileScreen = '/myProfileScreen';
 }

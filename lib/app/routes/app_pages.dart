@@ -7,6 +7,7 @@ import 'package:alonecall/app/modules/edit_profile/view/profile_edit_view.dart';
 import 'package:alonecall/app/modules/home/binding/home_binding.dart';
 import 'package:alonecall/app/modules/home/view/home_view.dart';
 import 'package:alonecall/app/modules/home/view/page/fliter_view.dart';
+import 'package:alonecall/app/modules/home/view/page/profile_page.dart';
 import 'package:alonecall/app/modules/login/view/login_view.dart';
 import 'package:alonecall/app/modules/login/binding/login_binding.dart';
 import 'package:alonecall/app/modules/login/view/page/otp_view.dart';
@@ -153,6 +154,11 @@ abstract class AppPages{
       transitionDuration: transitionDuration,
       page: () => TermsAndConditionsView(),
       transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.myProfileScreen,
+      transitionDuration: transitionDuration,
+      page: () => ProfileView(),
     ),
   ];
 

@@ -2,7 +2,6 @@ import 'package:alonecall/app/data/model/calling_model.dart';
 import 'package:alonecall/app/data/model/profile_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/modules/home/controller/home_controller.dart';
-import 'package:alonecall/app/modules/userDetails/view/local_widget/low_balance_bottom_sheet.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/theme/theme.dart';
 import 'package:alonecall/app/utils/utility.dart';
@@ -57,7 +56,7 @@ class UserDetailsController extends GetxController {
   void onClickVideoCall() async {
     var balance = await repo.checkVideoBalance();
     if(balance <= 0 && _controller.model.gender == 'Male'){
-      showLowBalanceBottomSheetForVideoCall();
+      RoutesManagement.goToMyProfileView();
       return;
     }
     dialModel
@@ -76,8 +75,7 @@ class UserDetailsController extends GetxController {
   void onClickAudioCall() async {
     var balance = await repo.checkAudioBalance();
     if(balance <= 0 && _controller.model.gender == 'Male'){
-      showLowBalanceBottomSheetForAudioCall();
-      return;
+      RoutesManagement.goToMyProfileView();
     }
     dialModel
       ..callerUid = Repository().currentUser()

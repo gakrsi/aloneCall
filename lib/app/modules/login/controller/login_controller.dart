@@ -31,7 +31,7 @@ class LoginController extends GetxController {
     if (showLoginButton) {
       await loginWithPhoneNumber(number);
     } else {
-      Utility.showError('Enter Correct phone number');
+      Utility.showError('Please enter a valid phone number');
     }
   }
 
@@ -48,11 +48,11 @@ class LoginController extends GetxController {
                   RoutesManagement.goToHome();
                 }).catchError((String e) {
                   print('Inside verification error');
-                  Utility.printELog(e.toString());
+                  Utility.printELog('Error');
                 });
               },
               verificationFailed: (authException) {
-                Utility.printELog(authException.message);
+                Utility.printELog('Verification failed');
               },
               codeSent: (String verificationId, [int forceResendingToken]) {
                 localVerificationId = verificationId;

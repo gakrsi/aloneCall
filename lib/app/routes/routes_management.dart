@@ -50,6 +50,14 @@ abstract class RoutesManagement{
   }
 
   /// Go to the others profile screen
+  static void goToMyProfileView(){
+    Get.toNamed<void>(
+        AppRoutes.myProfileScreen,
+    );
+  }
+
+
+  /// Go to the others profile screen
   static void goToOProfileEdit(ProfileModel model){
     Get.toNamed<void>(
         AppRoutes.editProfile,

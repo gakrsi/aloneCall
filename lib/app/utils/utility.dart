@@ -123,7 +123,7 @@ abstract class Utility{
           style: Styles.blackBold16,
         ),
       ),
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.white,
       margin: Dimens.edgeInsets15,
       borderRadius: Dimens.fifteen,
       snackStyle: SnackStyle.FLOATING,

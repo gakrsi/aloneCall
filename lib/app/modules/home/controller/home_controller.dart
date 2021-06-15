@@ -132,7 +132,7 @@ class HomeController extends GetxController {
     long = latLong.longitude;
     update();
     repo.distanceStream(lat, long);
-    Utility.printDLog('Current lat,long $lat, $long');
+    Utility.printDLog('Current lat $lat,long $long. ');
   }
 
   ///######################################[FilterView]################################
@@ -192,11 +192,11 @@ class HomeController extends GetxController {
         : model.coin = minute*60 + model.coin;
     update();
     razorPay.clear();
-    Utility.showError('SUCCESS: ${response.paymentId}');
+    Utility.showError('Payment successful');
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    Utility.showError('ERROR: ${response.code} - ${response.message}');
+    Utility.showError('ERROR: Payment failed');
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -217,15 +217,15 @@ class HomeController extends GetxController {
     try {
       razorPay.open(options);
     } catch (e) {
-      Utility.printDLog('$e');
+      Utility.printDLog('Payment failed');
     }
   }
 
-  void onClickPlanOption(bool audio, int am, int min){
+  void onClickPlanOption(bool audio, int am, int min, int minutes){
     _initializePayment();
     isAudio = audio;
     amount = am;
-    minute = min;
+    minute = minutes;
     update();
     checkout();
   }
@@ -253,6 +253,5 @@ class HomeController extends GetxController {
       await reloadProfileDetails();
       Utility.closeDialog();
     });
-
   }
 }

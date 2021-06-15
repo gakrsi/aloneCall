@@ -53,9 +53,10 @@ class ProfileView extends StatelessWidget {
                 else{
                   _con.withdraw();
                 }
-              }, label: Text('Withdraw',style: Styles.black12,),elevation: 1,),
+              }, label: Text('Withdraw',style: Styles.boldWhite16,),elevation: 1,),
               floatingActionButtonLocation: _con.profileCurrentTab == 1?FloatingActionButtonLocation.centerFloat:FloatingActionButtonLocation.endFloat,
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 title: Container(
                     margin: EdgeInsets.symmetric(
                         horizontal: Dimens.twenty, vertical: Dimens.fifteen),
@@ -86,7 +87,7 @@ class ProfileView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                    'Spent',
+                                    'Plans',
                                     style: _con.profileCurrentTab == 0
                                         ? Styles.blackBold15
                                         : Styles.grey14,
@@ -111,7 +112,7 @@ class ProfileView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                   child: Text(
-                                    'Plans',
+                                    'Spent',
                                     style: _con.profileCurrentTab == 1
                                         ? Styles.blackBold15
                                         : Styles.grey14,
@@ -182,29 +183,38 @@ class ProfileView extends StatelessWidget {
                 elevation: 0,
                 centerTitle: true,
               ),
-              body: _con.model.gender == 'Male'
-                ? _con.profileCurrentTab == 0 ? spent() : packageDetails(_con)
+              body:_con.model.gender == null ? const SizedBox():
+              _con.model.gender == 'Male'
+                ? _con.profileCurrentTab == 0 ? packageDetails(_con): spent()
                 :_con.profileCurrentTab == 0 ? earn() : wallets()),
         ),
       );
 
   Widget packageDetails(HomeController con) => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 10,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(
-            con.planModelList.length,
-            (index) => planContainer(
-                con.planModelList[index].title,
-                con.planModelList[index].desc,
-                '${con.planModelList[index].price}',
-                con.model,
-                con.planModelList[index].price,
-                con.planModelList[index].isVideo,
-                con.planModelList[index].discountPrice != 0,discountValue: con.planModelList[index].discountPrice))),
+    padding: const EdgeInsets.all(10.0),
+    child: Center(
+      child: SizedBox(
+        width: 300,
+        child: GridView.count(
+
+            crossAxisCount: 2,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+                con.planModelList.length,
+                (index) => planContainer(
+                    con.planModelList[index].title,
+                    con.planModelList[index].desc,
+                    '${con.planModelList[index].price}',
+                    con.model,
+                    con.planModelList[index].price,
+                    con.planModelList[index].isVideo,
+                    con.planModelList[index].min,
+                    con.planModelList[index].discountPrice != 0,discountValue: con.planModelList[index].discountPrice,
+                  ))),
+      ),
+    ),
   );
 
   Widget showTitle(String title) => Container(
@@ -327,13 +337,13 @@ class ProfileView extends StatelessWidget {
         }).toList());
       });
   Widget planContainer(String type, String desc, String price,
-          ProfileModel model, int amount, bool isVideo, bool isDiscount,
+          ProfileModel model, int amount, bool isVideo, int minutes, bool isDiscount,
           {int discountValue = 0}) =>
       GetBuilder<HomeController>(
         builder: (_con) => InkWell(
           onTap: () {
             var amo = isDiscount ? discountValue : amount;
-            _con.onClickPlanOption(!isVideo, amo, amount);
+            _con.onClickPlanOption(!isVideo, amo, amount, minutes);
           },
           child: Container(
             height: Dimens.hundred ,
@@ -366,10 +376,6 @@ class ProfileView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      desc,
-                      style: Styles.black18.copyWith(fontSize: 12),
-                    ),
                     isDiscount
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -377,38 +383,42 @@ class ProfileView extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    price,
-                                    style: Styles.black12.copyWith(
-                                        fontSize: 15,
+                                    '₹ $price',
+                                    style: Styles.blackBold18.copyWith(
+                                        fontSize: 18,
                                         decoration: TextDecoration.lineThrough),
                                   ),
                                   Text(
-                                    ' $discountValue',
+                                    " $discountValue ",
                                     style:
-                                        Styles.black18.copyWith(fontSize: 20),
+                                        Styles.blackBold18.copyWith(fontSize: 23),
                                   ),
                                 ],
                               ),
-                              const Text(
-                                'INR ',
-                                style: TextStyle(height: 0.5, fontSize: 10),
-                              )
                             ],
                           )
                         : Column(
                             children: [
                               Text(
-                                price,
-                                style: Styles.black18.copyWith(fontSize: 20),
+                                '₹ $price',
+                                style: Styles.black18.copyWith(fontSize: 25),
                               ),
-                              const Text(
-                                'INR',
-                                style: TextStyle(height: 0.5, fontSize: 10),
-                              )
                             ],
-                          )
+                          ),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: Dimens.ten,
+                ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  desc,
+                  style: Styles.black18.copyWith(fontSize: 12),
+                ),
+                ]
+            ),
               ],
             ),
           ),

@@ -24,15 +24,6 @@ class BlockedList extends StatelessWidget {
               ),
               backgroundColor: Colors.black,
               iconTheme: const IconThemeData(color: Colors.white),
-              actions: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
             ),
             body: StreamBuilder(
                 stream: Repository().blockUserStream(),
