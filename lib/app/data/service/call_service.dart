@@ -63,6 +63,7 @@ class CallService extends GetxController {
           }
         }
         else {
+          await Repository().makeUserOnline();
           callingModel = CallingModel();
           update();
           await assetsAudioPlayer.pause();

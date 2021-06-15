@@ -60,7 +60,9 @@ class VideoCallController extends GetxController {
     super.onClose();
   }
 
-  void addHistory(){
+
+  void addHistory() {
+    HomeController con = Get.find();
     var model = HistoryModel()
       ..callerName = callingModel.callerName
       ..callerUid = callingModel.callerUid
@@ -71,8 +73,9 @@ class VideoCallController extends GetxController {
       ..isAudio = false
       ..date = Timestamp.now()
       ..time = Timestamp.now()
-      ..callDuration = callDuration
-    ;
+      ..coin = con.model.coin
+      ..audioCoin = con.model.audioCoin
+      ..callDuration = callDuration;
     Repository().addHistory(model);
   }
 

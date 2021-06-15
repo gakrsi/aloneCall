@@ -11,7 +11,9 @@ class HistoryModel {
       this.callDuration,
       this.date,
       this.time,
-      this.isAudio});
+      this.isAudio,
+      this.audioCoin,
+      this.coin});
 
   HistoryModel.fromJson(Map<String, dynamic> data) {
     callerName = data['caller_name'] as String;
@@ -24,6 +26,8 @@ class HistoryModel {
     receiverName = data['receiver_name'] as String;
     receiverImage = data['receiver_image'] as String;
     isAudio = data['is_audio'] as bool;
+    coin = data['coin'] as int;
+    audioCoin = data['audio_coin'] as int;
   }
 
   String callerName;
@@ -33,6 +37,8 @@ class HistoryModel {
   String receiverImage;
   String receiverUid;
   int callDuration;
+  int coin;
+  int audioCoin;
   bool isAudio;
   Timestamp date;
   Timestamp time;
@@ -49,6 +55,8 @@ class HistoryModel {
     data['receiver_image'] = model.receiverImage;
     data['receiver_uid'] = model.receiverUid;
     data['is_audio'] = model.isAudio;
+    data['coin'] = model.coin;
+    data['audio_coin'] = model.audioCoin;
     return data;
   }
 }

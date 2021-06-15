@@ -142,6 +142,7 @@ class AudioCallController extends GetxController {
   }
 
   void addHistory() {
+    HomeController con = Get.find();
     var model = HistoryModel()
       ..callerName = callingModel.callerName
       ..callerUid = callingModel.callerUid
@@ -152,6 +153,8 @@ class AudioCallController extends GetxController {
       ..isAudio = true
       ..date = Timestamp.now()
       ..time = Timestamp.now()
+      ..coin = con.model.coin
+      ..audioCoin = con.model.audioCoin
       ..callDuration = callDuration;
     Repository().addHistory(model);
   }
