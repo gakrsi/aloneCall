@@ -334,6 +334,7 @@ class Repository {
   }
 
   Future<Map<String, dynamic>> getProfile() async {
+    Utility.printDLog('Get profile function called');
     Map<String, dynamic> userData;
     await firebaseFireStore
         .collection(FirebaseConstant.user)
