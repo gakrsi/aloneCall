@@ -16,45 +16,58 @@ class ProfileView extends StatelessWidget {
         builder: (_con) => SafeArea(
           child: Scaffold(
               backgroundColor: Colors.white,
-              floatingActionButton: _con.profileCurrentTab == 0 || _con.model.gender == "Male"?const SizedBox():FloatingActionButton.extended(onPressed: (){
-                if(_con.addBankModel.accountNumber == null){
-                  Get.bottomSheet<dynamic>(Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Add bank account details',
-                        style: Styles.boldBlack16,
-                      ),
-                    ),
-                  ),);
-                }
-                else if(_con.accountBalance <= 100){
-                  Get.bottomSheet<dynamic>(Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Minimum amount is 100',
-                        style: Styles.boldBlack16,
-                      ),
-                    ),
-                  ),);
-                }
-
-                else{
-                  _con.withdraw();
-                }
-              }, label: Text('Withdraw',style: Styles.boldWhite16,),elevation: 1,),
-              floatingActionButtonLocation: _con.profileCurrentTab == 1?FloatingActionButtonLocation.centerFloat:FloatingActionButtonLocation.endFloat,
+              floatingActionButton:
+                  _con.profileCurrentTab == 0 || _con.model.gender == "Male"
+                      ? const SizedBox()
+                      : FloatingActionButton.extended(
+                          onPressed: () {
+                            if (_con.addBankModel.accountNumber == null) {
+                              Get.bottomSheet<dynamic>(
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Add bank account details',
+                                      style: Styles.boldBlack16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else if (_con.accountBalance <= 100) {
+                              Get.bottomSheet<dynamic>(
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Minimum amount is 100',
+                                      style: Styles.boldBlack16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              _con.withdraw();
+                            }
+                          },
+                          label: Text(
+                            'Withdraw',
+                            style: Styles.boldWhite16,
+                          ),
+                          elevation: 1,
+                        ),
+              floatingActionButtonLocation: _con.profileCurrentTab == 1
+                  ? FloatingActionButtonLocation.centerFloat
+                  : FloatingActionButtonLocation.endFloat,
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 title: Container(
@@ -66,156 +79,168 @@ class ProfileView extends StatelessWidget {
                         color: Colors.black12.withOpacity(0.04),
                         borderRadius: BorderRadius.circular(15)),
                     child: _con.model.gender == 'Male'
-                        ?Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.two),
-                          child: InkWell(
-                            onTap: () {
-                              _con.changeProfileTab(0);
-                            },
-                            child: Container(
-                              height: Dimens.fourty,
-                              width: Dimens.screenWidth / 2 - 46,
-                              decoration: BoxDecoration(
-                                  color: _con.profileCurrentTab == 0
-                                      ? Colors.white
-                                      : Colors.black12.withOpacity(0.04),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                    'Plans',
-                                    style: _con.profileCurrentTab == 0
-                                        ? Styles.blackBold15
-                                        : Styles.grey14,
-                                  )),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.five),
-                          child: InkWell(
-                            onTap: () {
-                              _con.changeProfileTab(1);
-                            },
-                            child: Container(
-                              height: Dimens.fourty,
-                              width: Dimens.screenWidth / 2 - 46,
-                              decoration: BoxDecoration(
-                                  color: _con.profileCurrentTab == 1
-                                      ? Colors.white
-                                      : Colors.black12.withOpacity(0.02),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                    'Spent',
-                                    style: _con.profileCurrentTab == 1
-                                        ? Styles.blackBold15
-                                        : Styles.grey14,
-                                  )),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                        :Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.two),
-                          child: InkWell(
-                            onTap: () {
-                              _con.changeProfileTab(0);
-                            },
-                            child: Container(
-                              height: Dimens.fourty,
-                              width: Dimens.screenWidth / 2 - 46,
-                              decoration: BoxDecoration(
-                                  color: _con.profileCurrentTab == 0
-                                      ? Colors.white
-                                      : Colors.black12.withOpacity(0.04),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                'Earn',
-                                style: _con.profileCurrentTab == 0
-                                    ? Styles.blackBold15
-                                    : Styles.grey14,
-                              )),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Dimens.five, vertical: Dimens.five),
-                          child: InkWell(
-                            onTap: () {
-                              _con.changeProfileTab(1);
-                            },
-                            child: Container(
-                              height: Dimens.fourty,
-                              width: Dimens.screenWidth / 2 - 46,
-                              decoration: BoxDecoration(
-                                  color: _con.profileCurrentTab == 1
-                                      ? Colors.white
-                                      : Colors.black12.withOpacity(0.02),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                'Wallets',
-                                style: _con.profileCurrentTab == 1
-                                    ? Styles.blackBold15
-                                    : Styles.grey14,
-                              )),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                ),
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimens.five,
+                                    vertical: Dimens.two),
+                                child: InkWell(
+                                  onTap: () {
+                                    _con.changeProfileTab(0);
+                                  },
+                                  child: Container(
+                                    height: Dimens.fourty,
+                                    width: Dimens.screenWidth / 2 - 46,
+                                    decoration: BoxDecoration(
+                                        color: _con.profileCurrentTab == 0
+                                            ? Colors.white
+                                            : Colors.black12.withOpacity(0.04),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      'Plans',
+                                      style: _con.profileCurrentTab == 0
+                                          ? Styles.blackBold15
+                                          : Styles.grey14,
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimens.five,
+                                    vertical: Dimens.five),
+                                child: InkWell(
+                                  onTap: () {
+                                    _con.changeProfileTab(1);
+                                  },
+                                  child: Container(
+                                    height: Dimens.fourty,
+                                    width: Dimens.screenWidth / 2 - 46,
+                                    decoration: BoxDecoration(
+                                        color: _con.profileCurrentTab == 1
+                                            ? Colors.white
+                                            : Colors.black12.withOpacity(0.02),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      'Spent',
+                                      style: _con.profileCurrentTab == 1
+                                          ? Styles.blackBold15
+                                          : Styles.grey14,
+                                    )),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimens.five,
+                                    vertical: Dimens.two),
+                                child: InkWell(
+                                  onTap: () {
+                                    _con.changeProfileTab(0);
+                                  },
+                                  child: Container(
+                                    height: Dimens.fourty,
+                                    width: Dimens.screenWidth / 2 - 46,
+                                    decoration: BoxDecoration(
+                                        color: _con.profileCurrentTab == 0
+                                            ? Colors.white
+                                            : Colors.black12.withOpacity(0.04),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      'Earn',
+                                      style: _con.profileCurrentTab == 0
+                                          ? Styles.blackBold15
+                                          : Styles.grey14,
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimens.five,
+                                    vertical: Dimens.five),
+                                child: InkWell(
+                                  onTap: () {
+                                    _con.changeProfileTab(1);
+                                  },
+                                  child: Container(
+                                    height: Dimens.fourty,
+                                    width: Dimens.screenWidth / 2 - 46,
+                                    decoration: BoxDecoration(
+                                        color: _con.profileCurrentTab == 1
+                                            ? Colors.white
+                                            : Colors.black12.withOpacity(0.02),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                        child: Text(
+                                      'Wallets',
+                                      style: _con.profileCurrentTab == 1
+                                          ? Styles.blackBold15
+                                          : Styles.grey14,
+                                    )),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
                 backgroundColor: Colors.white,
                 elevation: 0,
                 centerTitle: true,
               ),
-              body:_con.model.gender == null ? const SizedBox():
-              _con.model.gender == 'Male'
-                ? _con.profileCurrentTab == 0 ? packageDetails(_con): spent()
-                :_con.profileCurrentTab == 0 ? earn() : wallets()),
+              body: _con.model.gender == null
+                  ? const SizedBox()
+                  : _con.model.gender == 'Male'
+                      ? _con.profileCurrentTab == 0
+                          ? packageDetails(_con)
+                          : spent()
+                      : _con.profileCurrentTab == 0
+                          ? earn()
+                          : wallets()),
         ),
       );
 
   Widget packageDetails(HomeController con) => Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: Center(
-      child: SizedBox(
-        width: 300,
-        child: GridView.count(
-
-            crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
-            physics: const NeverScrollableScrollPhysics(),
-            children: List.generate(
-                con.planModelList.length,
-                (index) => planContainer(
-                    con.planModelList[index].title,
-                    con.planModelList[index].desc,
-                    '${con.planModelList[index].price}',
-                    con.model,
-                    con.planModelList[index].price,
-                    con.planModelList[index].isVideo,
-                    con.planModelList[index].min,
-                    con.planModelList[index].discountPrice != 0,discountValue: con.planModelList[index].discountPrice,
-                  ))),
-      ),
-    ),
-  );
+        padding: const EdgeInsets.all(10.0),
+        child: Center(
+          child: SizedBox(
+            width: 300,
+            child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 0,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                    con.planModelList.length,
+                    (index) => planContainer(
+                          con.planModelList[index].title,
+                          con.planModelList[index].desc,
+                          '${con.planModelList[index].price}',
+                          con.model,
+                          con.planModelList[index].price,
+                          con.planModelList[index].isVideo,
+                          con.planModelList[index].min,
+                          con.planModelList[index].discountPrice != 0,
+                          discountValue: con.planModelList[index].discountPrice,
+                        ))),
+          ),
+        ),
+      );
 
   Widget showTitle(String title) => Container(
         margin: EdgeInsets.symmetric(
@@ -326,8 +351,17 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Text('${model.callDuration} sec',
-                        style: Styles.blackBold16),
+                    Column(
+                      children: [
+                        Text('${model.callDuration} sec',
+                            style: Styles.blackBold16),
+                        model.isAudio
+                            ? Text('${model.audioCoin} sec',
+                                style: Styles.blackBold16)
+                            : Text('${model.coin} sec',
+                                style: Styles.blackBold16),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -336,8 +370,15 @@ class ProfileView extends StatelessWidget {
           return const SizedBox();
         }).toList());
       });
-  Widget planContainer(String type, String desc, String price,
-          ProfileModel model, int amount, bool isVideo, int minutes, bool isDiscount,
+  Widget planContainer(
+          String type,
+          String desc,
+          String price,
+          ProfileModel model,
+          int amount,
+          bool isVideo,
+          int minutes,
+          bool isDiscount,
           {int discountValue = 0}) =>
       GetBuilder<HomeController>(
         builder: (_con) => InkWell(
@@ -346,7 +387,7 @@ class ProfileView extends StatelessWidget {
             _con.onClickPlanOption(!isVideo, amo, amount, minutes);
           },
           child: Container(
-            height: Dimens.hundred ,
+            height: Dimens.hundred,
             // width: Dimens.hundred,
             decoration: BoxDecoration(
                 border: Border.all(color: ColorsValue.lightGreyColor)),
@@ -390,8 +431,8 @@ class ProfileView extends StatelessWidget {
                                   ),
                                   Text(
                                     " $discountValue ",
-                                    style:
-                                        Styles.blackBold18.copyWith(fontSize: 23),
+                                    style: Styles.blackBold18
+                                        .copyWith(fontSize: 23),
                                   ),
                                 ],
                               ),
@@ -410,21 +451,19 @@ class ProfileView extends StatelessWidget {
                 SizedBox(
                   height: Dimens.ten,
                 ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  desc,
-                  style: Styles.black18.copyWith(fontSize: 12),
-                ),
-                ]
-            ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        desc,
+                        style: Styles.black18.copyWith(fontSize: 12),
+                      ),
+                    ]),
               ],
             ),
           ),
         ),
       );
-
 
   Widget earn() => StreamBuilder(
       stream: Repository().notificationStream(),
@@ -435,17 +474,17 @@ class ProfileView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
                 15,
-                    (index) => Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    width: Dimens.screenWidth,
-                    height: Dimens.fifty,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetConstants.loading, fit: BoxFit.cover),
-                    ),
-                  ),
-                )),
+                (index) => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        width: Dimens.screenWidth,
+                        height: Dimens.fifty,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetConstants.loading, fit: BoxFit.cover),
+                        ),
+                      ),
+                    )),
           );
         }
 
@@ -462,8 +501,8 @@ class ProfileView extends StatelessWidget {
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
-              var model =
-              HistoryModel.fromJson(document.data() as Map<String, dynamic>);
+              var model = HistoryModel.fromJson(
+                  document.data() as Map<String, dynamic>);
               if (model.callDuration != 0.0) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -477,7 +516,8 @@ class ProfileView extends StatelessWidget {
                           width: Dimens.fifty,
                           decoration: BoxDecoration(
                               color: ColorsValue.lightGreyColor,
-                              borderRadius: BorderRadius.circular(Dimens.fifty)),
+                              borderRadius:
+                                  BorderRadius.circular(Dimens.fifty)),
                           child: circularPhoto(
                               imageUrl: model.callerUid == Repository().uid
                                   ? model.receiverImage
@@ -497,9 +537,12 @@ class ProfileView extends StatelessWidget {
                                   Text('${model.receiverName}',
                                       style: Styles.blackBold16),
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 2, 0, 0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 2, 0, 0),
                                     child: Icon(
-                                      model.isAudio ? Icons.phone : Icons.videocam,
+                                      model.isAudio
+                                          ? Icons.phone
+                                          : Icons.videocam,
                                       size: Dimens.sixTeen,
                                       color: Colors.black,
                                     ),
@@ -543,17 +586,17 @@ class ProfileView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
                 15,
-                    (index) => Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    width: Dimens.screenWidth,
-                    height: Dimens.fifty,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetConstants.loading, fit: BoxFit.cover),
-                    ),
-                  ),
-                )),
+                (index) => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        width: Dimens.screenWidth,
+                        height: Dimens.fifty,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetConstants.loading, fit: BoxFit.cover),
+                        ),
+                      ),
+                    )),
           );
         }
 
@@ -572,81 +615,86 @@ class ProfileView extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               var model =
-              Withdraw.fromJson(document.data() as Map<String, dynamic>);
-                return Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SizedBox(
-                    width: Dimens.screenWidth,
-                    height: Dimens.fifty,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: Dimens.fifty,
-                          width: Dimens.fifty,
-                          decoration: BoxDecoration(
-                              color: ColorsValue.lightGreyColor,
-                              image: const DecorationImage(
-                                  image: AssetImage('assets/img/logos/logo1.png')),
-                              borderRadius: BorderRadius.circular(Dimens.fifty)),
+                  Withdraw.fromJson(document.data() as Map<String, dynamic>);
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SizedBox(
+                  width: Dimens.screenWidth,
+                  height: Dimens.fifty,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: Dimens.fifty,
+                        width: Dimens.fifty,
+                        decoration: BoxDecoration(
+                            color: ColorsValue.lightGreyColor,
+                            image: const DecorationImage(
+                                image:
+                                    AssetImage('assets/img/logos/logo1.png')),
+                            borderRadius: BorderRadius.circular(Dimens.fifty)),
+                      ),
+                      SizedBox(
+                        width: Dimens.ten,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text('Withdraw', style: Styles.blackBold16),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                    ' ${DateTime.parse(model.date.toDate().toString())}'
+                                        .substring(0, 17),
+                                    style: Styles.black12),
+                                Text('   ${model.status}...',
+                                    style: Styles.black12
+                                        .copyWith(color: Colors.green)),
+                              ],
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          width: Dimens.ten,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text('Withdraw',
-                                      style: Styles.blackBold16),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                      ' ${DateTime.parse(model.date.toDate().toString())}'
-                                          .substring(0, 17),
-                                      style: Styles.black12),
-                                  Text(
-                                      '   ${model.status}...',
-                                      style: Styles.black12.copyWith(color: Colors.green)),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        Text('${model.amount} Rs',
-                            style: Styles.blackBold16),
-                      ],
-                    ),
+                      ),
+                      const Spacer(),
+                      Text('${model.amount} Rs', style: Styles.blackBold16),
+                    ],
                   ),
-                );
+                ),
+              );
               return const SizedBox();
             }).toList());
       });
 
-  Widget wallets()=> GetBuilder<HomeController>(
-    builder:(_con)=> ListView(
-      children: [
-        ListTile(
-          title: Text('Balance',style: Styles.black18,),
-          trailing: Text('${_con.accountBalance}',style: Styles.blackBold18,),
+  Widget wallets() => GetBuilder<HomeController>(
+        builder: (_con) => ListView(
+          children: [
+            ListTile(
+              title: Text(
+                'Balance',
+                style: Styles.black18,
+              ),
+              trailing: Text(
+                '${_con.accountBalance}',
+                style: Styles.blackBold18,
+              ),
+            ),
+            const Divider(),
+            withdrawHistory(),
+          ],
         ),
-        const Divider(),
-        withdrawHistory(),
-      ],
-    ),
-  );
+      );
 
   void showBottomSheet() {
     Get.bottomSheet<dynamic>(Padding(
       padding: const EdgeInsets.all(8.0),
       child: GetBuilder<HomeController>(
-        builder:(_con)=> InkWell(
+        builder: (_con) => InkWell(
           onTap: () {
             _con.withdraw();
             Get.back<dynamic>();
