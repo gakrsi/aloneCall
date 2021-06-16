@@ -30,6 +30,7 @@ class HomeController extends GetxController {
   int lastAge = 0;
   int initialDistance = 0;
   int lastDistance = 0;
+  bool applyFilter = false;
 
   List<LatLng> latLong = <LatLng>[];
 
@@ -81,6 +82,7 @@ class HomeController extends GetxController {
     planModelList = await repo.getPlanDetails();
     addBankModel = await repo.getBankDetails();
     calculateBalance();
+    Utility.printDLog('Filter Apply $applyFilter');
     super.onInit();
   }
 
@@ -99,6 +101,11 @@ class HomeController extends GetxController {
       return 'Male';
     }
     return 'Female';
+  }
+
+  void applyFilterChange(){
+    applyFilter = true;
+    update();
   }
 
   Future<void> reloadProfileDetails() async {

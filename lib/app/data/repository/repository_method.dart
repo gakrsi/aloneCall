@@ -221,7 +221,7 @@ class Repository {
       ..initAge = 18
       ..lastAge = 100
       ..initDistance = 0
-      ..lastDistance = 10000
+      ..lastDistance = 100
       ..language = <String>[
         'English',
         'Hindi',

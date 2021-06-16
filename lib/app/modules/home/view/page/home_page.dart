@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: _userGridView(_con),
+                          child: _con.applyFilter?_userGridView(_con):_userGridViewWithoutFilter(_con),
                         )
                       ],
                     ),
@@ -376,4 +376,138 @@ class HomePage extends StatelessWidget {
                       ]),
                 ))),
       );
+  Widget _userGridViewWithoutFilter(HomeController con) => SizedBox(
+    height: 1000,
+    child: con.model.gender!= null
+        ?StreamBuilder(
+        stream: Repository().userStream(con.model.gender,),
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                    10,
+                        (index) => Container(
+                      height: 250,
+                      width: Dimens.screenWidth / 2 - 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1.5, color: Colors.white),
+                          borderRadius:
+                          BorderRadius.circular(Dimens.fifteen),
+                          image: const DecorationImage(
+                              image:
+                              AssetImage('assets/img/loading.gif'),
+                              fit: BoxFit.cover),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            ),
+                          ]),
+                    )));
+          }
+          return GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            physics: const NeverScrollableScrollPhysics(),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              var model = ProfileModel.fromJson(
+                  document.data() as Map<String, dynamic>);
+                return InkWell(
+                  onTap: () =>
+                      RoutesManagement.goToOthersProfileDetail(obj: model),
+                  child: Container(
+                    height: 250,
+                    width: Dimens.screenWidth / 2 - 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1.5, color: Colors.white),
+                        borderRadius: BorderRadius.circular(Dimens.fifteen),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          ),
+                        ]),
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: 250,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(Dimens.fifteen)),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.fill,
+                              imageUrl: model.profileImageUrl[0] as String,
+                              placeholder: (context, url) => Container(
+                                height: 250,
+                                width: Dimens.screenWidth / 2 - 100,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/img/loading.gif'),
+                                        fit: BoxFit.cover)),
+                              ),
+                              errorWidget: (context, url, dynamic error) =>
+                              const Icon(Icons.error),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: Center(
+                                child: Text(
+                                  '${model.name}, ${DateTime.now().year - int.parse(model.dob.substring(0, 4))}',
+                                  style: Styles.boldWhite16,
+                                ))),
+                      ],
+                    ),
+                  ),
+                );
+            }).toList(),
+          );
+        })
+        :GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        physics: const NeverScrollableScrollPhysics(),
+        children: List.generate(
+            10,
+                (index) => Container(
+              height: 250,
+              width: Dimens.screenWidth / 2 - 100,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1.5, color: Colors.white),
+                  borderRadius:
+                  BorderRadius.circular(Dimens.fifteen),
+                  image: const DecorationImage(
+                      image:
+                      AssetImage('assets/img/loading.gif'),
+                      fit: BoxFit.cover),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    ),
+                  ]),
+            ))),
+  );
 }

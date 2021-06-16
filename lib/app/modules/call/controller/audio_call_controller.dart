@@ -136,7 +136,6 @@ class AudioCallController extends GetxController {
       await _engine.leaveChannel();
       await _controller.reloadProfileDetails();
       await assetsAudioPlayer.pause();
-      Get.back<dynamic>();
     });
   }
 
@@ -170,7 +169,7 @@ class AudioCallController extends GetxController {
         Utility.printDLog('Listening to call Stream controller');
         if (ds.data() == null) {
           Utility.printDLog('Call is cut by user');
-          await leaveChannel();
+          Get.back<dynamic>();
         }
       });
     });
