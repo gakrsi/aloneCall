@@ -46,17 +46,21 @@ class VideoCallController extends GetxController {
   }
 
   @override
-  void onClose() {
-    callStreamSubscription.cancel();
-    repo.endVideoCall(callingModel);
-    _engine.destroy();
+  void onClose() async {
+    _controller.calculateBalance();
+    await repo.endVideoCall(callingModel);
+    await Repository().makeUserOnline();
+    await callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
       addHistory();
     }
+    await _engine.destroy();
     if(_timer != null){
       _timer.cancel();
     }
-    _callingTimer.cancel();
+    if(_callingTimer != null){
+      _callingTimer.cancel();
+    }
     super.onClose();
   }
 
@@ -211,7 +215,7 @@ class VideoCallController extends GetxController {
             ),
           ),
           RawMaterialButton(
-            onPressed: ()=>Repository().endVideoCall(callingModel),
+            onPressed: ()=>Get.back<dynamic>(),
             shape: const CircleBorder(),
             elevation: 2.0,
             fillColor: Colors.redAccent,

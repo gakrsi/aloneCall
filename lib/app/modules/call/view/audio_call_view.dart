@@ -92,13 +92,14 @@ class AudioCallView extends StatelessWidget {
                 child: RoundedButton(
                   iconSrc: 'assets/icons/call_end.svg',
                   press: () {
-                    print('End button pressed');
-                    if (con.isJoined) {
-                      Repository().endVideoCall(con.callingModel);
-                      con.leaveChannel();
-                    } else {
-                      Get.back<dynamic>();
-                    }
+                    Utility.printDLog('End button pressed');
+                    Get.back<dynamic>();
+                    // if (con.isJoined) {
+                    //   Repository().endVideoCall(con.callingModel);
+                    //   con.leaveChannel();
+                    // } else {
+                    //   Get.back<dynamic>();
+                    // }
                   },
                   color: Colors.red,
                   iconColor: Colors.white,

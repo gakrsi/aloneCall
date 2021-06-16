@@ -57,7 +57,6 @@ class AudioCallController extends GetxController {
   void onClose() async {
     _controller.calculateBalance();
     await repo.endVideoCall(callingModel);
-    await leaveChannel();
     await Repository().makeUserOnline();
     await callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
