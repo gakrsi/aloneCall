@@ -108,6 +108,11 @@ class HomeController extends GetxController {
     update();
   }
 
+  void clearAllFilter(){
+    applyFilter = false;
+    update();
+  }
+
   Future<void> reloadProfileDetails() async {
     var data = await repo.getProfile();
     model = ProfileModel.fromJson(data);

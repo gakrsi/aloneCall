@@ -55,6 +55,7 @@ class AudioCallController extends GetxController {
 
   @override
   void onClose() async {
+    await leaveChannel();
     _controller.calculateBalance();
     await repo.endVideoCall(callingModel);
     await Repository().makeUserOnline();
@@ -131,11 +132,11 @@ class AudioCallController extends GetxController {
   }
 
   Future<void> leaveChannel() async {
+    await assetsAudioPlayer.pause();
     await Repository().endVideoCall(callingModel).then((value) async {
       Utility.printDLog('Leaving channel');
       await _engine.leaveChannel();
       await _controller.reloadProfileDetails();
-      await assetsAudioPlayer.pause();
     });
   }
 

@@ -19,6 +19,13 @@ class FilterView extends StatelessWidget {
                 ),
                 backgroundColor: Colors.black,
                 iconTheme: const IconThemeData(color: Colors.white),
+                actions: [
+                  InkWell(
+                    onTap: (){
+                      _controller.clearAllFilter();
+                    },
+                      child: Text('Clear',style: Styles.boldWhite16,))
+                ],
               ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: Dimens.sixTeen),
