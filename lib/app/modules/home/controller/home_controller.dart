@@ -67,9 +67,6 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     var data = await repo.getProfile();
-    var encoder = const JsonEncoder.withIndent('  ');
-    var prettyPrint = encoder.convert(data);
-    print(prettyPrint);
     filterModel = await repo.getFilterDetails();
     updateCurrentLocation();
     await repo.latLongOfAllUser().then((value) {
