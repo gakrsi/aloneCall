@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProfileModel {
   ProfileModel(
       {this.uid,
@@ -28,6 +30,7 @@ class ProfileModel {
     city = data['city'] as String;
     lat = data['lat'] as double;
     long = data['long'] as double;
+    time = data['time'] as Timestamp;
   }
 
   String name;
@@ -43,6 +46,7 @@ class ProfileModel {
   bool online;
   double lat;
   double long;
+  Timestamp time;
 
   Map<String, dynamic> toMap(ProfileModel obj) {
     var data = <String, dynamic>{};
@@ -58,6 +62,7 @@ class ProfileModel {
     data['lat'] = obj.lat;
     data['long'] = obj.long;
     data['city'] = obj.city;
+    data['time'] = obj.time;
     return data;
   }
 }

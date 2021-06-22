@@ -4,6 +4,7 @@ import 'package:alonecall/app/data/repository/repository_method.dart';
 import 'package:alonecall/app/data/service/common_service.dart';
 import 'package:alonecall/app/routes/routes_management.dart';
 import 'package:alonecall/app/utils/utility.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -296,6 +297,7 @@ class ProfileCreateController extends GetxController {
             ..name = nameController.text
             ..coin = 0
             ..online = true
+            ..time = Timestamp.now()
             ..audioCoin = 0
             ..profileImageUrl = profileImageUrl
             ..uid = Repository().currentUser();

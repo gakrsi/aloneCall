@@ -89,7 +89,6 @@ class AudioCallController extends GetxController {
     _addPostFrameCallback();
     await _addListeners();
     await _engine.enableAudio();
-    await _engine.setEnableSpeakerphone(enableSpeakerphone);
     await _engine.setDefaultAudioRoutetoSpeakerphone(false);
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
@@ -201,12 +200,16 @@ class AudioCallController extends GetxController {
     // });
   }
 
+  // AudioPlayer audioPlayer = AudioPlayer();
+
   void playCallingTune(){
       assetsAudioPlayer.open(
         Audio('assets/audio/caller_tune.mp3'),
         autoStart: true,
       );
   }
+
+  // audioManager.setMode(AudioManager.MODE_IN_CALL);
 
   void updateCallStatus(CallStatus callStatus) async {
     if (callStatus == CallStatus.connecting) {
