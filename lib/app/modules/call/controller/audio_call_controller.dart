@@ -29,6 +29,7 @@ class AudioCallController extends GetxController {
   DateTime lastPressedAt;
 
   final HomeController _controller = Get.find();
+  int maxCallDuration = 0;
   bool isNotDial;
   CallingModel callingModel = Get.arguments as CallingModel;
   Repository repo = Repository();
@@ -50,6 +51,7 @@ class AudioCallController extends GetxController {
     _initEngine();
     checkIsDial();
     checkUserAvailabilityAndBalance();
+    maxCallDuration = _controller.model.audioCoin;
     super.onInit();
   }
 
@@ -57,8 +59,7 @@ class AudioCallController extends GetxController {
   void onClose() async {
     await leaveChannel();
     _controller.calculateBalance();
-    await repo.endVideoCall(callingModel);
-    await Repository().makeUserOnline();
+    // await repo.endVideoCall(callingModel);
     await callStreamSubscription.cancel();
     if(callingModel.callerUid == repo.uid){
       addHistory();
@@ -72,6 +73,8 @@ class AudioCallController extends GetxController {
     }
     super.onClose();
   }
+
+  
 
   Future<void> checkUserAvailabilityAndBalance() async {
     var onlineCheck = await repo.checkUserIsOnline(callingModel.receiverUid);
@@ -134,6 +137,7 @@ class AudioCallController extends GetxController {
     await assetsAudioPlayer.pause();
     await Repository().endVideoCall(callingModel).then((value) async {
       Utility.printDLog('Leaving channel');
+      await Repository().makeUserOnline();
       await _engine.leaveChannel();
       await _controller.reloadProfileDetails();
     });
@@ -259,7 +263,8 @@ class AudioCallController extends GetxController {
         } else {
           seconds = seconds + 1;
           callDuration += 1;
-          if(_controller.model.gender == 'Male' && _controller.model.audioCoin <= 0){
+          if(_controller.model.gender == 'Male' && maxCallDuration < callDuration){
+            repo.updateCoin(0);
             Get.back<dynamic>();
             repo.endVideoCall(callingModel);
           }

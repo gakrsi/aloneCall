@@ -63,6 +63,7 @@ class HomeController extends GetxController {
     const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ' '),
     const BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_rounded), label: ' '),
   ];
+
   List<PlanModel> planModelList;
   @override
   void onInit() async {
@@ -76,11 +77,16 @@ class HomeController extends GetxController {
     });
     await getCurrentLatLng();
     model = ProfileModel.fromJson(data);
-    planModelList = await repo.getPlanDetails();
-    addBankModel = await repo.getBankDetails();
     calculateBalance();
+    planModelList = await repo.getPlanDetails();
+    await fetchBankDetails();
     Utility.printDLog('Filter Apply $applyFilter');
     super.onInit();
+  }
+  Future<void> fetchBankDetails()async{
+    addBankModel = await repo.getBankDetails();
+    update();
+
   }
 
   void changeTab(int index) {
@@ -113,9 +119,6 @@ class HomeController extends GetxController {
   Future<void> reloadProfileDetails() async {
     var data = await repo.getProfile();
     model = ProfileModel.fromJson(data);
-    var encoder = const JsonEncoder.withIndent('  ');
-    var prettyPrint = encoder.convert(data);
-    print(prettyPrint);
     update();
   }
 

@@ -136,12 +136,23 @@ class LoginController extends GetxController {
     RoutesManagement.goToHome();
   }
 
+  // Future<UserCredential> signInWithFacebook() async {
+  //    OAuthCredential facebookAuthCredential;
+  //   await FacebookAuth.instance.login().then((value){
+  //     facebookAuthCredential = FacebookAuthProvider.credential(value.accessToken.token);
+  //   });
+  //   return await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  // }
+
   Future<UserCredential> signInWithFacebook() async {
-    final result = await FacebookAuth.instance.login() as AccessToken;
-    final facebookAuthCredential =
-        FacebookAuthProvider.credential(result.token);
-    return await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
+    // Trigger the sign-in flow
+    final  result = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
   Future<UserCredential> signInWithGoogle() async {

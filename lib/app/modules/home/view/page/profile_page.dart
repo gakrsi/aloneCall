@@ -503,7 +503,7 @@ class ProfileView extends StatelessWidget {
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               var model = HistoryModel.fromJson(
                   document.data() as Map<String, dynamic>);
-              if (model.callDuration != 0.0) {
+              if (model.callDuration >= 30) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: SizedBox(

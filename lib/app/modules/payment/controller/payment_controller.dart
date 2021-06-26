@@ -1,10 +1,12 @@
 import 'package:alonecall/app/data/model/bank_detail_model.dart';
 import 'package:alonecall/app/data/repository/repository_method.dart';
+import 'package:alonecall/app/modules/home/controller/home_controller.dart';
 import 'package:alonecall/app/utils/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PaymentController extends GetxController {
+  final HomeController _controller = Get.find();
   AddBankModel addBankModel = AddBankModel();
   TextEditingController amountEdit = TextEditingController();
   bool isLoading = true;
@@ -25,6 +27,7 @@ class PaymentController extends GetxController {
       if (value) {
         await Repository().getBankDetails().then((value) {
           addBankModel = value;
+          confirmAccount = value.accountNumber;
           Utility.printDLog('Bank details $value');
 
         });
@@ -34,7 +37,7 @@ class PaymentController extends GetxController {
     update();
   }
 
-  void onClickAdd() {
+  void onClickAdd() async{
     if (addBankModel.accountNumber.isEmpty ||
         addBankModel.ifsc.isEmpty ||
         addBankModel.name.isEmpty) {
@@ -43,9 +46,9 @@ class PaymentController extends GetxController {
       Utility.showError('Confirm account number is not correct');
     } else {
       Utility.showLoadingDialog();
-      Repository()
-          .addBankDetails(addBankModel)
-          .then((value) => Utility.closeDialog());
+      await Repository()
+          .addBankDetails(addBankModel);
+      await _controller.fetchBankDetails().then((value) => Utility.closeDialog());
     }
   }
 }
