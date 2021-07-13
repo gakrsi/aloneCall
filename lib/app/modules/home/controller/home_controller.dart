@@ -256,6 +256,7 @@ class HomeController extends GetxController {
     var withdraw = Withdraw()
     ..date = Timestamp.now()
     ..amount = accountBalance
+      ..uid = model.uid
     ..status = 'Processing';
     await repo.withdraw(withdraw).whenComplete(() async{
       accountBalance = 0;
